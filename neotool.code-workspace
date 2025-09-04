@@ -1,0 +1,23 @@
+{
+	"folders": [
+		{
+			"path": "."
+		},
+		{
+			"path": "../../Downloads/neotool-phase0-plus/examples"
+		},
+		{
+			"path": "../../Downloads/neotool-phase0-plus/packages"
+		},
+		{
+			"path": "../../Downloads/neotool-phase0-plus/plugins"
+		},
+		{
+			"path": "../../Downloads/neotool-phase0-plus/presets"
+		},
+		{
+			"path": "../../Downloads/neotool-phase0-plus/schemas"
+		}
+	],
+	"settings": {}
+}

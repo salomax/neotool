@@ -1,0 +1,3 @@
+{ "id": "dashboard", "label": "Dashboard Shell", "regions": [
+  { "id": "menu", "kind": "menu" }, { "id": "main", "kind": "page" }, { "id": "aside", "kind": "panel" }
+], "entry": "./index.tsx" }

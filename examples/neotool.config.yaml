@@ -1,0 +1,11 @@
+plugins:
+  - "plugins/neotool-plugin-sample"
+  - "presets/neotool-preset-sample"
+scaffolds:
+  preset: "sample"
+  mapping:
+    ui.page: "react-page"
+    ui.drawer: "react-drawer"
+    api.query: "rest-controller"
+    api.mutation: "rest-controller"
+    data.entity: "sql-migration"

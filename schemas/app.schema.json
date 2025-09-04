@@ -1,0 +1,18 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "AppSpec",
+  "type": "object",
+  "required": ["metadata", "platform", "auth", "ui"],
+  "properties": {
+    "metadata": { "type": "object", "required": ["name", "owner"], "properties": { "name": { "type": "string" }, "owner": { "type": "string" }, "description": { "type": "string" } } },
+    "platform": { "type": "object", "required": ["frontend", "workload", "database", "containers"], "properties": {
+      "frontend": { "type": "string", "enum": ["react-ts"] },
+      "workload": { "type": "string", "enum": ["REST", "GraphQL"] },
+      "database": { "type": "string", "enum": ["postgres"] },
+      "containers": { "type": "string", "enum": ["docker"] }
+    }},
+    "auth": { "type": "array", "items": { "type": "string" } },
+    "ui": { "type": "object", "properties": { "designSystem": { "type": "object" }, "theme": { "type": "object" }, "templates": { "type": "array" } } },
+    "ci": { "type": "object", "properties": { "provider": { "type": "string" } } }
+  }
+}

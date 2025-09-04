@@ -1,0 +1,22 @@
+metadata:
+  name: finance-suite
+  owner: neotool
+  description: Example AppSpec
+platform:
+  frontend: react-ts
+  workload: REST
+  database: postgres
+  containers: docker
+auth: [oauth-google]
+ui:
+  designSystem: { name: material, version: 5.x, source: npm:@mui/material }
+  theme: { name: ocean, css: app/web/src/styles/theme-ocean.css }
+  templates:
+    - id: dashboard
+      label: Dashboard Shell
+      path: plugins/neotool-plugin-sample/templates/Dashboard
+      regions:
+        - { id: menu, kind: menu }
+        - { id: main, kind: page }
+        - { id: aside, kind: panel }
+ci: { provider: github-actions }
