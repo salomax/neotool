@@ -1,0 +1,51 @@
+micronaut:
+  application:
+    name: neotool-service
+  server:
+    port: 8080
+  security:
+    enabled: true
+    token:
+      jwt:
+        signatures:
+          secret:
+            generator:
+              secret: ${JWT_SECRET:`change-me`}
+    oauth2:
+      clients:
+        google:
+          client-id: ${OAUTH_GOOGLE_CLIENT_ID:}
+          client-secret: ${OAUTH_GOOGLE_CLIENT_SECRET:}
+          openid:
+            issuer: https://accounts.google.com
+
+datasources:
+  default:
+    url: ${DATABASE_URL:jdbc:postgresql://localhost:5432/neotool_db}
+    driverClassName: org.postgresql.Driver
+    username: ${POSTGRES_USER:neotool}
+    password: ${POSTGRES_PASSWORD:neotool}
+    dialect: POSTGRES
+
+jpa:
+  default:
+    properties:
+      hibernate:
+        hbm2ddl:
+          auto: validate
+
+flyway:
+  datasources:
+    default:
+      enabled: true
+
+redis:
+  uri: redis://${REDIS_HOST:localhost}:${REDIS_PORT:6379}
+
+kafka:
+  bootstrap:
+    servers: ${KAFKA_BROKER:localhost:9092}
+
+micrometer:
+  metrics:
+    enabled: true
