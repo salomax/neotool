@@ -1,13 +1,13 @@
 # Node
-**/node_modules
-**/npm-debug.log*
-**/yarn-error.log*
-**/pnpm-lock.yaml.#*
-**/.eslintcache
-**/.DS_Store
+node_modules
+npm-debug.log*
+yarn-error.log*
+pnpm-lock.yaml.#*
+.eslintcache
+.DS_Store
 
 # Env (mantenha só exemplos)
-**/.env*
+.env*
 !.env.example
 
 # Next.js (projeto em web/)
