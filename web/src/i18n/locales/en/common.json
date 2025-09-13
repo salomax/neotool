@@ -1,0 +1,19 @@
+{
+  "signIn": {
+    "title": "Welcome",
+    "subtitle": "Sign in to continue",
+    "continue": "Continue"
+  },
+  "language": {
+    "english": "English",
+    "portuguese": "Português"
+  },
+  "routes": {
+    "home": "Home",
+    "dashboard": "Dashboard",
+    "profile": "Profile",
+    "examples": "Examples",
+    "forms": "Forms",
+    "customerForm": "Customer Form"
+  }
+}

@@ -1,10 +1,9 @@
-// web/src/theme/AppThemeProvider.tsx
-'use client';
+"use client";
 
-import React from 'react';
-import { CssBaseline, ThemeProvider } from '@mui/material';
-import { createAppTheme } from './theme';
-import type { Mode } from './tokens';
+import React from "react";
+import { CssBaseline, ThemeProvider } from "@mui/material";
+import { createAppTheme } from "./theme";
+import type { Mode } from "./tokens";
 
 type ThemeCtx = { mode: Mode; setMode: (m: Mode) => void; toggle: () => void };
 
@@ -12,32 +11,35 @@ const ThemeModeContext = React.createContext<ThemeCtx | null>(null);
 
 export const useThemeMode = () => {
   const ctx = React.useContext(ThemeModeContext);
-  if (!ctx) throw new Error('useThemeMode must be used within AppThemeProvider');
+  if (!ctx)
+    throw new Error("useThemeMode must be used within AppThemeProvider");
   return ctx;
 };
 
-const STORAGE_KEY = 'app:theme-mode';
+const STORAGE_KEY = "app:theme-mode";
 
-export const AppThemeProvider: React.FC<React.PropsWithChildren<{ defaultMode?: Mode }>> = ({
-  children,
-  defaultMode = 'light',
-}) => {
+export const AppThemeProvider: React.FC<
+  React.PropsWithChildren<{ defaultMode?: Mode }>
+> = ({ children, defaultMode = "light" }) => {
   const [mode, setMode] = React.useState<Mode>(defaultMode);
   // Avoid hydration mismatch
   const [mounted, setMounted] = React.useState(false);
 
   React.useEffect(() => {
-    const saved = (typeof window !== 'undefined' && (localStorage.getItem(STORAGE_KEY) as Mode)) || null;
-    if (saved === 'light' || saved === 'dark') setMode(saved);
+    const saved =
+      (typeof window !== "undefined" &&
+        (localStorage.getItem(STORAGE_KEY) as Mode)) ||
+      null;
+    if (saved === "light" || saved === "dark") setMode(saved);
     setMounted(true);
   }, []);
 
   const change = (m: Mode) => {
     setMode(m);
-    if (typeof window !== 'undefined') localStorage.setItem(STORAGE_KEY, m);
+    if (typeof window !== "undefined") localStorage.setItem(STORAGE_KEY, m);
   };
 
-  const toggle = () => change(mode === 'light' ? 'dark' : 'light');
+  const toggle = () => change(mode === "light" ? "dark" : "light");
 
   const theme = React.useMemo(() => createAppTheme(mode), [mode]);
 

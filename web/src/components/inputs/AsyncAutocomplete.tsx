@@ -1,0 +1,88 @@
+"use client";
+
+import * as React from "react";
+import { Autocomplete, CircularProgress, TextField } from "@mui/material";
+import { Controller, useFormContext } from "react-hook-form";
+
+export type AsyncAutocompleteProps<T> = {
+  name: string;
+  label?: string;
+  placeholder?: string;
+  disabled?: boolean;
+  debounceMs?: number;
+  fetchOptions: (q: string) => Promise<T[]>;
+  getOptionLabel: (o: T) => string;
+  isOptionEqualToValue?: (a: T, b: T) => boolean;
+};
+
+export function AsyncAutocomplete<T>({
+  name,
+  label,
+  placeholder,
+  disabled,
+  debounceMs = 300,
+  fetchOptions,
+  getOptionLabel,
+  isOptionEqualToValue,
+}: AsyncAutocompleteProps<T>) {
+  const { control } = useFormContext();
+  const [open, setOpen] = React.useState(false);
+  const [loading, setLoading] = React.useState(false);
+  const [options, setOptions] = React.useState<T[]>([]);
+  const [input, setInput] = React.useState("");
+
+  React.useEffect(() => {
+    if (!open) return;
+    const id = setTimeout(async () => {
+      setLoading(true);
+      try {
+        const res = await fetchOptions(input);
+        setOptions(res);
+      } finally {
+        setLoading(false);
+      }
+    }, debounceMs);
+    return () => clearTimeout(id);
+  }, [open, input, debounceMs, fetchOptions]);
+
+  return (
+    <Controller
+      name={name}
+      control={control}
+      render={({ field, fieldState }) => (
+        <Autocomplete
+          open={open}
+          onOpen={() => setOpen(true)}
+          onClose={() => setOpen(false)}
+          loading={loading}
+          options={options}
+          value={field.value ?? null}
+          onChange={(_, v) => field.onChange(v)}
+          inputValue={input}
+          onInputChange={(_, v) => setInput(v)}
+          getOptionLabel={getOptionLabel}
+          isOptionEqualToValue={isOptionEqualToValue as any}
+          disabled={disabled}
+          renderInput={(params) => (
+            <TextField
+              {...params}
+              label={label}
+              placeholder={placeholder}
+              error={!!fieldState.error}
+              helperText={fieldState.error?.message}
+              InputProps={{
+                ...params.InputProps,
+                endAdornment: (
+                  <>
+                    {loading ? <CircularProgress size={16} /> : null}
+                    {params.InputProps.endAdornment}
+                  </>
+                ),
+              }}
+            />
+          )}
+        />
+      )}
+    />
+  );
+}

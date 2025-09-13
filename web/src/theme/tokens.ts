@@ -1,6 +1,4 @@
-// web/src/theme/tokens.ts
 // Design tokens independent from MUI.
-// Comments in EN (per user's preference).
 
 export type Mode = 'light' | 'dark';
 
