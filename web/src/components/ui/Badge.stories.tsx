@@ -1,13 +1,13 @@
-import React from 'react';
-import type { Meta, StoryObj } from '@storybook/react';
-import Badge from './Badge';
-import { Stack } from '@mui/material';
+import React from "react";
+import type { Meta, StoryObj } from "@storybook/react";
+import Badge from "./Badge";
+import { Stack } from "@mui/material";
 
 const meta: Meta<typeof Badge> = {
-  title: 'UI/Atoms/Badge',
+  title: "UI/Atoms/Badge",
   component: Badge,
-  args: { label: 'Status' },
-  parameters: { layout: 'centered' },
+  args: { label: "Status" },
+  parameters: { layout: "centered" },
 };
 export default meta;
 type Story = StoryObj<typeof Badge>;

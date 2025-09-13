@@ -9,7 +9,9 @@ export default function LanguageSwitcher() {
   React.useEffect(() => {
     const onChange = (lng: string) => setLang(lng);
     i18n.on("languageChanged", onChange);
-    return () => { i18n.off("languageChanged", onChange); };
+    return () => {
+      i18n.off("languageChanged", onChange);
+    };
   }, []);
 
   const change = (lng: "en" | "pt") => {
@@ -17,10 +19,29 @@ export default function LanguageSwitcher() {
   };
 
   return (
-    <Stack direction="row" spacing={1} alignItems="center" data-testid="lang-switcher">
+    <Stack
+      direction="row"
+      spacing={1}
+      alignItems="center"
+      data-testid="lang-switcher"
+    >
       <span data-testid="lang-current">{lang}</span>
-      <Button size="small" variant="outlined" onClick={() => change("en")} data-testid="lang-en">EN</Button>
-      <Button size="small" variant="outlined" onClick={() => change("pt")} data-testid="lang-pt">PT</Button>
+      <Button
+        size="small"
+        variant="outlined"
+        onClick={() => change("en")}
+        data-testid="lang-en"
+      >
+        EN
+      </Button>
+      <Button
+        size="small"
+        variant="outlined"
+        onClick={() => change("pt")}
+        data-testid="lang-pt"
+      >
+        PT
+      </Button>
     </Stack>
   );
 }

@@ -21,7 +21,10 @@ describe("MSW Users page", () => {
 
     // Preenche via data-testid (independente de i18n/labels)
     await userEvent.type(screen.getByTestId("users-name-input"), "Linus");
-    await userEvent.type(screen.getByTestId("users-email-input"), "linus@example.com");
+    await userEvent.type(
+      screen.getByTestId("users-email-input"),
+      "linus@example.com",
+    );
     await userEvent.click(screen.getByTestId("users-add"));
 
     // Deve aparecer o novo usuário

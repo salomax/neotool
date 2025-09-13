@@ -1,19 +1,28 @@
 // web/src/components/form/fields/ControlledSelect.tsx
-'use client';
+"use client";
 
-import * as React from 'react';
-import { Controller, Control } from 'react-hook-form';
-import { TextField, MenuItem, TextFieldProps } from '@mui/material';
+import * as React from "react";
+import { Controller, Control } from "react-hook-form";
+import { TextField, MenuItem, TextFieldProps } from "@mui/material";
 
 export type Option = { label: string; value: string | number };
 
-export type ControlledSelectProps = Omit<TextFieldProps, 'name' | 'defaultValue' | 'onChange' | 'value' | 'render' | 'select'> & {
+export type ControlledSelectProps = Omit<
+  TextFieldProps,
+  "name" | "defaultValue" | "onChange" | "value" | "render" | "select"
+> & {
   control: Control<any>;
   name: string;
   options: Option[];
 };
 
-export function ControlledSelect({ control, name, options, helperText, ...rest }: ControlledSelectProps) {
+export function ControlledSelect({
+  control,
+  name,
+  options,
+  helperText,
+  ...rest
+}: ControlledSelectProps) {
   return (
     <Controller
       control={control}
@@ -28,7 +37,9 @@ export function ControlledSelect({ control, name, options, helperText, ...rest }
           helperText={fieldState.error?.message || helperText}
         >
           {options.map((opt) => (
-            <MenuItem key={String(opt.value)} value={opt.value}>{opt.label}</MenuItem>
+            <MenuItem key={String(opt.value)} value={opt.value}>
+              {opt.label}
+            </MenuItem>
           ))}
         </TextField>
       )}

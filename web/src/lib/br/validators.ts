@@ -1,5 +1,5 @@
-import { z } from 'zod';
-import { digitsOnly } from './format';
+import { z } from "zod";
+import { digitsOnly } from "./format";
 
 export function isValidCPF(value: string): boolean {
   const cpf = digitsOnly(value);
@@ -25,9 +25,14 @@ export function isValidCNPJ(value: string): boolean {
   if (/^(\d)\1{13}$/.test(cnpj)) return false;
 
   const calc = (len: number) => {
-    const weights = len === 12 ? [5,4,3,2,9,8,7,6,5,4,3,2] : [6,5,4,3,2,9,8,7,6,5,4,3,2];
+    const weights =
+      len === 12
+        ? [5, 4, 3, 2, 9, 8, 7, 6, 5, 4, 3, 2]
+        : [6, 5, 4, 3, 2, 9, 8, 7, 6, 5, 4, 3, 2];
     const slice = cnpj.slice(0, len);
-    const sum = slice.split('').reduce((acc, n, i) => acc + parseInt(n, 10) * weights[i], 0);
+    const sum = slice
+      .split("")
+      .reduce((acc, n, i) => acc + parseInt(n, 10) * weights[i], 0);
     const mod = sum % 11;
     return mod < 2 ? 0 : 11 - mod;
   };
@@ -45,20 +50,29 @@ export function isValidCEP(value: string): boolean {
 }
 
 export const zCPF = z.preprocess(
-  (v) => digitsOnly(String(v ?? '')),
-  z.string().length(11, 'CPF deve ter 11 dígitos').refine(isValidCPF, 'CPF inválido')
+  (v) => digitsOnly(String(v ?? "")),
+  z
+    .string()
+    .length(11, "CPF deve ter 11 dígitos")
+    .refine(isValidCPF, "CPF inválido"),
 ) as unknown as z.ZodEffects<z.ZodString, string>;
 
 export const zCNPJ = z.preprocess(
-  (v) => digitsOnly(String(v ?? '')),
-  z.string().length(14, 'CNPJ deve ter 14 dígitos').refine(isValidCNPJ, 'CNPJ inválido')
+  (v) => digitsOnly(String(v ?? "")),
+  z
+    .string()
+    .length(14, "CNPJ deve ter 14 dígitos")
+    .refine(isValidCNPJ, "CNPJ inválido"),
 ) as unknown as z.ZodEffects<z.ZodString, string>;
 
 export const zCEP = z.preprocess(
-  (v) => digitsOnly(String(v ?? '')),
-  z.string().length(8, 'CEP deve ter 8 dígitos').refine(isValidCEP, 'CEP inválido')
+  (v) => digitsOnly(String(v ?? "")),
+  z
+    .string()
+    .length(8, "CEP deve ter 8 dígitos")
+    .refine(isValidCEP, "CEP inválido"),
 ) as unknown as z.ZodEffects<z.ZodString, string>;
 
-export const zCPFOptional = z.union([z.literal(''), zCPF]);
-export const zCNPJOptional = z.union([z.literal(''), zCNPJ]);
-export const zCEPOptional = z.union([z.literal(''), zCEP]);
+export const zCPFOptional = z.union([z.literal(""), zCPF]);
+export const zCNPJOptional = z.union([z.literal(""), zCNPJ]);
+export const zCEPOptional = z.union([z.literal(""), zCEP]);

@@ -1,12 +1,12 @@
-'use client';
+"use client";
 
-import * as React from 'react';
-import { useQuery } from '@tanstack/react-query';
+import * as React from "react";
+import { useQuery } from "@tanstack/react-query";
 
 export type PageQuery = {
-  page: number;      // zero-based
-  pageSize: number;  // items per page
-  sort?: string;     // e.g., "name:asc,id:desc"
+  page: number; // zero-based
+  pageSize: number; // items per page
+  sort?: string; // e.g., "name:asc,id:desc"
   filter?: Record<string, any>;
 };
 
@@ -17,7 +17,7 @@ export type PageResult<T> = {
 
 export type UseDataTableQueryOptions<T> = {
   key: string; // query key namespace
-  fetcher: (q: PageQuery) => Promise<PageResult<T>>;
+  fetcher: (_q: PageQuery) => Promise<PageResult<T>>;
   initialPage?: number;
   initialPageSize?: number;
   initialSort?: string;
@@ -28,7 +28,9 @@ export function useDataTableQuery<T>(opts: UseDataTableQueryOptions<T>) {
   const [page, setPage] = React.useState(opts.initialPage ?? 0);
   const [pageSize, setPageSize] = React.useState(opts.initialPageSize ?? 25);
   const [sort, setSort] = React.useState<string | undefined>(opts.initialSort);
-  const [filter, setFilter] = React.useState<Record<string, any> | undefined>(opts.initialFilter);
+  const [filter, setFilter] = React.useState<Record<string, any> | undefined>(
+    opts.initialFilter,
+  );
 
   const query = useQuery({
     queryKey: [opts.key, page, pageSize, sort, filter],
@@ -43,8 +45,14 @@ export function useDataTableQuery<T>(opts: UseDataTableQueryOptions<T>) {
 
   return {
     ...query,
-    page, pageSize, sort, filter,
-    setPage, setPageSize, setSort, setFilter,
+    page,
+    pageSize,
+    sort,
+    filter,
+    setPage,
+    setPageSize,
+    setSort,
+    setFilter,
     onPageChange,
   };
 }

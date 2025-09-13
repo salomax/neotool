@@ -5,7 +5,7 @@ import { FormProvider } from "react-hook-form";
 import { Box, Button, Grid, Stack, TextField, Typography } from "@mui/material";
 import { useZodForm } from "../../hooks/useZodForm";
 import { useAutoSave } from "../../hooks/useAutoSave";
-import { FormErrorBanner, FormSection, FormRow } from "../../components/form";
+import { FormErrorBanner, FormRow } from "../../components/form";
 import { MaskedField } from "../../components/inputs/MaskedField";
 import { FileUploader } from "../../components/inputs/FileUploader";
 import { AsyncAutocomplete } from "../../components/inputs/AsyncAutocomplete";
@@ -47,26 +47,25 @@ async function fetchCountries(q: string) {
   ).slice(0, 10);
 }
 
-export const Playground: Story = {
-  render: () => {
-    const form = useZodForm(schema, {
-      defaultValues: {
-        name: "",
-        email: "",
-        phone: "",
-        country: null,
-        bio: "",
-        attachments: [],
-      } as FormData,
-      mode: "onChange",
-    });
+function ComplexFormDemo() {
+  const form = useZodForm(schema, {
+    defaultValues: {
+      name: "",
+      email: "",
+      phone: "",
+      country: null,
+      bio: "",
+      attachments: [],
+    } as FormData,
+    mode: "onChange",
+  });
 
-    const values = form.watch();
-    const { isSaving } = useAutoSave(
-      values,
-      async (v) => {
-        await new Promise((r) => setTimeout(r, 300));
-      },
+  const values = form.watch();
+  const { isSaving } = useAutoSave(
+    values,
+    async (_v) => {
+      await new Promise((r) => setTimeout(r, 300));
+    },
       1200,
     );
 
@@ -161,5 +160,8 @@ export const Playground: Story = {
         </FormProvider>
       </AppThemeProvider>
     );
-  },
+}
+
+export const Playground: Story = {
+  render: () => <ComplexFormDemo />,
 };

@@ -21,7 +21,7 @@ export interface CurrencyFieldProps {
   allowNegative?: boolean;
   helperText?: React.ReactNode;
   fullWidth?: boolean;
-  onCurrencyChange?: (code: string) => void;
+  onCurrencyChange?: (_code: string) => void;
   /** Fixed number of fraction digits for display & rounding (e.g., 0, 1, 2). If undefined, uses currency default. */
   fractionDigits?: number;
 }

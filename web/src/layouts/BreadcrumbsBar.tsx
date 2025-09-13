@@ -13,7 +13,9 @@ export default function BreadcrumbsBar() {
     const label = p.charAt(0).toUpperCase() + p.slice(1);
     const isLast = i === parts.length - 1;
     return isLast ? (
-      <Typography key={href} color="text.primary">{label}</Typography>
+      <Typography key={href} color="text.primary">
+        {label}
+      </Typography>
     ) : (
       <MLink key={href} component={Link} href={href} underline="hover">
         {label}

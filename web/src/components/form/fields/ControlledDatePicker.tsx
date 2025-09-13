@@ -1,21 +1,33 @@
 // web/src/components/form/fields/ControlledDatePicker.tsx
-'use client';
+"use client";
 
-import * as React from 'react';
-import { Controller, Control } from 'react-hook-form';
-import { DatePicker, DatePickerProps, LocalizationProvider } from '@mui/x-date-pickers';
-import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
-import dayjs, { Dayjs } from 'dayjs';
+import * as React from "react";
+import { Controller, Control } from "react-hook-form";
+import {
+  DatePicker,
+  DatePickerProps,
+  LocalizationProvider,
+} from "@mui/x-date-pickers";
+import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+import dayjs, { Dayjs } from "dayjs";
 
 /** Stores native Date by default (valueAsDate=true), even usando Dayjs no UI */
-export type ControlledDatePickerProps = Omit<DatePickerProps<Dayjs>, 'name' | 'value' | 'onChange'> & {
+export type ControlledDatePickerProps = Omit<
+  DatePickerProps<Dayjs>,
+  "name" | "value" | "onChange"
+> & {
   control: Control<any>;
   name: string;
   /** Se true (default), converte Dayjs -> Date no form state. Se false, armazena Dayjs. */
   valueAsDate?: boolean;
 };
 
-export function ControlledDatePicker({ control, name, valueAsDate = true, ...rest }: ControlledDatePickerProps) {
+export function ControlledDatePicker({
+  control,
+  name,
+  valueAsDate = true,
+  ...rest
+}: ControlledDatePickerProps) {
   return (
     <LocalizationProvider dateAdapter={AdapterDayjs}>
       <Controller
@@ -26,7 +38,9 @@ export function ControlledDatePicker({ control, name, valueAsDate = true, ...res
           const value: Dayjs | null =
             field.value == null
               ? null
-              : (dayjs.isDayjs(field.value) ? field.value as Dayjs : dayjs(field.value as Date));
+              : dayjs.isDayjs(field.value)
+                ? (field.value as Dayjs)
+                : dayjs(field.value as Date);
 
           return (
             <DatePicker

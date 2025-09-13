@@ -16,9 +16,15 @@ describe("AppShell nav", () => {
         <AppShellClient>
           <div>content</div>
         </AppShellClient>
-      </AppThemeProvider>
+      </AppThemeProvider>,
     );
-    expect(screen.getByTestId("appshell-nav-dashboard")).toHaveAttribute("data-active", "true");
-    expect(screen.getByTestId("appshell-nav-profile")).toHaveAttribute("data-active", "false");
+    expect(screen.getByTestId("appshell-nav-dashboard")).toHaveAttribute(
+      "data-active",
+      "true",
+    );
+    expect(screen.getByTestId("appshell-nav-profile")).toHaveAttribute(
+      "data-active",
+      "false",
+    );
   });
 });

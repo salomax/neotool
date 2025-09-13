@@ -1,12 +1,23 @@
 "use client";
 import * as React from "react";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
-import { Button, Stack, TextField, Typography, List, ListItem, ListItemText } from "@mui/material";
+import {
+  Button,
+  Stack,
+  TextField,
+  Typography,
+  List,
+  ListItem,
+  ListItemText,
+} from "@mui/material";
 
 type User = { id: string; name: string; email: string };
 
 async function api<T>(input: RequestInfo, init?: RequestInit): Promise<T> {
-  const res = await fetch(input, { headers: { "Content-Type": "application/json" }, ...init });
+  const res = await fetch(input, {
+    headers: { "Content-Type": "application/json" },
+    ...init,
+  });
   if (!res.ok) throw new Error(`HTTP ${res.status}`);
   // 204 sem body
   return (res.status === 204 ? (null as any) : await res.json()) as T;
@@ -24,7 +35,10 @@ export default function MSWUsersPage() {
 
   const add = useMutation({
     mutationFn: async () =>
-      api<User>("/api/mock/users", { method: "POST", body: JSON.stringify({ name, email }) }),
+      api<User>("/api/mock/users", {
+        method: "POST",
+        body: JSON.stringify({ name, email }),
+      }),
     onSuccess: (user) => {
       qc.setQueryData<User[]>(["users"], (prev = []) => [...prev, user]);
       setName("");
@@ -33,9 +47,12 @@ export default function MSWUsersPage() {
   });
 
   const del = useMutation({
-    mutationFn: (id: string) => api(`/api/mock/users/${id}`, { method: "DELETE" }),
+    mutationFn: (id: string) =>
+      api(`/api/mock/users/${id}`, { method: "DELETE" }),
     onSuccess: (_, id) => {
-      qc.setQueryData<User[]>(["users"], (prev = []) => prev.filter((u) => u.id !== id));
+      qc.setQueryData<User[]>(["users"], (prev = []) =>
+        prev.filter((u) => u.id !== id),
+      );
     },
   });
 
@@ -87,7 +104,11 @@ export default function MSWUsersPage() {
           data.map((u) => (
             <ListItem key={u.id} data-testid="user-item" divider>
               <ListItemText primary={u.name} secondary={u.email} />
-              <Button size="small" onClick={() => del.mutate(u.id)} data-testid={`user-del-${u.id}`}>
+              <Button
+                size="small"
+                onClick={() => del.mutate(u.id)}
+                data-testid={`user-del-${u.id}`}
+              >
                 Delete
               </Button>
             </ListItem>

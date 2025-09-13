@@ -1,20 +1,20 @@
-import i18n from 'i18next';
-import { initReactI18next } from 'react-i18next';
+import i18n from "i18next";
+import { initReactI18next } from "react-i18next";
 
 // Minimal resources for Storybook. Replace/extend with your real app resources.
 const resources = {
-  'en-US': {
+  "en-US": {
     translation: {
-      hello: 'Hello',
-      submit: 'Submit',
-      cancel: 'Cancel',
+      hello: "Hello",
+      submit: "Submit",
+      cancel: "Cancel",
     },
   },
-  'pt-BR': {
+  "pt-BR": {
     translation: {
-      hello: 'Olá',
-      submit: 'Enviar',
-      cancel: 'Cancelar',
+      hello: "Olá",
+      submit: "Enviar",
+      cancel: "Cancelar",
     },
   },
 };
@@ -24,13 +24,12 @@ if (!i18n.isInitialized) {
     .use(initReactI18next)
     .init({
       resources,
-      lng: 'en-US',
-      fallbackLng: 'en-US',
+      lng: "en-US",
+      fallbackLng: "en-US",
       interpolation: { escapeValue: false },
     })
     .catch((e) => {
-      // eslint-disable-next-line no-console
-      console.warn('i18n init error (storybook):', e);
+      console.warn("i18n init error (storybook):", e);
     });
 }
 

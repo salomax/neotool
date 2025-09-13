@@ -5,7 +5,15 @@ import { usePathname } from "next/navigation";
 import { useTranslation } from "react-i18next";
 import "@/i18n/config";
 
-import { AppBar, Toolbar, Drawer, List, ListItemButton, ListItemText, Box } from "@mui/material";
+import {
+  AppBar,
+  Toolbar,
+  Drawer,
+  List,
+  ListItemButton,
+  ListItemText,
+  Box,
+} from "@mui/material";
 import LanguageSwitcher from "@/components/i18n/LanguageSwitcher";
 import { ThemeToggle } from "@/theme/ThemeToggle";
 import { NAV, type NavItem } from "@/config/nav";
@@ -22,7 +30,9 @@ export default function AppShellClient({ children, navItems = NAV }: Props) {
   const { t } = useTranslation();
 
   const isActive = (href: string) =>
-    pathname === href || (pathname.startsWith(href) && (href === "/" || href.endsWith("/") || pathname[href.length] === "/"));
+    pathname === href ||
+    (pathname.startsWith(href) &&
+      (href === "/" || href.endsWith("/") || pathname[href.length] === "/"));
 
   return (
     <Box sx={{ display: "flex" }}>
@@ -53,7 +63,9 @@ export default function AppShellClient({ children, navItems = NAV }: Props) {
             }}
           >
             <LanguageSwitcher />
-            <span data-testid="theme-toggle-btn"><ThemeToggle /></span>
+            <span data-testid="theme-toggle-btn">
+              <ThemeToggle />
+            </span>
           </Box>
         </Toolbar>
       </AppBar>
@@ -64,7 +76,10 @@ export default function AppShellClient({ children, navItems = NAV }: Props) {
         sx={{
           width: drawerWidth,
           flexShrink: 0,
-          [`& .MuiDrawer-paper`]: { width: drawerWidth, boxSizing: "border-box" },
+          [`& .MuiDrawer-paper`]: {
+            width: drawerWidth,
+            boxSizing: "border-box",
+          },
         }}
       >
         <Toolbar />

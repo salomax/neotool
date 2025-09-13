@@ -1,16 +1,24 @@
 // web/src/components/form/fields/ControlledTextField.tsx
-'use client';
+"use client";
 
-import * as React from 'react';
-import { Controller, Control } from 'react-hook-form';
-import { TextField, TextFieldProps } from '@mui/material';
+import * as React from "react";
+import { Controller, Control } from "react-hook-form";
+import { TextField, TextFieldProps } from "@mui/material";
 
-export type ControlledTextFieldProps = Omit<TextFieldProps, 'name' | 'defaultValue' | 'onChange' | 'value' | 'render'> & {
+export type ControlledTextFieldProps = Omit<
+  TextFieldProps,
+  "name" | "defaultValue" | "onChange" | "value" | "render"
+> & {
   control: Control<any>;
   name: string;
 };
 
-export function ControlledTextField({ control, name, helperText, ...rest }: ControlledTextFieldProps) {
+export function ControlledTextField({
+  control,
+  name,
+  helperText,
+  ...rest
+}: ControlledTextFieldProps) {
   return (
     <Controller
       control={control}

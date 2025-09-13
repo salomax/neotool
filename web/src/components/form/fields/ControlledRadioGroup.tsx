@@ -1,9 +1,15 @@
 // web/src/components/form/fields/ControlledRadioGroup.tsx
-'use client';
+"use client";
 
-import * as React from 'react';
-import { Controller, Control } from 'react-hook-form';
-import { FormControl, FormLabel, RadioGroup, FormControlLabel, Radio } from '@mui/material';
+import * as React from "react";
+import { Controller, Control } from "react-hook-form";
+import {
+  FormControl,
+  FormLabel,
+  RadioGroup,
+  FormControlLabel,
+  Radio,
+} from "@mui/material";
 
 export type RadioOption = { label: string; value: string };
 
@@ -15,7 +21,13 @@ export type ControlledRadioGroupProps = {
   row?: boolean;
 };
 
-export default function ControlledRadioGroup({ control, name, label, options, row }: ControlledRadioGroupProps) {
+export default function ControlledRadioGroup({
+  control,
+  name,
+  label,
+  options,
+  row,
+}: ControlledRadioGroupProps) {
   return (
     <Controller
       control={control}
@@ -25,7 +37,12 @@ export default function ControlledRadioGroup({ control, name, label, options, ro
           {label && <FormLabel>{label}</FormLabel>}
           <RadioGroup {...field} row={row}>
             {options.map((o) => (
-              <FormControlLabel key={o.value} value={o.value} control={<Radio />} label={o.label} />
+              <FormControlLabel
+                key={o.value}
+                value={o.value}
+                control={<Radio />}
+                label={o.label}
+              />
             ))}
           </RadioGroup>
         </FormControl>

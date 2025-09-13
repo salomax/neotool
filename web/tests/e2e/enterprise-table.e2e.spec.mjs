@@ -1,3 +1,5 @@
+/* eslint-env vitest */
+/// <reference types="vitest" />
 import { test, expect } from "@playwright/test";
 
 test("enterprise table basic interactions and CSV export", async ({ page }) => {

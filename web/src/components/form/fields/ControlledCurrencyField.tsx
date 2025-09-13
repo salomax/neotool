@@ -1,19 +1,29 @@
 // web/src/components/form/fields/ControlledCurrencyField.tsx
-'use client';
+"use client";
 
-import * as React from 'react';
-import { Controller, Control } from 'react-hook-form';
-import { TextField, TextFieldProps } from '@mui/material';
-import { formatCurrency, parseLocaleNumber } from '../masks/br';
+import * as React from "react";
+import { Controller, Control } from "react-hook-form";
+import { TextField, TextFieldProps } from "@mui/material";
+import { formatCurrency, parseLocaleNumber } from "../masks/br";
 
-export type ControlledCurrencyFieldProps = Omit<TextFieldProps, 'name' | 'defaultValue' | 'onChange' | 'value' | 'render' | 'type'> & {
+export type ControlledCurrencyFieldProps = Omit<
+  TextFieldProps,
+  "name" | "defaultValue" | "onChange" | "value" | "render" | "type"
+> & {
   control: Control<any>;
   name: string;
   currency?: string;
   locale?: string;
 };
 
-export function ControlledCurrencyField({ control, name, helperText, currency = 'BRL', locale, ...rest }: ControlledCurrencyFieldProps) {
+export function ControlledCurrencyField({
+  control,
+  name,
+  helperText,
+  currency = "BRL",
+  locale,
+  ...rest
+}: ControlledCurrencyFieldProps) {
   const [editing, setEditing] = React.useState(false);
 
   return (
@@ -21,7 +31,9 @@ export function ControlledCurrencyField({ control, name, helperText, currency = 
       control={control}
       name={name}
       render={({ field, fieldState }) => {
-        const display = editing ? String(field.value ?? '') : formatCurrency(field.value ?? 0, currency, locale);
+        const display = editing
+          ? String(field.value ?? "")
+          : formatCurrency(field.value ?? 0, currency, locale);
         return (
           <TextField
             {...rest}
@@ -29,7 +41,7 @@ export function ControlledCurrencyField({ control, name, helperText, currency = 
             value={display}
             error={!!fieldState.error}
             helperText={fieldState.error?.message || helperText}
-            inputProps={{ inputMode: 'decimal', style: { textAlign: 'right' } }}
+            inputProps={{ inputMode: "decimal", style: { textAlign: "right" } }}
             onFocus={() => setEditing(true)}
             onBlur={(e) => {
               setEditing(false);

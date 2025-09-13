@@ -1,8 +1,8 @@
 // web/src/components/form/FormLayout.tsx
-'use client';
+"use client";
 
-import * as React from 'react';
-import { Stack, Box } from '@mui/material';
+import * as React from "react";
+import { Stack, Box } from "@mui/material";
 
 export type FormLayoutProps = {
   children: React.ReactNode;
@@ -10,10 +10,14 @@ export type FormLayoutProps = {
   maxWidth?: number | string;
 };
 
-export function FormLayout({ children, gap = 2, maxWidth = 960 }: FormLayoutProps) {
+export function FormLayout({
+  children,
+  gap = 2,
+  maxWidth = 960,
+}: FormLayoutProps) {
   return (
-    <Box sx={{ width: '100%', display: 'flex', justifyContent: 'center' }}>
-      <Stack spacing={gap} sx={{ width: '100%', maxWidth, px: 2 }}>
+    <Box sx={{ width: "100%", display: "flex", justifyContent: "center" }}>
+      <Stack spacing={gap} sx={{ width: "100%", maxWidth, px: 2 }}>
         {children}
       </Stack>
     </Box>

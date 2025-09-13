@@ -1,18 +1,27 @@
 // web/src/components/form/fields/ControlledNumberField.tsx
-'use client';
+"use client";
 
-import * as React from 'react';
-import { Controller, Control } from 'react-hook-form';
-import { TextField, TextFieldProps } from '@mui/material';
-import { parseLocaleNumber } from '../masks/br';
+import * as React from "react";
+import { Controller, Control } from "react-hook-form";
+import { TextField, TextFieldProps } from "@mui/material";
+import { parseLocaleNumber } from "../masks/br";
 
-export type ControlledNumberFieldProps = Omit<TextFieldProps, 'name' | 'defaultValue' | 'onChange' | 'value' | 'render' | 'type'> & {
+export type ControlledNumberFieldProps = Omit<
+  TextFieldProps,
+  "name" | "defaultValue" | "onChange" | "value" | "render" | "type"
+> & {
   control: Control<any>;
   name: string;
   locale?: string;
 };
 
-export function ControlledNumberField({ control, name, helperText, locale, ...rest }: ControlledNumberFieldProps) {
+export function ControlledNumberField({
+  control,
+  name,
+  helperText,
+  locale,
+  ...rest
+}: ControlledNumberFieldProps) {
   return (
     <Controller
       control={control}
@@ -22,7 +31,7 @@ export function ControlledNumberField({ control, name, helperText, locale, ...re
           {...rest}
           {...field}
           fullWidth
-          inputProps={{ inputMode: 'decimal', style: { textAlign: 'right' } }}
+          inputProps={{ inputMode: "decimal", style: { textAlign: "right" } }}
           error={!!fieldState.error}
           helperText={fieldState.error?.message || helperText}
           onChange={(e) => {
@@ -30,7 +39,7 @@ export function ControlledNumberField({ control, name, helperText, locale, ...re
             const parsed = parseLocaleNumber(raw, locale);
             field.onChange(parsed);
           }}
-          value={field.value ?? ''}
+          value={field.value ?? ""}
         />
       )}
     />

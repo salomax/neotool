@@ -23,16 +23,15 @@ const schema = z.object({
 
 type FormData = z.infer<typeof schema>;
 
-export const Playground: Story = {
-  render: () => {
-    const form = useZodForm(schema, {
-      defaultValues: { cpf: "", cnpj: "", cep: "" } as unknown as FormData,
-      mode: "onChange",
-    });
+function BRMaskedFieldsDemo() {
+  const form = useZodForm(schema, {
+    defaultValues: { cpf: "", cnpj: "", cep: "" } as unknown as FormData,
+    mode: "onChange",
+  });
 
-    const onSubmit = form.handleSubmit((data) => {
-      alert("Submit: " + JSON.stringify(data, null, 2));
-    });
+  const onSubmit = form.handleSubmit((data) => {
+    alert("Submit: " + JSON.stringify(data, null, 2));
+  });
 
     return (
       <AppThemeProvider>
@@ -69,5 +68,8 @@ export const Playground: Story = {
         </FormProvider>
       </AppThemeProvider>
     );
-  },
+}
+
+export const Playground: Story = {
+  render: () => <BRMaskedFieldsDemo />,
 };

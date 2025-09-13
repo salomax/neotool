@@ -1,8 +1,8 @@
 // web/src/components/form/FormErrorBanner.tsx
-'use client';
+"use client";
 
-import * as React from 'react';
-import { Alert } from '@mui/material';
+import * as React from "react";
+import { Alert } from "@mui/material";
 
 export type FormErrorBannerProps = {
   message?: string;

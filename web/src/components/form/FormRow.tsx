@@ -1,24 +1,29 @@
 // web/src/components/form/FormRow.tsx
-'use client';
+"use client";
 
-import * as React from 'react';
-import { Grid, GridProps } from '@mui/material';
+import * as React from "react";
+import { Grid, GridProps } from "@mui/material";
 
-type Breakpoint = 'xs' | 'sm' | 'md' | 'lg' | 'xl';
+type Breakpoint = "xs" | "sm" | "md" | "lg" | "xl";
 
 export type FormRowProps = {
   /** Quantidade de colunas por breakpoint (ex.: { xs: 1, sm: 2, md: 3 }) */
   cols?: Partial<Record<Breakpoint, number>>;
   /** Espaçamento entre campos (MUI spacing units) */
-  spacing?: GridProps['spacing'];
+  spacing?: GridProps["spacing"];
   /** Filhos: campos/inputs */
   children: React.ReactNode;
   /** Alinhamento vertical dos itens */
-  alignItems?: GridProps['alignItems'];
+  alignItems?: GridProps["alignItems"];
 };
 
 /** Distribui os filhos em colunas iguais usando MUI Grid. */
-export function FormRow({ cols = { xs: 1, sm: 2 }, spacing = 2, alignItems = 'flex-start', children }: FormRowProps) {
+export function FormRow({
+  cols = { xs: 1, sm: 2 },
+  spacing = 2,
+  alignItems = "flex-start",
+  children,
+}: FormRowProps) {
   const items = React.Children.toArray(children).filter(Boolean);
 
   const span = (bp: Breakpoint) => {
@@ -31,7 +36,15 @@ export function FormRow({ cols = { xs: 1, sm: 2 }, spacing = 2, alignItems = 'fl
   return (
     <Grid container spacing={spacing} alignItems={alignItems}>
       {items.map((child, idx) => (
-        <Grid key={idx} item xs={12} sm={span('sm')} md={span('md')} lg={span('lg')} xl={span('xl')}>
+        <Grid
+          key={idx}
+          item
+          xs={12}
+          sm={span("sm")}
+          md={span("md")}
+          lg={span("lg")}
+          xl={span("xl")}
+        >
           {child}
         </Grid>
       ))}

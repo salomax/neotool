@@ -11,21 +11,25 @@
 !.env.example
 
 # Next.js (projeto em web/)
-web/.next
-web/out
-web/.vercel
+.next
+out
+.vercel
 
 # Playwright / Vitest
-web/playwright-report
-web/test-results
-web/blob-report
-web/coverage
-web/.vitest
+playwright-report
+test-results
+blob-report
+coverage
+.vitest
+types-tests
 
 # Storybook
-web/storybook-static
-web/node_modules/.cache/storybook
+storybook-static
+node_modules/.cache/storybook
 
 # Build genéricos
 **/dist
 **/build
+
+#IDE
+.vscode

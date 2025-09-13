@@ -1,6 +1,6 @@
 // web/src/components/form/validation/zodUtils.ts
-import { z } from 'zod';
-import { onlyDigits } from '../masks/br';
+import { z } from "zod";
+import { onlyDigits } from "../masks/br";
 
 export const isValidCPF = (value: string): boolean => {
   const cpf = onlyDigits(value);
@@ -8,7 +8,8 @@ export const isValidCPF = (value: string): boolean => {
 
   const calc = (base: string, factor: number) => {
     let total = 0;
-    for (let i = 0; i < base.length; i++) total += parseInt(base[i], 10) * (factor - i);
+    for (let i = 0; i < base.length; i++)
+      total += parseInt(base[i], 10) * (factor - i);
     const rest = total % 11;
     return rest < 2 ? 0 : 11 - rest;
   };
@@ -22,9 +23,10 @@ export const isValidCNPJ = (value: string): boolean => {
   if (cnpj.length !== 14 || /^(\d)\1+$/.test(cnpj)) return false;
 
   const calc = (base: string) => {
-    const weights = [6,5,4,3,2,9,8,7,6,5,4,3,2];
+    const weights = [6, 5, 4, 3, 2, 9, 8, 7, 6, 5, 4, 3, 2];
     let sum = 0;
-    for (let i = 0; i < base.length; i++) sum += parseInt(base[i], 10) * weights[weights.length - base.length + i];
+    for (let i = 0; i < base.length; i++)
+      sum += parseInt(base[i], 10) * weights[weights.length - base.length + i];
     const rest = sum % 11;
     return rest < 2 ? 0 : 11 - rest;
   };
@@ -33,6 +35,14 @@ export const isValidCNPJ = (value: string): boolean => {
   return cnpj.endsWith(`${d1}${d2}`);
 };
 
-export const cpfSchema = z.string().nonempty().refine(isValidCPF, 'Invalid CPF');
-export const cnpjSchema = z.string().nonempty().refine(isValidCNPJ, 'Invalid CNPJ');
-export const cepSchema = z.string().regex(/^\d{5}-?\d{3}$/, 'Invalid CEP (expected 00000-000)');
+export const cpfSchema = z
+  .string()
+  .nonempty()
+  .refine(isValidCPF, "Invalid CPF");
+export const cnpjSchema = z
+  .string()
+  .nonempty()
+  .refine(isValidCNPJ, "Invalid CNPJ");
+export const cepSchema = z
+  .string()
+  .regex(/^\d{5}-?\d{3}$/, "Invalid CEP (expected 00000-000)");

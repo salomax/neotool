@@ -2,7 +2,11 @@
 import React from "react";
 import { Box, Skeleton, Stack } from "@mui/material";
 
-export default function PageSkeleton({ "data-testid": testId }: { "data-testid"?: string }) {
+export default function PageSkeleton({
+  "data-testid": testId,
+}: {
+  "data-testid"?: string;
+}) {
   return (
     <Box data-testid={testId} sx={{ p: 2 }}>
       <Skeleton variant="text" width={220} height={32} sx={{ mb: 1 }} />

@@ -1,9 +1,9 @@
 // web/src/components/form/fields/ControlledAutocomplete.tsx
-'use client';
+"use client";
 
-import * as React from 'react';
-import { Controller, Control } from 'react-hook-form';
-import { Autocomplete, TextField, CircularProgress } from '@mui/material';
+import * as React from "react";
+import { Controller, Control } from "react-hook-form";
+import { Autocomplete, TextField, CircularProgress } from "@mui/material";
 
 export type AutoOption = { label: string; id: string | number };
 
@@ -15,7 +15,13 @@ export type ControlledAutocompleteProps = {
   loadOptions: (input: string) => Promise<AutoOption[]>;
 };
 
-export function ControlledAutocomplete({ control, name, label, placeholder, loadOptions }: ControlledAutocompleteProps) {
+export function ControlledAutocomplete({
+  control,
+  name,
+  label,
+  placeholder,
+  loadOptions,
+}: ControlledAutocompleteProps) {
   const [open, setOpen] = React.useState(false);
   const [loading, setLoading] = React.useState(false);
   const [options, setOptions] = React.useState<AutoOption[]>([]);
@@ -30,7 +36,9 @@ export function ControlledAutocomplete({ control, name, label, placeholder, load
       } finally {
         if (active) setLoading(false);
       }
-      return () => { active = false; };
+      return () => {
+        active = false;
+      };
     };
   }, [loadOptions]);
 
@@ -45,9 +53,11 @@ export function ControlledAutocomplete({ control, name, label, placeholder, load
           onClose={() => setOpen(false)}
           options={options}
           loading={loading}
-          value={options.find(o => o.id === field.value) ?? null}
+          value={options.find((o) => o.id === field.value) ?? null}
           onChange={(_, opt) => field.onChange(opt?.id ?? null)}
-          onInputChange={(_, input) => { fetch(input); }}
+          onInputChange={(_event, input) => {
+            fetch(input);
+          }}
           getOptionLabel={(o) => o.label}
           isOptionEqualToValue={(a, b) => a.id === b.id}
           renderInput={(params) => (

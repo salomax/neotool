@@ -1,14 +1,20 @@
-import { createTheme, ThemeOptions } from '@mui/material/styles';
-import { tokens, Mode } from './tokens';
-import type {} from '@mui/lab/themeAugmentation';
+import { createTheme, ThemeOptions } from "@mui/material/styles";
+import { tokens, Mode } from "./tokens";
+import type {} from "@mui/lab/themeAugmentation";
 
 export const createAppTheme = (mode: Mode) => {
   const t = tokens[mode];
   const options: ThemeOptions = {
     palette: {
       mode,
-      primary: { main: t.palette.primary, contrastText: t.palette.primaryContrast },
-      secondary: { main: t.palette.secondary, contrastText: t.palette.secondaryContrast },
+      primary: {
+        main: t.palette.primary,
+        contrastText: t.palette.primaryContrast,
+      },
+      secondary: {
+        main: t.palette.secondary,
+        contrastText: t.palette.secondaryContrast,
+      },
       success: { main: t.palette.success },
       warning: { main: t.palette.warning },
       error: { main: t.palette.error },
@@ -29,12 +35,12 @@ export const createAppTheme = (mode: Mode) => {
       h6: { fontSize: t.typography.h6, fontWeight: 600, lineHeight: 1.25 },
       body1: { fontSize: t.typography.body },
       body2: { fontSize: t.typography.small },
-      button: { textTransform: 'none', fontWeight: 600 },
+      button: { textTransform: "none", fontWeight: 600 },
       fontFamilyMonospace: t.typography.monoFamily as any,
     } as any,
     components: {
       MuiButton: {
-        defaultProps: { disableElevation: true, variant: 'contained' },
+        defaultProps: { disableElevation: true, variant: "contained" },
         styleOverrides: {
           root: { borderRadius: t.radius.lg },
         },

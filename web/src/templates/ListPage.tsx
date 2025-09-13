@@ -16,7 +16,7 @@ export interface ListPageProps<T extends object> {
   totalRows?: number;
   page?: number;
   pageSize?: number;
-  onPageChange?: (page: number, pageSize: number) => void;
+  onPageChange?: (_page: number, _pageSize: number) => void;
 }
 
 export function ListPage<T extends object>(props: ListPageProps<T>) {
@@ -29,9 +29,9 @@ export function ListPage<T extends object>(props: ListPageProps<T>) {
     loading,
     error,
     totalRows,
-    page,
-    pageSize,
-    onPageChange,
+    page: _page,
+    pageSize: _pageSize,
+    onPageChange: _onPageChange,
   } = props;
 
   return (
@@ -57,9 +57,9 @@ export function ListPage<T extends object>(props: ListPageProps<T>) {
         loading={loading}
         error={error}
         totalRows={totalRows}
-        page={page}
-        pageSize={pageSize}
-        onPageChange={onPageChange}
+        page={_page}
+        pageSize={_pageSize}
+        onPageChange={_onPageChange}
       />
     </Paper>
   );

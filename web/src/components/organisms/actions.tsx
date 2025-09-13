@@ -10,9 +10,9 @@ type AnyRow = Record<string, any>;
 
 function ActionsCell<T extends AnyRow>(props: ICellRendererParams<T>) {
   const row = props.data as T;
-  const onEdit = (props.colDef as any).__onEdit as ((r: T) => void) | undefined;
+  const onEdit = (props.colDef as any).__onEdit as ((_r: T) => void) | undefined;
   const onDelete = (props.colDef as any).__onDelete as
-    | ((r: T) => void)
+    | ((_r: T) => void)
     | undefined;
 
   return (
@@ -47,8 +47,8 @@ function ActionsCell<T extends AnyRow>(props: ICellRendererParams<T>) {
 export function actionsColumn<T extends AnyRow>(opts: {
   headerName?: string;
   width?: number;
-  onEdit?: (row: T) => void;
-  onDelete?: (row: T) => void;
+  onEdit?: (_row: T) => void;
+  onDelete?: (_row: T) => void;
 }): ColDef<T> {
   return {
     headerName: opts.headerName ?? "Actions",

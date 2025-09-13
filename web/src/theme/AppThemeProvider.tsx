@@ -5,7 +5,7 @@ import { CssBaseline, ThemeProvider } from "@mui/material";
 import { createAppTheme } from "./theme";
 import type { Mode } from "./tokens";
 
-type ThemeCtx = { mode: Mode; setMode: (m: Mode) => void; toggle: () => void };
+type ThemeCtx = { mode: Mode; setMode: (_m: Mode) => void; toggle: () => void };
 
 const ThemeModeContext = React.createContext<ThemeCtx | null>(null);
 

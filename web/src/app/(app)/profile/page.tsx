@@ -11,8 +11,14 @@ const Schema = z.object({
 type FormVals = z.infer<typeof Schema>;
 
 export default function ProfilePage() {
-  const { register, handleSubmit, formState: { errors, isSubmitting } } =
-    useForm<FormVals>({ resolver: zodResolver(Schema), defaultValues: { fullName: "", email: "" } });
+  const {
+    register,
+    handleSubmit,
+    formState: { errors, isSubmitting },
+  } = useForm<FormVals>({
+    resolver: zodResolver(Schema),
+    defaultValues: { fullName: "", email: "" },
+  });
 
   const onSubmit = async (data: FormVals) => {
     // TODO: wire up API
@@ -21,7 +27,9 @@ export default function ProfilePage() {
 
   return (
     <Box sx={{ p: 3 }}>
-      <Typography variant="h5" sx={{ mb: 2 }}>My Profile</Typography>
+      <Typography variant="h5" sx={{ mb: 2 }}>
+        My Profile
+      </Typography>
       <form onSubmit={handleSubmit(onSubmit)}>
         <Stack spacing={2} maxWidth={440}>
           <TextField

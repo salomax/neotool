@@ -3,7 +3,7 @@
 import * as React from "react";
 import { Controller, useFormContext } from "react-hook-form";
 import { TextField } from "@mui/material";
-import { NumericFormat, NumericFormatProps } from "react-number-format";
+import { NumericFormat } from "react-number-format";
 import { getLocaleSeparators } from "../../../utils/locale";
 
 export interface NumberFieldProps {

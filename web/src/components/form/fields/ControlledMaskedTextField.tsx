@@ -1,17 +1,20 @@
 // web/src/components/form/fields/ControlledMaskedTextField.tsx
-'use client';
+"use client";
 
-import * as React from 'react';
-import { Controller, Control } from 'react-hook-form';
-import { TextField, TextFieldProps } from '@mui/material';
+import * as React from "react";
+import { Controller, Control } from "react-hook-form";
+import { TextField, TextFieldProps } from "@mui/material";
 
-export type ControlledMaskedTextFieldProps = Omit<TextFieldProps, 'name' | 'defaultValue' | 'onChange' | 'value' | 'render'> & {
+export type ControlledMaskedTextFieldProps = Omit<
+  TextFieldProps,
+  "name" | "defaultValue" | "onChange" | "value" | "render"
+> & {
   control: Control<any>;
   name: string;
-  mask: (raw: string) => string;
+  mask: (_raw: string) => string;
   numeric?: boolean;
-  transformOut?: (masked: string) => any;
-  transformIn?: (formValue: any) => string;
+  transformOut?: (_masked: string) => any;
+  transformIn?: (_formValue: any) => string;
 };
 
 export function ControlledMaskedTextField({
@@ -30,8 +33,9 @@ export function ControlledMaskedTextField({
       name={name}
       render={({ field, fieldState }) => {
         const display = (() => {
-          const v = field.value ?? '';
-          const str = typeof transformIn === 'function' ? transformIn(v) : String(v);
+          const v = field.value ?? "";
+          const str =
+            typeof transformIn === "function" ? transformIn(v) : String(v);
           return mask(str);
         })();
 
@@ -42,11 +46,17 @@ export function ControlledMaskedTextField({
             value={display}
             error={!!fieldState.error}
             helperText={fieldState.error?.message || helperText}
-            inputProps={{ ...(rest.inputProps || {}), inputMode: numeric ? 'numeric' : rest.inputProps?.inputMode }}
+            inputProps={{
+              ...(rest.inputProps || {}),
+              inputMode: numeric ? "numeric" : rest.inputProps?.inputMode,
+            }}
             onChange={(e) => {
-              const raw = e.target.value ?? '';
+              const raw = e.target.value ?? "";
               const masked = mask(String(raw));
-              const out = typeof transformOut === 'function' ? transformOut(masked) : masked;
+              const out =
+                typeof transformOut === "function"
+                  ? transformOut(masked)
+                  : masked;
               field.onChange(out);
             }}
           />

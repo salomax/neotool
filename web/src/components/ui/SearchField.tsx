@@ -1,14 +1,14 @@
-'use client';
+"use client";
 
-import * as React from 'react';
-import { TextField, InputAdornment, IconButton } from '@mui/material';
-import SearchIcon from '@mui/icons-material/Search';
-import ClearIcon from '@mui/icons-material/Clear';
+import * as React from "react";
+import { TextField, InputAdornment, IconButton } from "@mui/material";
+import SearchIcon from "@mui/icons-material/Search";
+import ClearIcon from "@mui/icons-material/Clear";
 
 export interface SearchFieldProps {
   value: string;
-  onChange: (v: string) => void;
-  onSearch?: (v: string) => void; // debounced callback
+  onChange: (_v: string) => void;
+  onSearch?: (_v: string) => void; // debounced callback
   debounceMs?: number;
   placeholder?: string;
   autoFocusOnSlash?: boolean;
@@ -16,7 +16,13 @@ export interface SearchFieldProps {
 }
 
 export const SearchField: React.FC<SearchFieldProps> = ({
-  value, onChange, onSearch, debounceMs = 300, placeholder = 'Search…', autoFocusOnSlash = true, fullWidth = true,
+  value,
+  onChange,
+  onSearch,
+  debounceMs = 300,
+  placeholder = "Search…",
+  autoFocusOnSlash = true,
+  fullWidth = true,
 }) => {
   const [t, setT] = React.useState(value);
   const ref = React.useRef<HTMLInputElement | null>(null);
@@ -31,20 +37,23 @@ export const SearchField: React.FC<SearchFieldProps> = ({
   React.useEffect(() => {
     if (!autoFocusOnSlash) return;
     const handler = (e: KeyboardEvent) => {
-      if (e.key === '/' && document.activeElement !== ref.current) {
+      if (e.key === "/" && document.activeElement !== ref.current) {
         e.preventDefault();
         ref.current?.focus();
       }
     };
-    window.addEventListener('keydown', handler);
-    return () => window.removeEventListener('keydown', handler);
+    window.addEventListener("keydown", handler);
+    return () => window.removeEventListener("keydown", handler);
   }, [autoFocusOnSlash]);
 
   return (
     <TextField
       inputRef={ref}
       value={t}
-      onChange={(e) => { setT(e.target.value); onChange(e.target.value); }}
+      onChange={(e) => {
+        setT(e.target.value);
+        onChange(e.target.value);
+      }}
       placeholder={placeholder}
       fullWidth={fullWidth}
       InputProps={{
@@ -55,7 +64,14 @@ export const SearchField: React.FC<SearchFieldProps> = ({
         ),
         endAdornment: t ? (
           <InputAdornment position="end">
-            <IconButton size="small" onClick={() => { setT(''); onChange(''); onSearch?.(''); }}>
+            <IconButton
+              size="small"
+              onClick={() => {
+                setT("");
+                onChange("");
+                onSearch?.("");
+              }}
+            >
               <ClearIcon fontSize="small" />
             </IconButton>
           </InputAdornment>

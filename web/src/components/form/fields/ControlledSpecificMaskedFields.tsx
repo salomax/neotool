@@ -1,10 +1,16 @@
 // web/src/components/form/fields/ControlledSpecificMaskedFields.tsx
-'use client';
+"use client";
 
-import * as React from 'react';
-import { Control } from 'react-hook-form';
-import ControlledMaskedTextField from './ControlledMaskedTextField';
-import { maskCPF, maskCNPJ, maskCEP, maskPhoneBR, onlyDigits } from '../masks/br';
+import * as React from "react";
+import { Control } from "react-hook-form";
+import ControlledMaskedTextField from "./ControlledMaskedTextField";
+import {
+  maskCPF,
+  maskCNPJ,
+  maskCEP,
+  maskPhoneBR,
+  onlyDigits,
+} from "../masks/br";
 
 type CommonProps = {
   control: Control<any>;
@@ -19,8 +25,10 @@ export function ControlledCPFField(props: CommonProps) {
       {...props}
       numeric
       mask={maskCPF}
-      transformOut={(masked) => masked.replace(/\D+/g, '')}
-      transformIn={(val) => (typeof val === 'string' ? onlyDigits(val) : String(val ?? ''))}
+      transformOut={(masked) => masked.replace(/\D+/g, "")}
+      transformIn={(val) =>
+        typeof val === "string" ? onlyDigits(val) : String(val ?? "")
+      }
     />
   );
 }
@@ -31,8 +39,10 @@ export function ControlledCNPJField(props: CommonProps) {
       {...props}
       numeric
       mask={maskCNPJ}
-      transformOut={(masked) => masked.replace(/\D+/g, '')}
-      transformIn={(val) => (typeof val === 'string' ? onlyDigits(val) : String(val ?? ''))}
+      transformOut={(masked) => masked.replace(/\D+/g, "")}
+      transformIn={(val) =>
+        typeof val === "string" ? onlyDigits(val) : String(val ?? "")
+      }
     />
   );
 }
@@ -43,8 +53,10 @@ export function ControlledCEPField(props: CommonProps) {
       {...props}
       numeric
       mask={maskCEP}
-      transformOut={(masked) => masked.replace(/\D+/g, '')}
-      transformIn={(val) => (typeof val === 'string' ? onlyDigits(val) : String(val ?? ''))}
+      transformOut={(masked) => masked.replace(/\D+/g, "")}
+      transformIn={(val) =>
+        typeof val === "string" ? onlyDigits(val) : String(val ?? "")
+      }
     />
   );
 }
@@ -55,8 +67,10 @@ export function ControlledPhoneBRField(props: CommonProps) {
       {...props}
       numeric
       mask={maskPhoneBR}
-      transformOut={(masked) => masked.replace(/\D+/g, '')}
-      transformIn={(val) => (typeof val === 'string' ? onlyDigits(val) : String(val ?? ''))}
+      transformOut={(masked) => masked.replace(/\D+/g, "")}
+      transformIn={(val) =>
+        typeof val === "string" ? onlyDigits(val) : String(val ?? "")
+      }
     />
   );
 }

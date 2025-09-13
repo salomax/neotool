@@ -1,21 +1,31 @@
-import React from 'react';
-import type { Meta, StoryObj } from '@storybook/react';
-import { useForm, FormProvider } from 'react-hook-form';
-import { CurrencyField } from './CurrencyField';
-import Button from '@mui/material/Button';
-import { Stack, Typography } from '@mui/material';
+import React from "react";
+import type { Meta, StoryObj } from "@storybook/react";
+import { useForm, FormProvider } from "react-hook-form";
+import { CurrencyField } from "./CurrencyField";
+import Button from "@mui/material/Button";
+import { Stack, Typography } from "@mui/material";
 
 const meta: Meta = {
-  title: 'Forms/Fields/CurrencyField.Decimals',
+  title: "Forms/Fields/CurrencyField.Decimals",
 };
 export default meta;
 type Story = StoryObj;
 
-function Demo({ fractionDigits, label }: { fractionDigits: number; label: string }) {
+function Demo({
+  fractionDigits,
+  label,
+}: {
+  fractionDigits: number;
+  label: string;
+}) {
   const methods = useForm({ defaultValues: { price: 1234.56 } });
   return (
     <FormProvider {...methods}>
-      <form onSubmit={methods.handleSubmit((d) => alert(JSON.stringify(d, null, 2)))}>
+      <form
+        onSubmit={methods.handleSubmit((d) =>
+          alert(JSON.stringify(d, null, 2)),
+        )}
+      >
         <Stack spacing={2} sx={{ width: 360 }}>
           <Typography variant="overline">{label}</Typography>
           <CurrencyField
@@ -25,13 +35,21 @@ function Demo({ fractionDigits, label }: { fractionDigits: number; label: string
             locale="en-US"
             fractionDigits={fractionDigits}
           />
-          <Button type="submit" variant="contained">Submit</Button>
+          <Button type="submit" variant="contained">
+            Submit
+          </Button>
         </Stack>
       </form>
     </FormProvider>
   );
 }
 
-export const NoDecimals: Story = { render: () => <Demo fractionDigits={0} label="0 decimals" /> };
-export const OneDecimal: Story = { render: () => <Demo fractionDigits={1} label="1 decimal" /> };
-export const TwoDecimals: Story = { render: () => <Demo fractionDigits={2} label="2 decimals" /> };
+export const NoDecimals: Story = {
+  render: () => <Demo fractionDigits={0} label="0 decimals" />,
+};
+export const OneDecimal: Story = {
+  render: () => <Demo fractionDigits={1} label="1 decimal" />,
+};
+export const TwoDecimals: Story = {
+  render: () => <Demo fractionDigits={2} label="2 decimals" />,
+};

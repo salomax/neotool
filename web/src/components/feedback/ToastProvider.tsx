@@ -1,14 +1,7 @@
 "use client";
 
 import * as React from "react";
-import {
-  Snackbar,
-  Alert,
-  AlertColor,
-  Slide,
-  Stack,
-  IconButton,
-} from "@mui/material";
+import { Snackbar, Alert, AlertColor, Slide, IconButton } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
 
 type ToastInput =
@@ -27,11 +20,11 @@ type Toast = {
 };
 
 type ToastContextValue = {
-  show: (t: ToastInput) => void;
-  success: (msg: string, ms?: number) => void;
-  info: (msg: string, ms?: number) => void;
-  warning: (msg: string, ms?: number) => void;
-  error: (msg: string, ms?: number) => void;
+  show: (_t: ToastInput) => void;
+  success: (_msg: string, _ms?: number) => void;
+  info: (_msg: string, _ms?: number) => void;
+  warning: (_msg: string, _ms?: number) => void;
+  error: (_msg: string, _ms?: number) => void;
 };
 
 const ToastCtx = React.createContext<ToastContextValue | null>(null);

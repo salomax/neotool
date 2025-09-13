@@ -1,12 +1,12 @@
-import React, { Suspense } from "react";
+import React from "react";
+import { Suspense } from "react";
 import { render, screen, act } from "@testing-library/react";
 import PageSkeleton from "@/components/loading/PageSkeleton";
 import DashboardLoading from "@/app/(app)/dashboard/loading";
 import EnterpriseLoading from "@/app/(app)/examples/table/enterprise/loading";
 
-// 🔧 util para criar uma "promise" controlada (deferred)
 function createDeferred() {
-  let resolve: (v?: unknown) => void = () => {};
+  let resolve: (_value?: unknown) => void = () => {};
   const promise = new Promise((r) => (resolve = r));
   return { promise, resolve };
 }
@@ -23,7 +23,9 @@ describe("Loading skeletons (unit)", () => {
   it("uses PageSkeleton as Suspense fallback until promise resolves", async () => {
     const deferred = createDeferred();
     let resolved = false;
-    deferred.promise.then(() => { resolved = true; });
+    deferred.promise.then(() => {
+      resolved = true;
+    });
 
     // componente que "suspende" até a promise resolver
     function Suspender() {
@@ -34,14 +36,16 @@ describe("Loading skeletons (unit)", () => {
     render(
       <Suspense fallback={<PageSkeleton data-testid="loading-suspense" />}>
         <Suspender />
-      </Suspense>
+      </Suspense>,
     );
 
     // enquanto não resolve, vemos o skeleton
     expect(screen.getByTestId("loading-suspense")).toBeInTheDocument();
 
     // resolve a promise e aguarda re-render
-    await act(async () => { deferred.resolve(undefined); });
+    await act(async () => {
+      deferred.resolve(undefined);
+    });
 
     // o skeleton some e o conteúdo aparece
     expect(screen.queryByTestId("loading-suspense")).not.toBeInTheDocument();

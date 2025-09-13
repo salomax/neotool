@@ -4,7 +4,9 @@ export type ColumnState = any[];
 export function savePreset(key: string, state: ColumnState) {
   try {
     localStorage.setItem(key, JSON.stringify(state));
-  } catch {}
+  } catch {
+    // Ignore localStorage errors
+  }
 }
 
 export function loadPreset(key: string): ColumnState | null {
@@ -19,5 +21,7 @@ export function loadPreset(key: string): ColumnState | null {
 export function clearPreset(key: string) {
   try {
     localStorage.removeItem(key);
-  } catch {}
+  } catch {
+    // Ignore localStorage errors
+  }
 }

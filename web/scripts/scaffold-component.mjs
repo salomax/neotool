@@ -3,17 +3,17 @@
  * Simple scaffolder for UI components (atoms).
  * Usage: node scripts/scaffold-component.mjs Button
  */
-import fs from 'fs';
-import path from 'path';
+import fs from "fs";
+import path from "path";
 
 const [, , rawName] = process.argv;
 if (!rawName) {
-  console.error('Usage: node scripts/scaffold-component.mjs <ComponentName>');
+  console.error("Usage: node scripts/scaffold-component.mjs <ComponentName>");
   process.exit(1);
 }
 
-const name = rawName.replace(/[^A-Za-z0-9]/g, '');
-const baseDir = path.join(process.cwd(), 'src', 'components', 'ui', name);
+const name = rawName.replace(/[^A-Za-z0-9]/g, "");
+const baseDir = path.join(process.cwd(), "src", "components", "ui", name);
 fs.mkdirSync(baseDir, { recursive: true });
 
 const tsx = `'use client';
@@ -66,8 +66,8 @@ for (const f of files) {
     continue;
   }
   fs.writeFileSync(f.p, f.c);
-  console.log('Created', f.p);
+  console.log("Created", f.p);
 }
-console.log('\nDone. You can run:');
-console.log(' - npm run storybook');
-console.log(' - npm test');
+console.log("\nDone. You can run:");
+console.log(" - npm run storybook");
+console.log(" - npm test");

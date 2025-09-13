@@ -72,7 +72,7 @@ export const SmokeTest: Story = {
 };
 
 const ServerSideDemo: React.FC<React.ComponentProps<typeof DataTable<Row>>> = (
-  props
+  props,
 ) => {
   const [page, setPage] = React.useState(0);
   const [rows, setRows] = React.useState<Row[]>([]);

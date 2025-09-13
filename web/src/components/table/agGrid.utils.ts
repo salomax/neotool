@@ -7,7 +7,9 @@ export function withResetFilter(col: ColDefAny): ColDefAny {
   const next = { ...col };
   const existing = next.getMainMenuItems;
   next.getMainMenuItems = (params: any) => {
-    const items = (existing ? existing(params) : params.defaultItems?.slice?.() ?? []) as any[];
+    const items = (
+      existing ? existing(params) : (params.defaultItems?.slice?.() ?? [])
+    ) as any[];
     items.push({
       name: "Reset filter",
       action: () => {
@@ -26,7 +28,7 @@ export function withResetFilter(col: ColDefAny): ColDefAny {
 
 export function percentColDef(
   field: string,
-  options: ColDefAny = {}
+  options: ColDefAny = {},
 ): ColDefAny {
   // Display 0.2 as "20%" and accept "20" or "20%" from the user -> store 0.2
   const base: ColDefAny = {

@@ -8,10 +8,10 @@ describe("LanguageSwitcher", () => {
   it("switches between en and pt using data-testid", async () => {
     render(<LanguageSwitcher />);
     const current = screen.getByTestId("lang-current");
-    expect(current.textContent).toBe("en");
+    expect(current).toHaveTextContent("en");
     await userEvent.click(screen.getByTestId("lang-pt"));
-    expect(current.textContent).toBe("pt");
+    expect(current).toHaveTextContent("pt");
     await userEvent.click(screen.getByTestId("lang-en"));
-    expect(current.textContent).toBe("en");
+    expect(current).toHaveTextContent("en");
   });
 });

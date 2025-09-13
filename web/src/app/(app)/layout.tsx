@@ -1,3 +1,4 @@
+import React from "react";
 import MSWProvider from "../_components/MSWProvider";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";

@@ -11,5 +11,5 @@ export const NAV: NavItem[] = [
   { label: "Dashboard", href: "/dashboard" },
   { label: "Customers", href: "/examples/forms/customer" },
   { label: "Users", href: "/users" },
-  { label: "Profile", href: "/profile" }
+  { label: "Profile", href: "/profile" },
 ];

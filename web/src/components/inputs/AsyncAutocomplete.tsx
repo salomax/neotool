@@ -10,9 +10,9 @@ export type AsyncAutocompleteProps<T> = {
   placeholder?: string;
   disabled?: boolean;
   debounceMs?: number;
-  fetchOptions: (q: string) => Promise<T[]>;
-  getOptionLabel: (o: T) => string;
-  isOptionEqualToValue?: (a: T, b: T) => boolean;
+  fetchOptions: (_q: string) => Promise<T[]>;
+  getOptionLabel: (_o: T) => string;
+  isOptionEqualToValue?: (_a: T, _b: T) => boolean;
 };
 
 export function AsyncAutocomplete<T>({
@@ -57,9 +57,9 @@ export function AsyncAutocomplete<T>({
           loading={loading}
           options={options}
           value={field.value ?? null}
-          onChange={(_, v) => field.onChange(v)}
+          onChange={(_event, v) => field.onChange(v)}
           inputValue={input}
-          onInputChange={(_, v) => setInput(v)}
+          onInputChange={(_event, v) => setInput(v)}
           getOptionLabel={getOptionLabel}
           isOptionEqualToValue={isOptionEqualToValue as any}
           disabled={disabled}

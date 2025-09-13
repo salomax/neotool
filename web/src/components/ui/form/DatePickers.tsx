@@ -1,10 +1,10 @@
-'use client';
+"use client";
 
-import * as React from 'react';
-import { Controller, useFormContext } from 'react-hook-form';
-import { DatePicker } from '@mui/x-date-pickers/DatePicker';
-import { TextField, Stack } from '@mui/material';
-import dayjs, { Dayjs } from 'dayjs';
+import * as React from "react";
+import { Controller, useFormContext } from "react-hook-form";
+import { DatePicker } from "@mui/x-date-pickers/DatePicker";
+import { Stack } from "@mui/material";
+import dayjs, { Dayjs } from "dayjs";
 
 export interface DatePickerFieldProps {
   name: string;
@@ -13,7 +13,12 @@ export interface DatePickerFieldProps {
   fullWidth?: boolean;
 }
 
-export const DatePickerField: React.FC<DatePickerFieldProps> = ({ name, label, helperText, fullWidth = true }) => {
+export const DatePickerField: React.FC<DatePickerFieldProps> = ({
+  name,
+  label,
+  helperText,
+  fullWidth = true,
+}) => {
   const { control } = useFormContext();
   return (
     <Controller
@@ -25,7 +30,10 @@ export const DatePickerField: React.FC<DatePickerFieldProps> = ({ name, label, h
           onChange={(v) => field.onChange(v ? (v as Dayjs).toDate() : null)}
           slotProps={{
             textField: {
-              label, fullWidth, error: !!fieldState.error, helperText: fieldState.error?.message ?? helperText,
+              label,
+              fullWidth,
+              error: !!fieldState.error,
+              helperText: fieldState.error?.message ?? helperText,
             } as any,
           }}
         />
@@ -41,7 +49,12 @@ export interface DateRangeFieldProps {
   labelEnd?: string;
 }
 
-export const DateRangeField: React.FC<DateRangeFieldProps> = ({ nameStart, nameEnd, labelStart = 'Start', labelEnd = 'End' }) => {
+export const DateRangeField: React.FC<DateRangeFieldProps> = ({
+  nameStart,
+  nameEnd,
+  labelStart = "Start",
+  labelEnd = "End",
+}) => {
   const { control } = useFormContext();
   return (
     <Stack direction="row" spacing={2}>
