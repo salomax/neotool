@@ -9,7 +9,7 @@
 ## Imports
 
 - Grouped and alphabetized (ESLint `import/order` enforces this).
-- Use path aliases where available (e.g., `@/src/...`).
+- Use path aliases where available (e.g., `@/...`).
 
 ## React
 

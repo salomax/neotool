@@ -1,7 +1,7 @@
 FROM node:20-alpine AS deps
 WORKDIR /app
 COPY package.json pnpm-lock.yaml* package-lock.json* yarn.lock* ./
-RUN if [ -f pnpm-lock.yaml ]; then npm i -g pnpm && pnpm i --frozen-lockfile;     elif [ -f package-lock.json ]; then npm ci --legacy-peer-deps;     elif [ -f yarn.lock ]; then yarn --frozen-lockfile;     else npm i --legacy-peer-deps; fi
+RUN if [ -f pnpm-lock.yaml ]; then npm i -g pnpm && pnpm i --frozen-lockfile; elif [ -f yarn.lock ]; then yarn install --frozen-lockfile; elif [ -f package-lock.json ]; then npm ci; else npm install; file;     elif [ -f package-lock.json ]; then npm ci --legacy-peer-deps;     elif [ -f yarn.lock ]; then yarn --frozen-lockfile;     else npm i --legacy-peer-deps; fi
 
 FROM node:20-alpine AS builder
 WORKDIR /app
