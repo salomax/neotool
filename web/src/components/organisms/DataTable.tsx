@@ -1,3 +1,5 @@
+import "@/theme/agGrid.overrides.css";
+import "@/components/organisms/DataTable.ag.css";
 // web/src/components/organisms/DataTable.tsx
 "use client";
 

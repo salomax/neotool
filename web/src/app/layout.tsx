@@ -1,6 +1,6 @@
-
 import * as React from "react";
-import {AppThemeProvider} from "@/theme/AppThemeProvider";
+import ClientProviders from "@/components/ClientProviders";
+import { SentryInit } from "@/sentry";
 export default function RootLayout({
   children,
 }: {
@@ -9,7 +9,8 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body>
-        <AppThemeProvider>{children}</AppThemeProvider>
+        <SentryInit />
+        <ClientProviders>{children}</ClientProviders>
       </body>
     </html>
   );
