@@ -29,7 +29,6 @@ import type {
   RowClickedEvent,
   Module,
   GridApi,
-  ColumnApi,
   SortModelItem,
   GetRowIdParams,
 } from "ag-grid-community";
@@ -233,7 +232,7 @@ export function DataTable<T extends { id?: string | number }>(
   const gridThemeClass =
     theme.palette.mode === "dark" ? "ag-theme-quartz-dark" : "ag-theme-quartz";
   const apiRef = React.useRef<GridApi<T> | null>(null);
-  const colApiRef = React.useRef<ColumnApi | null>(null);
+  const colApiRef = React.useRef<GridApi<T> | null>(null);
 
   const [density, setDensity] = React.useState<Density>(initialDensity);
   const rowHeights = { compact: 28, standard: 36, comfortable: 44 } as const;
@@ -312,16 +311,16 @@ export function DataTable<T extends { id?: string | number }>(
     apiRef.current.setSortModel([]);
   }
 
-  const onGridReady = (params: { api: GridApi<T>; columnApi: ColumnApi }) => {
+  const onGridReady = (params: { api: GridApi<T> }) => {
     apiRef.current = params.api;
-    colApiRef.current = params.columnApi;
+    colApiRef.current = params.api;
 
     if (_sort) {
       const state = parseSort(_sort).map((s) => ({
         colId: s.colId,
         sort: s.sort,
       }));
-      params.columnApi.applyColumnState({
+      params.api.applyColumnState({
         defaultState: { sort: null },
         state,
       });

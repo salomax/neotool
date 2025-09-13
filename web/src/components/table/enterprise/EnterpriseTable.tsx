@@ -1,59 +1,79 @@
+"use client";
+
 import "@/theme/agGrid.overrides.css";
 import "@/components/organisms/DataTable.ag.css";
-"use client";
+
 import * as React from "react";
 import { Box, Button, Stack, TextField, Typography } from "@mui/material";
+
 import { AgGridReact } from "ag-grid-react";
 import type {
   ColDef,
   GridApi,
-  ColumnApi,
+  GridReadyEvent,
   ICellEditorParams,
+  ValueFormatterParams,
+  Module,
+  ColumnState,
 } from "ag-grid-community";
-import { ModuleRegistry } from "ag-grid-community";
-import { AllCommunityModule } from "ag-grid-community";
+import { ModuleRegistry, AllCommunityModule } from "ag-grid-community";
+
 import { savePreset, loadPreset, clearPreset } from "./presets";
 
 import "ag-grid-community/styles/ag-grid.css";
 import "ag-grid-community/styles/ag-theme-quartz.css";
 
-ModuleRegistry.registerModules([AllCommunityModule as any]);
+const modules: Module[] = [AllCommunityModule];
+ModuleRegistry.registerModules(modules);
 
-function PercentEditor(props: ICellEditorParams) {
-  const startVal = (() => {
-    const v = props.value ?? null;
+type Row = { id: number; name: string; percent: number | null; amount: number };
+
+type PercentEditorRef = { getValue(): number | null };
+
+const PercentEditor = React.forwardRef<
+  PercentEditorRef,
+  ICellEditorParams<Row, number | null>
+>((props, ref) => {
+  const startVal = React.useMemo(() => {
+    const v = props.value ?? null; // ✅ value é number|null (sem any)
     return v == null ? "" : String(Number(v) * 100);
-  })();
+  }, [props.value]);
+
   const [val, setVal] = React.useState<string>(startVal);
-  const ref = React.useRef<HTMLInputElement | null>(null);
+  const inputRef = React.useRef<HTMLInputElement | null>(null);
+
   React.useEffect(() => {
-    ref.current?.focus();
-    ref.current?.select();
+    inputRef.current?.focus();
+    inputRef.current?.select();
   }, []);
-  const getValue = React.useCallback(() => {
+
+  const parsePercentToUnit = React.useCallback((): number | null => {
     if (val === "") return null;
     const n = Number(String(val).replace(",", "."));
     if (!Number.isFinite(n)) return null;
     return n > 1 ? n / 100 : n; // 20 -> 0.2
   }, [val]);
-  (props as any).getValue = getValue;
+
+  React.useImperativeHandle(ref, () => ({
+    getValue: () => parsePercentToUnit(),
+  }));
+
   return (
     <TextField
-      inputRef={ref}
+      inputRef={inputRef}
       size="small"
       type="number"
       inputMode="decimal"
       value={val}
       onChange={(e) => setVal(e.target.value)}
       onKeyDown={(e) => {
-        if (e.key === "Enter") (props as any).stopEditing?.();
+        if (e.key === "Enter") props.stopEditing?.();
       }}
       sx={{ width: 100 }}
     />
   );
-}
-
-type Row = { id: number; name: string; percent: number | null; amount: number };
+});
+PercentEditor.displayName = "PercentEditor";
 
 const PRESET_KEY = "neotool.enterprise.columns.v1";
 
@@ -65,14 +85,13 @@ export default function EnterpriseTable() {
     { id: 3, name: "Gamma", percent: 0.725, amount: 980 },
   ]);
 
-  const gridApi = React.useRef<GridApi | null>(null);
-  const colApi = React.useRef<ColumnApi | null>(null);
+  const gridApi = React.useRef<GridApi<Row> | null>(null);
 
   const columnDefs = React.useMemo<ColDef<Row>[]>(
     () => [
       {
+        // ✅ coluna de seleção sem field (evita cast)
         headerName: "",
-        field: "__sel__" as any,
         checkboxSelection: true,
         headerCheckboxSelection: true,
         width: 48,
@@ -98,59 +117,67 @@ export default function EnterpriseTable() {
         field: "percent",
         filter: "agNumberColumnFilter",
         editable: true,
-        cellEditor: PercentEditor as any,
-        valueFormatter: (p) =>
-          p.value == null || p.value === ""
-            ? ""
-            : `${(Number(p.value) * 100).toFixed(0)}%`,
+        cellEditor: PercentEditor,
+        valueFormatter: (p: ValueFormatterParams<Row, number | null>) =>
+          p.value == null ? "" : `${(Number(p.value) * 100).toFixed(0)}%`,
       },
       {
         headerName: "Amount",
         field: "amount",
         filter: "agNumberColumnFilter",
         editable: true,
-        valueFormatter: (p) =>
-          p.value == null
+        valueFormatter: (p: ValueFormatterParams<Row, number | null>) => {
+          const v = p.value == null ? null : Number(p.value);
+          return v == null
             ? ""
-            : p.value.toLocaleString(undefined, {
+            : v.toLocaleString(undefined, {
                 style: "currency",
                 currency: "USD",
-              }),
+              });
+        },
       },
     ],
     [],
   );
 
-  const defaultColDef = React.useMemo<ColDef>(
+  const defaultColDef = React.useMemo<ColDef<Row>>(
     () => ({ sortable: true, resizable: true }),
     [],
   );
 
-  const onGridReady = (e: any) => {
-    gridApi.current = e.api as GridApi;
-    colApi.current = e.columnApi as ColumnApi;
-    const state = loadPreset(PRESET_KEY);
-    if (state) colApi.current.applyColumnState({ state, applyOrder: true });
-  };
+  const onGridReady = React.useCallback((e: GridReadyEvent<Row>) => {
+    gridApi.current = e.api;
+    const state = loadPreset(PRESET_KEY) as ColumnState[] | null;
+    if (state) e.api.applyColumnState({ state, applyOrder: true });
+  }, []);
 
-  const handleExportCsv = () => gridApi.current?.exportDataAsCsv?.();
-  const handleSavePreset = () => {
-    const s = colApi.current?.getColumnState?.();
+  const handleExportCsv = React.useCallback(
+    () => gridApi.current?.exportDataAsCsv?.(),
+    [],
+  );
+
+  const handleSavePreset = React.useCallback(() => {
+    const s = gridApi.current?.getColumnState?.();
     if (s) savePreset(PRESET_KEY, s);
-  };
-  const handleLoadPreset = () => {
-    const st = loadPreset(PRESET_KEY);
-    if (st) colApi.current?.applyColumnState?.({ state: st, applyOrder: true });
-  };
-  const handleResetPreset = () => {
+  }, []);
+
+  const handleLoadPreset = React.useCallback(() => {
+    const st = loadPreset(PRESET_KEY) as ColumnState[] | null;
+    if (st)
+      gridApi.current?.applyColumnState?.({ state: st, applyOrder: true });
+  }, []);
+
+  const handleResetPreset = React.useCallback(() => {
     clearPreset(PRESET_KEY);
-    colApi.current?.resetColumnState?.();
-  };
-  const handleDeleteSelected = () => {
-    const nodes = gridApi.current?.getSelectedNodes?.() || [];
-    const ids = new Set<number>(nodes.map((n: any) => n.data?.id));
+    gridApi.current?.resetColumnState?.();
+  }, []);
+
+  const handleDeleteSelected = React.useCallback(() => {
+    // ✅ evita IRowNode/RowNode — pega direto os dados tipados
+    const selected: Row[] = gridApi.current?.getSelectedRows?.() ?? [];
+    const ids = new Set<number>(selected.map((r) => r.id));
     setRowData((rows) => rows.filter((r) => !ids.has(r.id)));
-  };
+  }, []);
 
   return (
     <Box sx={{ p: 3 }}>
@@ -191,8 +218,9 @@ export default function EnterpriseTable() {
           Reset
         </Button>
       </Stack>
+
       <div className="ag-theme-quartz" style={{ height: 480 }}>
-        <AgGridReact
+        <AgGridReact<Row>
           rowData={rowData}
           columnDefs={columnDefs}
           defaultColDef={defaultColDef}
