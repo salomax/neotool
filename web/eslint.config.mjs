@@ -23,7 +23,13 @@ export default [
     },
   })),
 
-  // Testing Library (prefer testids to avoid i18n flakiness)
+  {
+    files: ['**/*.js', '**/*.cjs', '**/*.mjs'],
+    languageOptions: {
+      parserOptions: { project: null, sourceType: 'module', ecmaVersion: 'latest' },
+    },
+  },
+
   {
     files: ["**/__tests__/**/*.{ts,tsx}", "**/*.test.{ts,tsx}"],
     plugins: { "testing-library": testingLibrary },
@@ -33,7 +39,6 @@ export default [
     },
   },
 
-  // Common rules
   {
     rules: {
       "no-unused-vars": "off",

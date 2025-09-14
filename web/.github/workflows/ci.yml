@@ -52,6 +52,8 @@ jobs:
         run: pnpm install --frozen-lockfile
       - name: Build
         run: pnpm build
+      - name: Generate sitemap
+        run: pnpm sitemap
 
   e2e:
     runs-on: ubuntu-latest
