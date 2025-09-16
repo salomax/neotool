@@ -1,11 +1,11 @@
 import React from "react";
 import type { Preview } from "@storybook/react";
 import type { StoryContext } from "@storybook/react";
-import { AppThemeProvider } from "../src/theme/AppThemeProvider";
-import { tokens } from "../src/theme/tokens";
+import { AppThemeProvider } from "../src/styles/themes/AppThemeProvider";
+import { tokens } from "../src/styles/themes/tokens";
 import { I18nextProvider } from "react-i18next";
-import i18n from "../src/i18n/storybook";
-import { AppQueryProvider } from "../src/query/AppQueryProvider";
+import i18n from "../src/shared/i18n/storybook";
+import { AppQueryProvider } from "../src/lib/api/AppQueryProvider";
 
 const withProviders = (Story: React.ComponentType, context: StoryContext) => {
   const themeMode = context.globals.theme as "light" | "dark";

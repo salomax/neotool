@@ -4,14 +4,14 @@ import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { FormProvider, useForm } from "react-hook-form";
 import { Stack } from "@mui/material";
-import Button from "../components/ui/Button";
-import { PasswordField } from "../components/ui/form/PasswordField";
-import { NumberField } from "../components/ui/form/NumberField";
-import { CurrencyField } from "../components/ui/form/CurrencyField";
-import { PercentField } from "../components/ui/form/PercentField";
-import { CheckboxField } from "../components/ui/form/CheckboxField";
-import { RadioGroupField } from "../components/ui/form/RadioGroupField";
-import { ToggleField } from "../components/ui/form/ToggleField";
+import { Button } from "@/shared/components/ui/atoms/Button";
+import { PasswordField } from "@/shared/components/ui/atoms/form/PasswordField";
+import { NumberField } from "@/shared/components/ui/atoms/form/NumberField";
+import { CurrencyField } from "@/shared/components/ui/atoms/form/CurrencyField";
+import { PercentField } from "@/shared/components/ui/atoms/form/PercentField";
+import { CheckboxField } from "@/shared/components/ui/atoms/form/CheckboxField";
+import { RadioGroupField } from "@/shared/components/ui/atoms/form/RadioGroupField";
+import { ToggleField } from "@/shared/components/ui/atoms/form/ToggleField";
 
 const meta: Meta = {
   title: "Forms/Fields",

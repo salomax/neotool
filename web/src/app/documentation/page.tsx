@@ -16,7 +16,7 @@ import BuildRoundedIcon from '@mui/icons-material/BuildRounded';
 import SecurityRoundedIcon from '@mui/icons-material/SecurityRounded';
 import SpeedRoundedIcon from '@mui/icons-material/SpeedRounded';
 import AccessibilityRoundedIcon from '@mui/icons-material/AccessibilityRounded';
-import { useResponsive } from "@/hooks/useResponsive";
+import { useResponsive } from "@/shared/hooks/useResponsive";
 
 export default function DocumentationPage() {
   const { isMobile } = useResponsive();

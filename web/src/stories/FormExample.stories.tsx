@@ -4,8 +4,8 @@ import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm, FormProvider } from "react-hook-form";
 import { Box, Stack } from "@mui/material";
-import Button from "../components/ui/Button";
-import { FormTextField } from "../components/ui/form/FormField";
+import { Button } from "@/shared/components/ui/atoms/Button";
+import { FormTextField } from "@/shared/components/ui/atoms/form/FormField";
 
 const meta: Meta<any> = { title: "Patterns/Form Example" };
 export default meta;

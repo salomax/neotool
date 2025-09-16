@@ -1,8 +1,8 @@
 import React from "react";
 import type { Meta, StoryObj } from "@storybook/react";
 import { Button, Stack } from "@mui/material";
-import { ToastProvider, useToast } from "../components/feedback/ToastProvider";
-import { AppThemeProvider } from "../theme/AppThemeProvider";
+import { ToastProvider, useToast } from "@/shared/components/ui/molecules/ToastProvider";
+import { AppThemeProvider } from "@/styles/themes/AppThemeProvider";
 
 const meta: Meta = {
   title: "Feedback/Toast",

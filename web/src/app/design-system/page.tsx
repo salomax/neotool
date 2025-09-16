@@ -11,7 +11,7 @@ import PaletteRoundedIcon from '@mui/icons-material/PaletteRounded';
 import TextFieldsRoundedIcon from '@mui/icons-material/TextFieldsRounded';
 import ShapeLineRoundedIcon from '@mui/icons-material/ShapeLineRounded';
 import AnimationRoundedIcon from '@mui/icons-material/AnimationRounded';
-import { useResponsive } from "@/hooks/useResponsive";
+import { useResponsive } from "@/shared/hooks/useResponsive";
 
 export default function DesignSystemPage() {
   const { isMobile } = useResponsive();

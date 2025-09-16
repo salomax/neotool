@@ -13,7 +13,7 @@ import DashboardRoundedIcon from '@mui/icons-material/DashboardRounded';
 import DataObjectRoundedIcon from '@mui/icons-material/DataObjectRounded';
 import AccountTreeRoundedIcon from '@mui/icons-material/AccountTreeRounded';
 import TimelineRoundedIcon from '@mui/icons-material/TimelineRounded';
-import { useResponsive } from "@/hooks/useResponsive";
+import { useResponsive } from "@/shared/hooks/useResponsive";
 import Link from "next/link";
 
 export default function ExamplesPage() {

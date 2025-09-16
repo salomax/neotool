@@ -23,7 +23,7 @@ import {
   ControllerCEPField,
   ControllerPhoneBRField,
   zodBR,
-} from "../components/form";
+} from "@/features/forms/components";
 
 type Customer = {
   name: string;

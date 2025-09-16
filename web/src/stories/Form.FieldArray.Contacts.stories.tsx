@@ -13,7 +13,7 @@ import {
   ControlledTextField,
   ControllerPhoneBRField,
   ControlledCheckbox,
-} from "../components/form";
+} from "@/features/forms/components";
 import { Button, Stack, IconButton } from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
 

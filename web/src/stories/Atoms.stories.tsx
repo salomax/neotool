@@ -1,9 +1,9 @@
 import React from "react";
 import type { Meta, StoryObj } from "@storybook/react";
-import Avatar from "../components/ui/Avatar";
-import Badge from "../components/ui/Badge";
-import Link from "../components/ui/Link";
-import Tooltip from "../components/ui/Tooltip";
+import { Avatar } from "@/shared/components/ui/atoms/Avatar";
+import { Badge } from "@/shared/components/ui/atoms/Badge";
+import { Link } from "@/shared/components/ui/atoms/Link";
+import { Tooltip } from "@/shared/components/ui/atoms/Tooltip";
 import { Stack } from "@mui/material";
 
 const meta: Meta = {

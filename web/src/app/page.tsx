@@ -10,7 +10,7 @@ import DesignServicesRoundedIcon from '@mui/icons-material/DesignServicesRounded
 import CodeRoundedIcon from '@mui/icons-material/CodeRounded';
 import MenuBookRoundedIcon from '@mui/icons-material/MenuBookRounded';
 import Link from "next/link";
-import { useResponsive } from "@/hooks/useResponsive";
+import { useResponsive } from "@/shared/hooks/useResponsive";
 
 export default function WelcomePage() {
   const { isMobile, isTablet } = useResponsive();
