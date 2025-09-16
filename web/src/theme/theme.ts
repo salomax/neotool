@@ -1,6 +1,5 @@
 import { createTheme, ThemeOptions } from "@mui/material/styles";
 import { tokens, Mode } from "./tokens";
-import type {} from "@mui/lab/themeAugmentation";
 
 export const createAppTheme = (mode: Mode) => {
   const t = tokens[mode];

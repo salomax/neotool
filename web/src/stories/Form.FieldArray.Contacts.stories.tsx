@@ -67,13 +67,9 @@ function ContactsArrayDemo() {
     return (
       <form onSubmit={handleSubmit(onSubmit)} noValidate>
         <FormLayout>
-          <FormErrorBanner
-            message={
-              Object.keys(errors).length
-                ? "Fix the highlighted fields."
-                : undefined
-            }
-          />
+          {Object.keys(errors).length > 0 && (
+            <FormErrorBanner message="Fix the highlighted fields." />
+          )}
 
           <FormSection title="Contacts">
             <Stack spacing={2}>

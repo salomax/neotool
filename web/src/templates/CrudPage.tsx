@@ -102,12 +102,12 @@ export function CrudPage<T extends { id: string | number }>(
         <DataTable<T>
           columns={computedColumns}
           rows={rows}
-          loading={loading}
-          error={error}
-          totalRows={totalRows}
-          page={_page}
-          pageSize={_pageSize}
-          onPageChange={_onPageChange}
+          {...(loading !== undefined && { loading })}
+          {...(error && { error })}
+          {...(totalRows !== undefined && { totalRows })}
+          {...(_page !== undefined && { page: _page })}
+          {...(_pageSize !== undefined && { pageSize: _pageSize })}
+          {...(_onPageChange && { onPageChange: _onPageChange })}
           onRowClicked={(row) => openEdit(row)}
         />
       </Box>
@@ -132,7 +132,7 @@ export function CrudPage<T extends { id: string | number }>(
             <CloseIcon />
           </IconButton>
         </Stack>
-        {renderForm({ mode, item: current, close })}
+        {renderForm({ mode, ...(current && { item: current }), close })}
       </Drawer>
     </Paper>
   );

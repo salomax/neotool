@@ -38,7 +38,9 @@ function BRMaskedFieldsDemo() {
         <FormProvider {...form}>
           <Stack spacing={2} sx={{ maxWidth: 640 }}>
             <Typography variant="h6">Máscaras BR com validação Zod</Typography>
-            <FormErrorBanner errors={form.formState.errors} />
+            {Object.keys(form.formState.errors).length > 0 && (
+              <FormErrorBanner message="Please fix the highlighted fields." />
+            )}
 
             <Grid container spacing={2}>
               <FormRow cols={{ xs: 12, md: 6 }}>

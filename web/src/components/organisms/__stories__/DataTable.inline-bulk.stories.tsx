@@ -16,7 +16,6 @@ const columns: ColDef<Row>[] = [
   {
     headerName: "ID",
     field: "id",
-    dataType: "number",
     maxWidth: 100,
     sortable: true,
   },
@@ -29,7 +28,6 @@ const columns: ColDef<Row>[] = [
   {
     headerName: "Amount",
     field: "amount",
-    dataType: "number",
     editable: true,
     filter: "agNumberColumnFilter",
     valueFormatter: (p) =>
@@ -46,7 +44,6 @@ const columns: ColDef<Row>[] = [
   {
     headerName: "Percent",
     field: "percent", // stored as 0..1
-    dataType: "number",
     editable: true,
     filter: "agNumberColumnFilter", // user types 0..100 in filter (handled by percentFilterColumns)
     valueFormatter: (p) =>
@@ -66,7 +63,6 @@ const columns: ColDef<Row>[] = [
   {
     headerName: "Active",
     field: "active",
-    dataType: "boolean",
     filter: "agSetColumnFilter",
     valueFormatter: (p) => (p.value ? "Yes" : "No"),
     editable: true,

@@ -35,7 +35,7 @@ export default function ControlledRadioGroup({
       render={({ field }) => (
         <FormControl>
           {label && <FormLabel>{label}</FormLabel>}
-          <RadioGroup {...field} row={row}>
+          <RadioGroup {...field} {...(row !== undefined && { row })}>
             {options.map((o) => (
               <FormControlLabel
                 key={o.value}

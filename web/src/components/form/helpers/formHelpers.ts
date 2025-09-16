@@ -65,13 +65,11 @@ export function useFormPersist<T extends Record<string, any>>(
   }, [key]);
 
   React.useEffect(() => {
-    const sub = watch((values: any) => {
-      try {
-        localStorage.setItem(key, JSON.stringify(values));
-      } catch {
+    const values = watch();
+    try {
+      localStorage.setItem(key, JSON.stringify(values));
+    } catch {
       // Ignore localStorage errors
     }
-    });
-    return () => sub.unsubscribe?.();
   }, [key, watch]);
 }

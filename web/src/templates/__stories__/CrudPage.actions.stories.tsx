@@ -90,7 +90,7 @@ const CrudWithActions: React.FC = () => {
         }),
       ]}
       renderForm={({ mode, item, close }) => (
-        <Form mode={mode} item={item} close={close} />
+        <Form mode={mode} {...(item && { item })} close={close} />
       )}
     />
   );

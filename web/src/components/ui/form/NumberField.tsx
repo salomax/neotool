@@ -4,7 +4,7 @@ import * as React from "react";
 import { Controller, useFormContext } from "react-hook-form";
 import { TextField } from "@mui/material";
 import { NumericFormat } from "react-number-format";
-import { getLocaleSeparators } from "../../../utils/locale";
+import { getLocaleSeparators } from "../../../shared/utils/locale";
 
 export interface NumberFieldProps {
   name: string;
@@ -45,7 +45,27 @@ export const NumberField: React.FC<NumberFieldProps> = ({
       control={control}
       render={({ field, fieldState }) => (
         <NumericFormat
-          customInput={TextField as any}
+          customInput={(props) => {
+            const { 
+              name, min, max, step, disabled, color, width, height, 
+              size, style, className, id, tabIndex, autoFocus, 
+              autoComplete, autoCorrect, autoCapitalize, spellCheck,
+              placeholder, required, readOnly, form,
+              ...restProps 
+            } = props;
+            return (
+              <TextField
+                {...restProps}
+                {...(label && { label })}
+                fullWidth={fullWidth}
+                error={!!fieldState.error}
+                helperText={fieldState.error?.message ?? helperText}
+                InputProps={{
+                  inputProps: { step: computedStep, style: { textAlign: "right" } },
+                }}
+              />
+            );
+          }}
           value={field.value ?? ""}
           onValueChange={(values) => {
             let v = values.floatValue;
@@ -58,21 +78,14 @@ export const NumberField: React.FC<NumberFieldProps> = ({
             if (max != null && v > max) v = max;
             field.onChange(v);
           }}
-          thousandSeparator={group || false}
-          decimalSeparator={decimal}
-          allowNegative={allowNegative}
-          decimalScale={decimalScale}
-          fixedDecimalScale={typeof decimalScale === "number"}
-          allowLeadingZeros
-          label={label}
-          inputMode="decimal"
-          type="text"
-          fullWidth={fullWidth}
-          error={!!fieldState.error}
-          helperText={fieldState.error?.message ?? helperText}
-          InputProps={{
-            inputProps: { step: computedStep, style: { textAlign: "right" } },
-          }}
+          {...({
+            thousandSeparator: group || false,
+            decimalSeparator: decimal,
+            allowNegative: allowNegative,
+            decimalScale: decimalScale,
+            fixedDecimalScale: typeof decimalScale === "number",
+            allowLeadingZeros: true,
+          } as any)}
         />
       )}
     />

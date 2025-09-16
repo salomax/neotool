@@ -7,7 +7,7 @@ import { NumericFormat } from "react-number-format";
 import {
   getLocaleSeparators,
   getCurrencyDefaultFractionDigits,
-} from "../../../utils/locale";
+} from "../../../shared/utils/locale";
 
 export interface CurrencyFieldProps {
   name: string;
@@ -78,7 +78,30 @@ export const CurrencyField: React.FC<CurrencyFieldProps> = ({
           <Stack direction="row" spacing={1} alignItems="center">
             {Selector}
             <NumericFormat
-              customInput={TextField as any}
+              customInput={(props) => {
+                const { 
+                  name, min, max, step, disabled, color, width, height, 
+                  size, style, className, id, tabIndex, autoFocus, 
+                  autoComplete, autoCorrect, autoCapitalize, spellCheck,
+                  placeholder, required, readOnly, form,
+                  ...restProps 
+                } = props;
+                return (
+                  <TextField
+                    {...restProps}
+                    {...(label && { label })}
+                    fullWidth={fullWidth}
+                    error={!!fieldState.error}
+                    helperText={fieldState.error?.message ?? helperText}
+                    InputProps={{
+                      inputProps: {
+                        step: computedStep,
+                        style: { textAlign: "right" },
+                      },
+                    }}
+                  />
+                );
+              }}
               value={field.value ?? ""}
               onValueChange={(values) => {
                 let v = values.floatValue;
@@ -97,18 +120,8 @@ export const CurrencyField: React.FC<CurrencyFieldProps> = ({
               decimalScale={digits}
               fixedDecimalScale
               allowLeadingZeros
-              label={label}
               inputMode="decimal"
               type="text"
-              fullWidth={fullWidth}
-              error={!!fieldState.error}
-              helperText={fieldState.error?.message ?? helperText}
-              InputProps={{
-                inputProps: {
-                  step: computedStep,
-                  style: { textAlign: "right" },
-                },
-              }}
             />
           </Stack>
         );

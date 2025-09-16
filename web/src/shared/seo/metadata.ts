@@ -1,22 +1,25 @@
 import type { Metadata } from 'next';
 
-export const metadata: Metadata = {
-  metadataBase: typeof window === 'undefined' ? new URL(process.env.SITE_URL || 'http://localhost:3000') : undefined,
-  title: { default: 'NeoTool', template: '%s • NeoTool' },
-  description: 'NeoTool Web App',
-  applicationName: 'NeoTool',
+const baseMetadata: Metadata = {
+  title: { default: 'Neotool', template: '%s • Neotool' },
+  description: 'Neotool Web App',
+  applicationName: 'Neotool',
   openGraph: {
-    title: 'NeoTool',
-    description: 'NeoTool Web App',
+    title: 'Neotool',
+    description: 'Neotool Web App',
     url: '/',
-    siteName: 'NeoTool',
+    siteName: 'Neotool',
     locale: 'pt_BR',
     type: 'website',
   },
-  twitter: { card: 'summary_large_image', title: 'NeoTool', description: 'NeoTool Web App' },
+  twitter: { card: 'summary_large_image', title: 'Neotool', description: 'Neotool Web App' },
   icons: {
     icon: [
       { url: '/favicon.ico' },
     ],
   },
 };
+
+export const metadata: Metadata = typeof window === 'undefined' 
+  ? { ...baseMetadata, metadataBase: new URL(process.env.SITE_URL || 'http://localhost:3000') }
+  : baseMetadata;

@@ -8,8 +8,12 @@ export const isValidCPF = (value: string): boolean => {
 
   const calc = (base: string, factor: number) => {
     let total = 0;
-    for (let i = 0; i < base.length; i++)
-      total += parseInt(base[i], 10) * (factor - i);
+    for (let i = 0; i < base.length; i++) {
+      const digit = base[i];
+      if (digit) {
+        total += parseInt(digit, 10) * (factor - i);
+      }
+    }
     const rest = total % 11;
     return rest < 2 ? 0 : 11 - rest;
   };
@@ -25,8 +29,13 @@ export const isValidCNPJ = (value: string): boolean => {
   const calc = (base: string) => {
     const weights = [6, 5, 4, 3, 2, 9, 8, 7, 6, 5, 4, 3, 2];
     let sum = 0;
-    for (let i = 0; i < base.length; i++)
-      sum += parseInt(base[i], 10) * weights[weights.length - base.length + i];
+    for (let i = 0; i < base.length; i++) {
+      const digit = base[i];
+      const weight = weights[weights.length - base.length + i];
+      if (digit && weight) {
+        sum += parseInt(digit, 10) * weight;
+      }
+    }
     const rest = sum % 11;
     return rest < 2 ? 0 : 11 - rest;
   };

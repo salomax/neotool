@@ -38,8 +38,11 @@ export const ToastProvider: React.FC<React.PropsWithChildren> = ({
 
   const process = React.useCallback(() => {
     if (!current && queue.length > 0) {
-      setCurrent(queue[0]);
-      setQueue((q) => q.slice(1));
+      const nextToast = queue[0];
+      if (nextToast) {
+        setCurrent(nextToast);
+        setQueue((q) => q.slice(1));
+      }
     }
   }, [current, queue]);
 

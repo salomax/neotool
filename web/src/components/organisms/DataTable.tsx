@@ -66,6 +66,7 @@ export type DataTableProps<T extends { id?: string | number } = any> = {
   showToolbar?: boolean;
   enableDensity?: boolean;
   enableExport?: boolean;
+  enableColumnSelector?: boolean;
   initialDensity?: Density;
 
   tableId?: string;
@@ -102,7 +103,7 @@ function normalizeColDefs(defs: any[]): any[] {
     used.add(id);
     return id;
   };
-  const walk = (arr: any[], path: string[] = []) =>
+  const walk = (arr: any[], path: string[] = []): any[] =>
     arr.map((d, idx) => {
       if (d && Array.isArray(d.children)) {
         const groupKey = String(d.headerName ?? `g${idx}`);
@@ -268,7 +269,7 @@ export function DataTable<T extends { id?: string | number }>(
 
   const [quick, setQuick] = React.useState("");
   React.useEffect(() => {
-    apiRef.current?.setQuickFilter(quick);
+    apiRef.current?.setGridOption('quickFilterText', quick);
   }, [quick]);
 
   function loadViews(): any[] {
@@ -285,7 +286,7 @@ export function DataTable<T extends { id?: string | number }>(
       name,
       timestamp: Date.now(),
       quick,
-      sortModel: apiRef.current.getSortModel(),
+      sortModel: apiRef.current.getColumnState().filter(col => col.sort).map(col => ({ colId: col.colId, sort: col.sort })),
       colState: colApiRef.current.getColumnState(),
       filterModel: apiRef.current.getFilterModel(),
     };
@@ -302,13 +303,21 @@ export function DataTable<T extends { id?: string | number }>(
       defaultState: {} as any,
     });
     apiRef.current.setFilterModel(v.filterModel ?? null);
-    apiRef.current.setSortModel(v.sortModel ?? []);
+    if (v.sortModel && v.sortModel.length > 0) {
+      apiRef.current.applyColumnState({
+        state: v.sortModel.map((s: SortModelItem) => ({ colId: s.colId, sort: s.sort })),
+        defaultState: { sort: null }
+      });
+    }
   }
   function clearFilters() {
     if (!apiRef.current) return;
     setQuick("");
     apiRef.current.setFilterModel(null);
-    apiRef.current.setSortModel([]);
+    apiRef.current.applyColumnState({
+      state: [],
+      defaultState: { sort: null }
+    });
   }
 
   const onGridReady = (params: { api: GridApi<T> }) => {
@@ -348,7 +357,7 @@ export function DataTable<T extends { id?: string | number }>(
   const getRowIdCb = React.useCallback(
     (p: GetRowIdParams<T>) => {
       const id = _getRowId?.(p.data) ?? (p.data as any)?.id;
-      return String(id ?? p.rowIndex);
+      return String(id ?? Math.random().toString(36).substr(2, 9));
     },
     [_getRowId],
   );
@@ -473,10 +482,10 @@ export function DataTable<T extends { id?: string | number }>(
           suppressPaginationPanel
           domLayout="normal"
           onGridReady={onGridReady}
-          onRowClicked={(e: RowClickedEvent<T>) => _onRowClicked?.(e.data)}
+          onRowClicked={(e: RowClickedEvent<T>) => e.data && _onRowClicked?.(e.data)}
           onSortChanged={() => {
             if (!_onSortChange || !apiRef.current) return;
-            const model = apiRef.current.getSortModel() as SortModelItem[];
+            const model = apiRef.current.getColumnState().filter(col => col.sort).map(col => ({ colId: col.colId, sort: col.sort })) as SortModelItem[];
             _onSortChange(stringifySort(model));
           }}
           rowSelection={{

@@ -104,7 +104,7 @@ const ExternalCreateDemo: React.FC = () => {
         ]}
         onCreate={() => setOpen(true)} // external create
         renderForm={({ mode: _mode, item, close }) => (
-          <FormComponent item={item} onClose={close} />
+          <FormComponent {...(item && { item })} onClose={close} />
         )}
       />
 

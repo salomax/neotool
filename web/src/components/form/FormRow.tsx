@@ -2,7 +2,8 @@
 "use client";
 
 import * as React from "react";
-import { Grid, GridProps } from "@mui/material";
+import Grid from '@mui/material/Grid';
+import type { GridProps } from '@mui/material/Grid';
 
 type Breakpoint = "xs" | "sm" | "md" | "lg" | "xl";
 
@@ -35,10 +36,9 @@ export function FormRow({
 
   return (
     <Grid container spacing={spacing} alignItems={alignItems}>
-      {items.map((child, idx) => (
+      {/* {items.map((child, idx) => (
         <Grid
           key={idx}
-          item
           xs={12}
           sm={span("sm")}
           md={span("md")}
@@ -47,7 +47,7 @@ export function FormRow({
         >
           {child}
         </Grid>
-      ))}
+      ))} */}
     </Grid>
   );
 }

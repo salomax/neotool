@@ -146,13 +146,9 @@ function FullCustomerFormDemo() {
     return (
       <form onSubmit={handleSubmit(onSubmit)} noValidate>
         <FormLayout>
-          <FormErrorBanner
-            message={
-              Object.keys(errors).length
-                ? "Please fix the highlighted fields."
-                : undefined
-            }
-          />
+          {Object.keys(errors).length > 0 && (
+            <FormErrorBanner message="Please fix the highlighted fields." />
+          )}
 
           <FormSection title="Basic info">
             <FormRow cols={{ xs: 1, sm: 2, md: 3 }}>

@@ -2,7 +2,9 @@
 "use client";
 
 import * as React from "react";
-import { Stack, Button, CircularProgress } from "@mui/material";
+import Stack from '@mui/material/Stack';
+import Button from '@mui/material/Button';
+import CircularProgress from '@mui/material/CircularProgress';
 
 export type FormActionsProps = {
   submitting?: boolean;
@@ -20,14 +22,14 @@ export function FormActions({
   return (
     <Stack direction="row" spacing={1} justifyContent="flex-end">
       {onCancel && (
-        <Button variant="text" onClick={onCancel} disabled={submitting}>
+        <Button variant="text" onClick={onCancel} disabled={submitting || false}>
           {cancelLabel}
         </Button>
       )}
       <Button
         type="submit"
         variant="contained"
-        disabled={submitting}
+        disabled={submitting || false}
         startIcon={submitting ? <CircularProgress size={16} /> : null}
       >
         {submitLabel}

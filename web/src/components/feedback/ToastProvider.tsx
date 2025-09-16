@@ -1,7 +1,11 @@
 "use client";
 
 import * as React from "react";
-import { Snackbar, Alert, AlertColor, Slide, IconButton } from "@mui/material";
+import Snackbar from '@mui/material/Snackbar';
+import Alert from '@mui/material/Alert';
+import type { AlertColor } from '@mui/material/Alert';
+import Slide from '@mui/material/Slide';
+import IconButton from '@mui/material/IconButton';
 import CloseIcon from "@mui/icons-material/Close";
 
 type ToastInput =
@@ -59,13 +63,13 @@ export const ToastProvider: React.FC<React.PropsWithChildren<{}>> = ({
     () => ({
       show,
       success: (msg, ms) =>
-        show({ message: msg, severity: "success", autoHideDuration: ms }),
+        show({ message: msg, severity: "success", ...(ms !== undefined && { autoHideDuration: ms }) }),
       info: (msg, ms) =>
-        show({ message: msg, severity: "info", autoHideDuration: ms }),
+        show({ message: msg, severity: "info", ...(ms !== undefined && { autoHideDuration: ms }) }),
       warning: (msg, ms) =>
-        show({ message: msg, severity: "warning", autoHideDuration: ms }),
+        show({ message: msg, severity: "warning", ...(ms !== undefined && { autoHideDuration: ms }) }),
       error: (msg, ms) =>
-        show({ message: msg, severity: "error", autoHideDuration: ms }),
+        show({ message: msg, severity: "error", ...(ms !== undefined && { autoHideDuration: ms }) }),
     }),
     [show],
   );
@@ -84,7 +88,7 @@ export const ToastProvider: React.FC<React.PropsWithChildren<{}>> = ({
           anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
           autoHideDuration={t.autoHideDuration}
           onClose={() => handleClose(t.id)}
-          TransitionComponent={(props) => <Slide {...props} direction="left" />}
+          TransitionComponent={(props: any) => <Slide {...props} direction="left" />}
         >
           <Alert
             severity={t.severity}

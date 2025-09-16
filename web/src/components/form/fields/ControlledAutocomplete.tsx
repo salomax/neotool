@@ -3,7 +3,9 @@
 
 import * as React from "react";
 import { Controller, Control } from "react-hook-form";
-import { Autocomplete, TextField, CircularProgress } from "@mui/material";
+import Autocomplete from '@mui/material/Autocomplete';
+import TextField from '@mui/material/TextField';
+import CircularProgress from '@mui/material/CircularProgress';
 
 export type AutoOption = { label: string; id: string | number };
 
@@ -60,22 +62,28 @@ export function ControlledAutocomplete({
           }}
           getOptionLabel={(o) => o.label}
           isOptionEqualToValue={(a, b) => a.id === b.id}
-          renderInput={(params) => (
-            <TextField
-              {...params}
-              label={label}
-              placeholder={placeholder}
-              InputProps={{
-                ...params.InputProps,
-                endAdornment: (
-                  <>
-                    {loading ? <CircularProgress size={16} /> : null}
-                    {params.InputProps.endAdornment}
-                  </>
-                ),
-              }}
-            />
-          )}
+          renderInput={(params) => {
+            // Filter out undefined values to avoid TypeScript errors
+            const filteredParams = Object.fromEntries(
+              Object.entries(params).filter(([_, value]) => value !== undefined)
+            );
+            return (
+              <TextField
+                {...filteredParams}
+                {...(label && { label })}
+                {...(placeholder && { placeholder })}
+                InputProps={{
+                  ...params.InputProps,
+                  endAdornment: (
+                    <>
+                      {loading ? <CircularProgress size={16} /> : null}
+                      {params.InputProps.endAdornment}
+                    </>
+                  ),
+                }}
+              />
+            );
+          }}
         />
       )}
     />

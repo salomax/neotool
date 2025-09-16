@@ -20,7 +20,7 @@ function makeRows(n: number): Row[] {
       id: i,
       name: `User ${i}`,
       email: `user${i}@example.com`,
-      country: countries[i % countries.length],
+      country: countries[i % countries.length] || "Unknown",
     });
   }
   return rows;

@@ -29,18 +29,19 @@ export const Select: React.FC<SelectProps> = ({
   onChange,
   disabled,
 }) => {
-  const handleChange = (e: SelectChangeEvent) =>
+  const handleChange = (e: SelectChangeEvent) => {
     onChange?.(e.target.value as any);
+  };
   const labelId = id ? `${id}-label` : undefined;
   return (
-    <FormControl fullWidth disabled={disabled}>
+    <FormControl fullWidth {...(disabled && { disabled })}>
       {label && <InputLabel id={labelId}>{label}</InputLabel>}
       <MUISelect
-        labelId={labelId}
-        id={id}
+        {...(labelId && { labelId })}
+        {...(id && { id })}
         value={value ?? ""}
-        label={label}
-        onChange={handleChange}
+        {...(label && { label })}
+        onChange={handleChange as any}
       >
         {options.map((opt) => (
           <MenuItem key={String(opt.value)} value={opt.value}>

@@ -15,7 +15,8 @@ const sizeMap: Record<ButtonSize, MUIButtonProps["size"]> = {
   md: "medium",
   lg: "large",
 };
-export const Button: React.FC<ButtonProps> = ({ size = "md", ...rest }) => (
-  <MUIButton size={sizeMap[size]} {...rest} />
-);
+export const Button: React.FC<ButtonProps> = ({ size = "md", ...rest }) => {
+  const muiSize = sizeMap[size] ?? "medium";
+  return <MUIButton size={muiSize} {...rest} />;
+};
 export default Button;

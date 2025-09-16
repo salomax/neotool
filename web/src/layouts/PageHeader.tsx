@@ -37,7 +37,7 @@ export default function PageHeader({ title }: { title?: React.ReactNode }) {
           data-current={segments.length === 0 ? "true" : "false"}
           data-seg="home"
         >
-          {t(MAP[""])}
+          {t(MAP[""] || "routes.home")}
         </Link>
         {crumbs.map((c) =>
           c.isLast ? (
@@ -52,7 +52,7 @@ export default function PageHeader({ title }: { title?: React.ReactNode }) {
           ) : (
             <Link
               key={c.href}
-              href={c.href}
+              href={c.href as any}
               data-testid="breadcrumb-item"
               data-current="false"
               data-seg={c.seg}

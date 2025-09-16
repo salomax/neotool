@@ -1,12 +1,13 @@
 import React from "react";
 import type { Preview } from "@storybook/react";
+import type { StoryContext } from "@storybook/react";
 import { AppThemeProvider } from "../src/theme/AppThemeProvider";
 import { tokens } from "../src/theme/tokens";
 import { I18nextProvider } from "react-i18next";
 import i18n from "../src/i18n/storybook";
 import { AppQueryProvider } from "../src/query/AppQueryProvider";
 
-const withProviders = (Story, context) => {
+const withProviders = (Story: React.ComponentType, context: StoryContext) => {
   const themeMode = context.globals.theme as "light" | "dark";
   const locale = context.globals.locale as "pt-BR" | "en-US";
   i18n.changeLanguage(locale);

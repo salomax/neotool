@@ -62,25 +62,29 @@ export function AsyncAutocomplete<T>({
           onInputChange={(_event, v) => setInput(v)}
           getOptionLabel={getOptionLabel}
           isOptionEqualToValue={isOptionEqualToValue as any}
-          disabled={disabled}
-          renderInput={(params) => (
-            <TextField
-              {...params}
-              label={label}
-              placeholder={placeholder}
-              error={!!fieldState.error}
-              helperText={fieldState.error?.message}
-              InputProps={{
-                ...params.InputProps,
-                endAdornment: (
-                  <>
-                    {loading ? <CircularProgress size={16} /> : null}
-                    {params.InputProps.endAdornment}
-                  </>
-                ),
-              }}
-            />
-          )}
+          disabled={disabled || false}
+          renderInput={(params) => {
+            const { InputLabelProps, ...restParams } = params;
+            return (
+              <TextField
+                {...restParams}
+                {...(label && { label })}
+                {...(placeholder && { placeholder })}
+                error={!!fieldState.error}
+                helperText={fieldState.error?.message}
+                size="medium"
+                InputProps={{
+                  ...params.InputProps,
+                  endAdornment: (
+                    <>
+                      {loading ? <CircularProgress size={16} /> : null}
+                      {params.InputProps.endAdornment}
+                    </>
+                  ),
+                }}
+              />
+            );
+          }}
         />
       )}
     />

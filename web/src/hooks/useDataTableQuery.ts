@@ -34,8 +34,13 @@ export function useDataTableQuery<T>(opts: UseDataTableQueryOptions<T>) {
 
   const query = useQuery({
     queryKey: [opts.key, page, pageSize, sort, filter],
-    queryFn: () => opts.fetcher({ page, pageSize, sort, filter }),
-    keepPreviousData: true,
+    queryFn: () => {
+      const queryParams: PageQuery = { page, pageSize };
+      if (sort) queryParams.sort = sort;
+      if (filter) queryParams.filter = filter;
+      return opts.fetcher(queryParams);
+    },
+    placeholderData: (previousData) => previousData,
   });
 
   const onPageChange = (p: number, ps?: number) => {

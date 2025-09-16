@@ -2,7 +2,6 @@
 
 import React from "react";
 import { ErrorBoundary as ReactErrorBoundary } from "react-error-boundary";
-import * as Sentry from "@sentry/nextjs";
 
 function DefaultFallback({
   error,
@@ -11,10 +10,6 @@ function DefaultFallback({
   error: Error;
   resetErrorBoundary: () => void;
 }) {
-  React.useEffect(() => {
-    Sentry.captureException(error);
-  }, [error]);
-
   return (
     <div role="alert" style={{ padding: 16 }}>
       <h2>Algo deu errado</h2>

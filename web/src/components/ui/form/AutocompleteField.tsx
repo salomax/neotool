@@ -32,31 +32,38 @@ export function AutocompleteField<T>({
       control={control}
       render={({ field, fieldState }) => (
         <Autocomplete
-          multiple={multiple}
-          freeSolo={freeSolo}
+          {...(multiple && { multiple })}
+          {...(freeSolo && { freeSolo })}
           options={options}
           getOptionLabel={getOptionLabel as any}
           value={field.value ?? (multiple ? [] : null)}
           onChange={(_event, v) => field.onChange(v)}
           renderTags={(value: readonly T[], getTagProps) =>
-            (value as readonly any[]).map((option: any, index: number) => (
-              <Chip
-                key={index}
-                variant="outlined"
-                label={getOptionLabel(option)}
-                {...getTagProps({ index })}
-              />
-            ))
+            (value as readonly any[]).map((option: any, index: number) => {
+              const { key, ...tagProps } = getTagProps({ index });
+              return (
+                <Chip
+                  key={key}
+                  variant="outlined"
+                  label={getOptionLabel(option)}
+                  {...tagProps}
+                />
+              );
+            })
           }
-          renderInput={(params) => (
-            <TextField
-              {...params}
-              label={label}
-              error={!!fieldState.error}
-              helperText={fieldState.error?.message ?? helperText}
-              fullWidth={fullWidth}
-            />
-          )}
+          renderInput={(params) => {
+            const { InputLabelProps, size, ...restParams } = params;
+            return (
+              <TextField
+                {...restParams}
+                {...(label && { label })}
+                error={!!fieldState.error}
+                helperText={fieldState.error?.message ?? helperText}
+                fullWidth={fullWidth}
+                size={size ?? "medium"}
+              />
+            );
+          }}
         />
       )}
     />

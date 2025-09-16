@@ -1,8 +1,18 @@
 export { metadata } from "@/shared/seo/metadata";
 import * as React from "react";
+import dynamic from "next/dynamic";
 import { ErrorBoundary } from "@/shared/components/ErrorBoundary";
 import ClientProviders from "@/components/ClientProviders";
-import { SentryInit } from "@/sentry";
+
+// Lazy load AppShell to reduce initial bundle size
+const AppShell = dynamic(() => import("@/shared/ui/shell/AppShell").then(mod => ({ default: mod.AppShell })), {
+  ssr: false,
+  loading: () => {
+    const { LoadingSpinner } = require("@/components/LoadingSpinner");
+    return <LoadingSpinner message="Loading application..." />;
+  }
+});
+
 export default function RootLayout({
   children,
 }: {
@@ -11,10 +21,11 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body>
-        <SentryInit />
         <ErrorBoundary>
-        <ClientProviders>{children}</ClientProviders>
-      </ErrorBoundary>
+          <ClientProviders>
+            <AppShell>{children}</AppShell>
+          </ClientProviders>
+        </ErrorBoundary>
       </body>
     </html>
   );

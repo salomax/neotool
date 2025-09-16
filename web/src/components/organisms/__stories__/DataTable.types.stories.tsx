@@ -15,14 +15,12 @@ const columns: ColDef<Row>[] = [
   {
     headerName: "ID",
     field: "id",
-    dataType: "number",
     filter: "agNumberColumnFilter",
     maxWidth: 100,
   },
   {
     headerName: "Amount",
     field: "amount",
-    dataType: "number",
     filter: "agNumberColumnFilter",
     valueFormatter: (p) =>
       new Intl.NumberFormat(undefined, {
@@ -34,7 +32,6 @@ const columns: ColDef<Row>[] = [
   {
     headerName: "Percent",
     field: "percent", // stored as 0..1 (sort correto)
-    dataType: "number",
     filter: "agNumberColumnFilter", // mas o usuário digita 0..100
     valueFormatter: (p) =>
       new Intl.NumberFormat(undefined, {
@@ -46,7 +43,6 @@ const columns: ColDef<Row>[] = [
   {
     headerName: "Active",
     field: "active",
-    dataType: "boolean",
     filter: "agSetColumnFilter",
     valueFormatter: (p) => (p.value ? "Yes" : "No"),
   },

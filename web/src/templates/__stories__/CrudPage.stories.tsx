@@ -84,7 +84,7 @@ const CrudPageDemo: React.FC = () => {
       columns={columns}
       rows={rows}
       renderForm={({ mode, item, close }) => (
-        <Form mode={mode} item={item} close={close} />
+        <Form mode={mode} {...(item && { item })} close={close} />
       )}
     />
   );

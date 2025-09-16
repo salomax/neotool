@@ -13,7 +13,7 @@ import dayjs, { Dayjs } from "dayjs";
 
 /** Stores native Date by default (valueAsDate=true), even usando Dayjs no UI */
 export type ControlledDatePickerProps = Omit<
-  DatePickerProps<Dayjs>,
+  DatePickerProps,
   "name" | "value" | "onChange"
 > & {
   control: Control<any>;

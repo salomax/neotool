@@ -48,7 +48,6 @@
     ".storybook/**/*.tsx"
   ],
   "exclude": [
-    "**/*.d.ts",
     "**/*.spec.ts",
     "**/*.spec.tsx",
     "**/*.test.ts",

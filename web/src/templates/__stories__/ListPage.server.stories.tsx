@@ -60,7 +60,7 @@ const ServerSideList: React.FC = () => {
       error={
         q.isError ? ((q.error as any)?.message ?? "Failed to load") : undefined
       }
-      totalRows={q.data?.total}
+      {...(q.data?.total && { totalRows: q.data.total })}
       page={q.page}
       pageSize={q.pageSize}
       onPageChange={q.onPageChange}

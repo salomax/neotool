@@ -40,7 +40,6 @@ const colsFactory = (
   {
     headerName: "ID",
     field: "id",
-    dataType: "number",
     maxWidth: 100,
     sortable: true,
   },
@@ -49,15 +48,14 @@ const colsFactory = (
     field: "name",
     editable: true,
     filter: "agTextColumnFilter",
-    tooltipValueGetter: (p) => errorsRef.current.get(p.data.id)?.name,
+    tooltipValueGetter: (p) => p.data?.id ? errorsRef.current.get(p.data.id)?.name : undefined,
     cellClassRules: {
-      "cell-error": (p) => !!errorsRef.current.get(p.data.id)?.name,
+      "cell-error": (p) => !!(p.data?.id && errorsRef.current.get(p.data.id)?.name),
     },
   },
   {
     headerName: "Amount",
     field: "amount",
-    dataType: "number",
     editable: true,
     filter: "agNumberColumnFilter",
     valueFormatter: (p) =>
@@ -70,15 +68,14 @@ const colsFactory = (
       const n = parseFloat(String(p.newValue).replace(/[^\d.-]/g, ""));
       return isNaN(n) ? p.oldValue : n;
     },
-    tooltipValueGetter: (p) => errorsRef.current.get(p.data.id)?.amount,
+    tooltipValueGetter: (p) => p.data?.id ? errorsRef.current.get(p.data.id)?.amount : undefined,
     cellClassRules: {
-      "cell-error": (p) => !!errorsRef.current.get(p.data.id)?.amount,
+      "cell-error": (p) => !!(p.data?.id && errorsRef.current.get(p.data.id)?.amount),
     },
   },
   {
     headerName: "Percent",
     field: "percent",
-    dataType: "number",
     editable: true,
     filter: "agNumberColumnFilter",
     valueFormatter: (p) =>
@@ -94,23 +91,22 @@ const colsFactory = (
       if (raw < 0) return 0;
       return raw;
     },
-    tooltipValueGetter: (p) => errorsRef.current.get(p.data.id)?.percent,
+    tooltipValueGetter: (p) => p.data?.id ? errorsRef.current.get(p.data.id)?.percent : undefined,
     cellClassRules: {
-      "cell-error": (p) => !!errorsRef.current.get(p.data.id)?.percent,
+      "cell-error": (p) => !!(p.data?.id && errorsRef.current.get(p.data.id)?.percent),
     },
   },
   {
     headerName: "Active",
     field: "active",
-    dataType: "boolean",
     filter: "agSetColumnFilter",
     valueFormatter: (p) => (p.value ? "Yes" : "No"),
     editable: true,
     valueParser: (p) => !p.oldValue,
     maxWidth: 120,
-    tooltipValueGetter: (p) => errorsRef.current.get(p.data.id)?.active,
+    tooltipValueGetter: (p) => p.data?.id ? errorsRef.current.get(p.data.id)?.active : undefined,
     cellClassRules: {
-      "cell-error": (p) => !!errorsRef.current.get(p.data.id)?.active,
+      "cell-error": (p) => !!(p.data?.id && errorsRef.current.get(p.data.id)?.active),
     },
   },
 ];

@@ -95,8 +95,12 @@ export const Default: StoryObj = {
 const ServerSideListWithFilters: React.FC = () => {
   const q = useDataTableQuery<Row>({
     key: "users-filters",
-    fetcher: ({ page, pageSize, sort, filter }) =>
-      fetchUsers({ page, pageSize, sort, filter }),
+    fetcher: ({ page, pageSize, sort, filter }) => {
+      const params: any = { page, pageSize };
+      if (sort) params.sort = sort;
+      if (filter) params.filter = filter;
+      return fetchUsers(params);
+    },
     initialPageSize: 25,
     initialSort: "id:asc",
     initialFilter: { q: "", role: "all" },
@@ -111,7 +115,7 @@ const ServerSideListWithFilters: React.FC = () => {
       error={
         q.isError ? ((q.error as any)?.message ?? "Failed to load") : undefined
       }
-      totalRows={q.data?.total}
+      {...(q.data?.total && { totalRows: q.data.total })}
       page={q.page}
       pageSize={q.pageSize}
       onPageChange={q.onPageChange}

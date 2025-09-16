@@ -54,12 +54,12 @@ export function ListPage<T extends object>(props: ListPageProps<T>) {
       <DataTable
         columns={columns}
         rows={rows}
-        loading={loading}
-        error={error}
-        totalRows={totalRows}
-        page={_page}
-        pageSize={_pageSize}
-        onPageChange={_onPageChange}
+        {...(loading !== undefined && { loading })}
+        {...(error && { error })}
+        {...(totalRows !== undefined && { totalRows })}
+        {...(_page !== undefined && { page: _page })}
+        {...(_pageSize !== undefined && { pageSize: _pageSize })}
+        {...(_onPageChange && { onPageChange: _onPageChange })}
       />
     </Paper>
   );

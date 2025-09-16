@@ -82,7 +82,9 @@ function ComplexFormDemo() {
               {isSaving ? "Saving draft…" : "Autosave enabled"}
             </Typography>
 
-            <FormErrorBanner errors={form.formState.errors} />
+            {Object.keys(form.formState.errors).length > 0 && (
+              <FormErrorBanner message="Please fix the highlighted fields." />
+            )}
 
             <Grid container spacing={2}>
               <FormRow cols={{ xs: 12, md: 6 }}>
