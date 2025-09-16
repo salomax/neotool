@@ -49,7 +49,10 @@
         "src/styles/*"
       ],
       "@/providers/*": [
-        "src/providers/*"
+        "src/shared/providers/*"
+      ],
+      "@/store/*": [
+        "src/shared/store/*"
       ],
       "@/ui/*": [
         "src/shared/components/ui/*"
