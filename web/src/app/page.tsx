@@ -1,14 +1,16 @@
 "use client";
 
 import React from "react";
-import Box from '@mui/material/Box';
-import Typography from '@mui/material/Typography';
-import Container from '@mui/material/Container';
-import Card from '@mui/material/Card';
-import CardContent from '@mui/material/CardContent';
-import DesignServicesRoundedIcon from '@mui/icons-material/DesignServicesRounded';
-import CodeRoundedIcon from '@mui/icons-material/CodeRounded';
-import MenuBookRoundedIcon from '@mui/icons-material/MenuBookRounded';
+import { 
+  Box, 
+  Typography, 
+  Container, 
+  Card, 
+  CardContent,
+  DesignServicesRoundedIcon,
+  CodeRoundedIcon,
+  MenuBookRoundedIcon
+} from "@/shared/ui/mui-imports";
 import Link from "next/link";
 import { useResponsive } from "@/shared/hooks/useResponsive";
 
@@ -25,7 +27,7 @@ export default function WelcomePage() {
     <Container maxWidth="lg" sx={{ py: 4 }}>
       <Box sx={{ textAlign: "center", mb: 6 }}>
         <Typography variant="h2" component="h1" gutterBottom>
-          Welcome to NeoTool
+          Welcome to Neotool
         </Typography>
         <Typography variant="h5" color="text.secondary" sx={{ maxWidth: 600, mx: "auto" }}>
           A comprehensive design system and component library built with Next.js and Material-UI

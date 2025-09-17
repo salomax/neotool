@@ -12,6 +12,7 @@ import TextFieldsRoundedIcon from '@mui/icons-material/TextFieldsRounded';
 import ShapeLineRoundedIcon from '@mui/icons-material/ShapeLineRounded';
 import AnimationRoundedIcon from '@mui/icons-material/AnimationRounded';
 import { useResponsive } from "@/shared/hooks/useResponsive";
+import Link from "next/link";
 
 export default function DesignSystemPage() {
   const { isMobile } = useResponsive();
@@ -80,7 +81,19 @@ export default function DesignSystemPage() {
           </CardContent>
         </Card>
 
-        <Card sx={{ height: "100%" }}>
+        <Card 
+          component={Link} 
+          href="/design-system/components" 
+          sx={{ 
+            height: "100%", 
+            textDecoration: "none",
+            transition: "transform 0.2s ease-in-out",
+            "&:hover": {
+              transform: "translateY(-4px)",
+              boxShadow: 4
+            }
+          }}
+        >
           <CardContent sx={{ p: 3 }}>
             <Box sx={{ display: "flex", alignItems: "center", mb: 2 }}>
               <ShapeLineRoundedIcon sx={{ fontSize: 32, color: "primary.main", mr: 2 }} />
@@ -91,13 +104,16 @@ export default function DesignSystemPage() {
             <Typography color="text.secondary" sx={{ mb: 3 }}>
               Reusable UI components built with accessibility and consistency in mind.
             </Typography>
-            <Box sx={{ display: "flex", gap: 1, flexWrap: "wrap" }}>
-              <Chip label="Buttons" />
+            <Box sx={{ display: "flex", gap: 1, flexWrap: "wrap", mb: 2 }}>
+              <Chip label="Atoms" />
+              <Chip label="Molecules" />
+              <Chip label="Organisms" />
               <Chip label="Forms" />
-              <Chip label="Cards" />
-              <Chip label="Tables" />
-              <Chip label="Navigation" />
+              <Chip label="Brazilian" />
             </Box>
+            <Typography variant="body2" color="primary.main" sx={{ fontWeight: 500 }}>
+              Explore all components →
+            </Typography>
           </CardContent>
         </Card>
 
