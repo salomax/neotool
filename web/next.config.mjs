@@ -4,8 +4,6 @@ const nextConfig = {
   outputFileTracingRoot: process.cwd(),
   // Disable strict mode for development to avoid double rendering issues
   reactStrictMode: false,
-  // Enable SWC minification
-  swcMinify: true,
   // Optimize bundle
   compiler: {
     removeConsole: process.env.NODE_ENV === 'production',

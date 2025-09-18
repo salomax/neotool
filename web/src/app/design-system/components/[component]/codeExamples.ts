@@ -310,24 +310,24 @@ export const getCodeExample = (componentName: string, example: string): string =
           return `<ToggleField label="Toggle" />`;
       }
     
-    case 'datepickers':
+    case 'datepickerfield':
       switch (example) {
         case 'Basic Date Picker':
-          return `<DatePicker 
+          return `<DatePickerField 
+  name="date" 
   label="Select date" 
-  value={null} 
 />`;
         case 'With Constraints':
-          return `<DatePicker 
+          return `<DatePickerField 
+  name="birthDate" 
   label="Birth date" 
-  value={null} 
-  maxDate={new Date()} 
+  helperText="Select your birth date" 
 />`;
         case 'Different Formats':
-          return `<DatePicker 
+          return `<DatePickerField 
+  name="startDate" 
   label="Start date" 
-  value={null} 
-  format="MM/dd/yyyy" 
+  helperText="Choose start date" 
 />`;
         default:
           return `<DatePicker label="Date" />`;
@@ -614,7 +614,317 @@ export const getCodeExample = (componentName: string, example: string): string =
         default:
           return `<PageSkeleton variant="text" />`;
       }
-    
+
+    case 'drawer':
+      switch (example) {
+        case 'Basic Drawer':
+          return `import { Drawer } from '@/shared/components/ui/atoms/Drawer';
+import { List, ListItem, ListItemText } from '@mui/material';
+
+const [open, setOpen] = useState(false);
+
+<Drawer
+  open={open}
+  onClose={() => setOpen(false)}
+  title="Navigation"
+  showCloseButton={true}
+  variant="temporary"
+  anchor="left"
+  width={280}
+>
+  <List>
+    <ListItem button>
+      <ListItemText primary="Home" />
+    </ListItem>
+    <ListItem button>
+      <ListItemText primary="Profile" />
+    </ListItem>
+    <ListItem button>
+      <ListItemText primary="Settings" />
+    </ListItem>
+  </List>
+</Drawer>`;
+        case 'With Title':
+          return `import { Drawer } from '@/shared/components/ui/atoms/Drawer';
+
+<Drawer
+  open={open}
+  onClose={() => setOpen(false)}
+  title="My Application"
+  showCloseButton={true}
+  showMenuButton={false}
+  variant="temporary"
+  anchor="left"
+  width={300}
+>
+  {/* Your content here */}
+</Drawer>`;
+        case 'Different Anchors':
+          return `// Left Drawer
+<Drawer
+  open={open}
+  onClose={() => setOpen(false)}
+  anchor="left"
+  width={280}
+>
+  {/* Content */}
+</Drawer>
+
+// Right Drawer
+<Drawer
+  open={open}
+  onClose={() => setOpen(false)}
+  anchor="right"
+  width={320}
+>
+  {/* Content */}
+</Drawer>
+
+// Top Drawer
+<Drawer
+  open={open}
+  onClose={() => setOpen(false)}
+  anchor="top"
+  height={200}
+>
+  {/* Content */}
+</Drawer>
+
+// Bottom Drawer
+<Drawer
+  open={open}
+  onClose={() => setOpen(false)}
+  anchor="bottom"
+  height={300}
+>
+  {/* Content */}
+</Drawer>`;
+        case 'Persistent Drawer':
+          return `import { Drawer } from '@/shared/components/ui/atoms/Drawer';
+
+<Drawer
+  open={open}
+  onClose={() => setOpen(false)}
+  title="Persistent Sidebar"
+  showCloseButton={true}
+  variant="persistent"
+  anchor="left"
+  width={280}
+>
+  {/* Content that stays open */}
+</Drawer>`;
+        case 'Custom Styling':
+          return `import { Drawer } from '@/shared/components/ui/atoms/Drawer';
+
+<Drawer
+  open={open}
+  onClose={() => setOpen(false)}
+  title="Styled Drawer"
+  showCloseButton={true}
+  variant="temporary"
+  anchor="left"
+  width={280}
+  sx={{
+    '& .MuiDrawer-paper': {
+      backgroundColor: '#f5f5f5',
+      borderRight: '2px solid #e0e0e0',
+    },
+  }}
+>
+  {/* Styled content */}
+</Drawer>`;
+        default:
+          return `import { Drawer } from '@/shared/components/ui/atoms/Drawer';
+
+<Drawer
+  open={open}
+  onClose={() => setOpen(false)}
+  title="Navigation"
+  showCloseButton={true}
+  variant="temporary"
+  anchor="left"
+  width={280}
+>
+  {/* Your content here */}
+</Drawer>`;
+      }
+
+    case 'chart':
+      switch (example) {
+        case 'Line Chart':
+          return `import { Chart } from '@/shared/components/ui/atoms/Chart';
+
+const data = [
+  { name: 'Jan', value: 400 },
+  { name: 'Feb', value: 300 },
+  { name: 'Mar', value: 200 },
+  { name: 'Apr', value: 500 },
+  { name: 'May', value: 800 },
+  { name: 'Jun', value: 600 },
+];
+
+<Chart
+  type="line"
+  data={data}
+  title="Sales Over Time"
+  showLegend={true}
+  showTooltip={true}
+  showGrid={true}
+  height={300}
+/>`;
+        case 'Bar Chart':
+          return `import { Chart } from '@/shared/components/ui/atoms/Chart';
+
+const data = [
+  { name: 'Q1', value: 400 },
+  { name: 'Q2', value: 300 },
+  { name: 'Q3', value: 200 },
+  { name: 'Q4', value: 500 },
+];
+
+<Chart
+  type="bar"
+  data={data}
+  title="Quarterly Sales"
+  showLegend={true}
+  showTooltip={true}
+  showGrid={true}
+  height={300}
+/>`;
+        case 'Pie Chart':
+          return `import { Chart } from '@/shared/components/ui/atoms/Chart';
+
+const data = [
+  { name: 'Desktop', value: 400 },
+  { name: 'Mobile', value: 300 },
+  { name: 'Tablet', value: 200 },
+  { name: 'Other', value: 100 },
+];
+
+<Chart
+  type="pie"
+  data={data}
+  title="Device Usage"
+  showLegend={true}
+  showTooltip={true}
+  height={300}
+/>`;
+        case 'Area Chart':
+          return `import { Chart } from '@/shared/components/ui/atoms/Chart';
+
+const data = [
+  { name: 'Jan', value: 400 },
+  { name: 'Feb', value: 300 },
+  { name: 'Mar', value: 200 },
+  { name: 'Apr', value: 500 },
+  { name: 'May', value: 800 },
+  { name: 'Jun', value: 600 },
+];
+
+<Chart
+  type="area"
+  data={data}
+  title="User Growth"
+  showLegend={true}
+  showTooltip={true}
+  showGrid={true}
+  height={300}
+/>`;
+        case 'Custom Colors':
+          return `import { Chart } from '@/shared/components/ui/atoms/Chart';
+
+const data = [
+  { name: 'Jan', value: 400 },
+  { name: 'Feb', value: 300 },
+  { name: 'Mar', value: 200 },
+  { name: 'Apr', value: 500 },
+];
+
+<Chart
+  type="line"
+  data={data}
+  title="Custom Styled Chart"
+  colors={['#ff6b6b', '#4ecdc4', '#45b7d1', '#96ceb4', '#feca57']}
+  showLegend={true}
+  showTooltip={true}
+  showGrid={true}
+  height={300}
+/>`;
+        case 'Responsive Charts':
+          return `import { Chart } from '@/shared/components/ui/atoms/Chart';
+import { Box } from '@mui/material';
+
+const salesData = [
+  { name: 'Jan', value: 400 },
+  { name: 'Feb', value: 300 },
+  { name: 'Mar', value: 200 },
+];
+
+const revenueData = [
+  { name: 'Q1', value: 400 },
+  { name: 'Q2', value: 300 },
+  { name: 'Q3', value: 200 },
+];
+
+const deviceData = [
+  { name: 'Desktop', value: 400 },
+  { name: 'Mobile', value: 300 },
+  { name: 'Tablet', value: 200 },
+];
+
+<Box sx={{ 
+  display: 'grid', 
+  gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))', 
+  gap: 2 
+}}>
+  <Chart
+    type="line"
+    data={salesData}
+    title="Sales"
+    showLegend={false}
+    showTooltip={true}
+    showGrid={true}
+    height={200}
+  />
+  <Chart
+    type="bar"
+    data={revenueData}
+    title="Revenue"
+    showLegend={false}
+    showTooltip={true}
+    showGrid={true}
+    height={200}
+  />
+  <Chart
+    type="pie"
+    data={deviceData}
+    title="Devices"
+    showLegend={false}
+    showTooltip={true}
+    height={200}
+  />
+</Box>`;
+        default:
+          return `import { Chart } from '@/shared/components/ui/atoms/Chart';
+
+const data = [
+  { name: 'Jan', value: 400 },
+  { name: 'Feb', value: 300 },
+  { name: 'Mar', value: 200 },
+  { name: 'Apr', value: 500 },
+];
+
+<Chart
+  type="line"
+  data={data}
+  title="Sample Chart"
+  showLegend={true}
+  showTooltip={true}
+  showGrid={true}
+  height={300}
+/>`;
+      }
+
     case 'asyncautocomplete':
       switch (example) {
         case 'Basic Async':
@@ -815,6 +1125,411 @@ export const getCodeExample = (componentName: string, example: string): string =
 />`;
         default:
           return `<CPFField label="CPF" placeholder="000.000.000-00" />`;
+      }
+    
+    case 'rating':
+      switch (example) {
+        case 'Star Rating':
+          return `<Rating
+  value={rating}
+  onChange={(value) => setRating(value)}
+  variant="star"
+  showValue
+  showLabels
+  max={5}
+/>`;
+        case 'Thumbs Rating':
+          return `<Rating
+  value={rating}
+  onChange={(value) => setRating(value)}
+  variant="thumbs"
+  showValue
+  showLabels
+  max={2}
+/>
+// Note: Like comes first, then Dislike`;
+        case 'Heart Rating':
+          return `<Rating
+  value={rating}
+  onChange={(value) => setRating(value)}
+  variant="heart"
+  showValue
+  showLabels
+  max={5}
+/>`;
+        case 'Emoji Rating':
+          return `<Rating
+  value={rating}
+  onChange={(value) => setRating(value)}
+  variant="emoji"
+  showValue
+  showLabels
+  max={5}
+/>`;
+        case 'Half Precision':
+          return `<Rating
+  value={rating}
+  onChange={(value) => setRating(value)}
+  variant="star"
+  precision={0.5}
+  showValue
+  max={5}
+/>`;
+        case 'Read Only':
+          return `<Rating
+  value={4}
+  readOnly
+  showValue
+  variant="star"
+  max={5}
+/>`;
+        default:
+          return `<Rating
+  value={rating}
+  onChange={(value) => setRating(value)}
+  variant="star"
+  showValue
+  max={5}
+/>`;
+      }
+    
+    case 'colorpicker':
+      switch (example) {
+        case 'Basic Color Picker':
+          return `<ColorPicker
+  value={color}
+  onChange={(value) => setColor(value)}
+  label="Choose a color"
+  showPresets
+  showCustomInput
+/>`;
+        case 'With Custom Input':
+          return `<ColorPicker
+  value={color}
+  onChange={(value) => setColor(value)}
+  label="Custom Color"
+  showPresets={false}
+  showCustomInput
+  showHexInput
+  showRgbInput
+  showHslInput
+/>`;
+        case 'All Formats':
+          return `<ColorPicker
+  value={color}
+  onChange={(value) => setColor(value)}
+  label="Color with All Formats"
+  showPresets
+  showCustomInput
+  showHexInput
+  showRgbInput
+  showHslInput
+/>`;
+        case 'Different Variants':
+          return `<ColorPicker
+  value={color}
+  onChange={(value) => setColor(value)}
+  variant="outlined"
+  size="large"
+  label="Outlined Large"
+  showPresets
+/>
+<ColorPicker
+  value={color}
+  onChange={(value) => setColor(value)}
+  variant="filled"
+  size="small"
+  label="Filled Small"
+  showPresets
+/>`;
+        default:
+          return `<ColorPicker
+  value={color}
+  onChange={(value) => setColor(value)}
+  label="Choose a color"
+  showPresets
+/>`;
+      }
+    
+    case 'slider':
+      switch (example) {
+        case 'Basic Slider':
+          return `<Slider
+  value={sliderValue}
+  onChange={(value) => setSliderValue(value)}
+  label="Volume"
+  helperText="Adjust the volume level"
+  min={0}
+  max={100}
+/>`;
+        case 'With Value Display':
+          return `<Slider
+  value={sliderValue}
+  onChange={(value) => setSliderValue(value)}
+  label="Progress"
+  showValue
+  showChips
+  helperText="Current progress: 75%"
+  min={0}
+  max={100}
+/>`;
+        case 'Range Slider':
+          return `<Slider
+  value={sliderValue}
+  onChange={(value) => setSliderValue(value)}
+  range
+  label="Price Range"
+  showValue
+  showChips
+  min={0}
+  max={1000}
+  step={10}
+  helperText="Select your price range"
+/>`;
+        case 'With Marks':
+          return `<Slider
+  value={sliderValue}
+  onChange={(value) => setSliderValue(value)}
+  label="Difficulty Level"
+  showMarks
+  showValue
+  step={10}
+  helperText="Choose difficulty level"
+  min={0}
+  max={100}
+/>`;
+        case 'Vertical Slider':
+          return `<Slider
+  value={sliderValue}
+  onChange={(value) => setSliderValue(value)}
+  label="Volume"
+  orientation="vertical"
+  showValue
+  helperText="Vertical slider"
+  min={0}
+  max={100}
+/>`;
+        case 'Custom Formatter':
+          return `<Slider
+  value={sliderValue}
+  onChange={(value) => setSliderValue(value)}
+  label="Price"
+  min={0}
+  max={10000}
+  step={100}
+  showValue
+  showMinMax
+  helperText="Select price range"
+/>`;
+        default:
+          return `<Slider
+  value={sliderValue}
+  onChange={(value) => setSliderValue(value)}
+  label="Default Slider"
+  showValue
+  min={0}
+  max={100}
+/>`;
+      }
+    
+    case 'imageupload':
+      switch (example) {
+        case 'Basic ImageUpload':
+          return `<ImageUpload
+  label="Upload Images"
+  helperText="Select images to upload"
+  onChange={(files) => console.log('Files changed:', files)}
+/>`;
+        case 'With Preview':
+          return `<ImageUpload
+  label="Upload with Preview"
+  showPreview
+  showFileList
+  helperText="Images will be previewed after selection"
+  onChange={(files) => console.log('Files changed:', files)}
+/>`;
+        case 'Single File':
+          return `<ImageUpload
+  label="Single Image Upload"
+  multiple={false}
+  maxFiles={1}
+  helperText="Upload only one image"
+  onChange={(files) => console.log('Files changed:', files)}
+/>`;
+        case 'With Constraints':
+          return `<ImageUpload
+  label="Constrained Upload"
+  maxFiles={3}
+  maxFileSize={2 * 1024 * 1024}
+  accept="image/jpeg,image/png"
+  helperText="Maximum 3 files, 2MB each, JPEG/PNG only"
+  onChange={(files) => console.log('Files changed:', files)}
+/>`;
+        case 'With Compression':
+          return `<ImageUpload
+  label="Compressed Upload"
+  compressImages
+  imageQuality={0.8}
+  maxImageWidth={1920}
+  maxImageHeight={1080}
+  helperText="Images will be automatically compressed"
+  onChange={(files) => console.log('Files changed:', files)}
+/>`;
+        case 'Custom Text':
+          return `<ImageUpload
+  label="Custom Upload"
+  uploadText="Choose Photos"
+  dragText="Drag photos here"
+  dropText="Drop photos to upload"
+  helperText="Custom text for all upload actions"
+  onChange={(files) => console.log('Files changed:', files)}
+/>`;
+        default:
+          return `<ImageUpload
+  label="Default ImageUpload"
+  onChange={(files) => console.log('Files changed:', files)}
+/>`;
+      }
+    
+    case 'progressbar':
+      switch (example) {
+        case 'Basic ProgressBar':
+          return `<ProgressBar
+  value={50}
+  label="Progress"
+  helperText="Current progress status"
+/>`;
+        case 'Linear Progress':
+          return `<ProgressBar
+  variant="linear"
+  value={75}
+  label="Linear Progress"
+  helperText="Linear progress bar example"
+/>`;
+        case 'Circular Progress':
+          return `<ProgressBar
+  variant="circular"
+  value={60}
+  label="Circular Progress"
+  helperText="Circular progress bar example"
+/>`;
+        case 'Step Progress':
+          return `<ProgressBar
+  variant="step"
+  currentStep={2}
+  totalSteps={5}
+  steps={['Start', 'Process', 'Review', 'Approve', 'Complete']}
+  label="Step Progress"
+  helperText="Step-by-step progress example"
+/>`;
+        case 'Indeterminate':
+          return `<ProgressBar
+  indeterminate
+  label="Loading..."
+  helperText="Indeterminate progress for loading states"
+/>`;
+        case 'With Status':
+          return `<ProgressBar
+  variant="linear"
+  value={100}
+  color="success"
+  label="Completed"
+  helperText="Task completed successfully"
+/>`;
+        default:
+          return `<ProgressBar
+  value={25}
+  label="Default ProgressBar"
+  helperText="Default progress bar example"
+/>`;
+      }
+    
+    case 'datetimepicker':
+      switch (example) {
+        case 'Basic DateTimePicker':
+          return `<DateTimePicker
+  label="Select Date & Time"
+  helperText="Choose your preferred date and time"
+  onChange={(value) => console.log('DateTime changed:', value)}
+/>`;
+        case 'Date Only':
+          return `<DateTimePicker
+  showDate
+  showTime={false}
+  label="Birth Date"
+  placeholder="Select your birth date"
+  helperText="Date of birth"
+  onChange={(value) => console.log('Date changed:', value)}
+/>`;
+        case 'Time Only':
+          return `<DateTimePicker
+  showDate={false}
+  showTime
+  label="Meeting Time"
+  placeholder="Select meeting time"
+  helperText="When should the meeting start?"
+  onChange={(value) => console.log('Time changed:', value)}
+/>`;
+        case 'With Seconds':
+          return `<DateTimePicker
+  showSeconds
+  label="Precise Time"
+  helperText="Include seconds for precise timing"
+  onChange={(value) => console.log('DateTime changed:', value)}
+/>`;
+        case '12-Hour Format':
+          return `<DateTimePicker
+  use24HourFormat={false}
+  label="Event Time"
+  helperText="12-hour format with AM/PM"
+  onChange={(value) => console.log('DateTime changed:', value)}
+/>`;
+        case 'With Constraints':
+          return `<DateTimePicker
+  label="Future Date Only"
+  disablePast
+  helperText="Cannot select past dates"
+  onChange={(value) => console.log('DateTime changed:', value)}
+/>`;
+        default:
+          return `<DateTimePicker
+  label="Default DateTimePicker"
+  onChange={(value) => console.log('DateTime changed:', value)}
+/>`;
+      }
+    
+    case 'richtexteditor':
+      switch (example) {
+        case 'Basic Editor':
+          return `<RichTextEditor
+  placeholder="Start typing your content here..."
+  minHeight={200}
+/>`;
+        case 'Read Only':
+          return `<RichTextEditor
+  value="<h2>Read Only Content</h2>
+    <p>This content cannot be edited. The toolbar is disabled and the editor is not interactive.</p>
+    <blockquote>This is a quote that cannot be modified.</blockquote>"
+  readOnly
+  minHeight={200}
+/>`;
+        case 'Custom Toolbar':
+          return `<RichTextEditor
+  value="<p>This editor only allows <strong>bold</strong> and <em>italic</em> formatting.</p>"
+  allowedFormats={['bold', 'italic']}
+  minHeight={200}
+/>`;
+        case 'Bottom Toolbar':
+          return `<RichTextEditor
+  value="<p>This editor has the toolbar at the bottom instead of the top.</p>"
+  toolbarPosition="bottom"
+  minHeight={200}
+/>`;
+        default:
+          return `<RichTextEditor
+  placeholder="Start typing your content here..."
+  minHeight={200}
+/>`;
       }
     
     default:

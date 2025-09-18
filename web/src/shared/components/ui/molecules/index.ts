@@ -1,13 +1,9 @@
-// Molecular UI Components - Simple combinations
-export { AsyncAutocomplete } from './AsyncAutocomplete';
-export { ConfirmDialog } from './ConfirmDialog';
-export { EmptyState, ErrorState } from './EmptyErrorState';
-export { FileUploader } from './FileUploader';
-// LanguageSwitcher is in shared/i18n/
-export { MaskedField } from './MaskedField';
-export { SearchField } from './SearchField';
-export { Select } from './Select';
-export { ToastProvider } from './ToastProvider';
-
-// BR-specific components
-export * from './br';
+// Molecular UI Components - Combinations of atoms that work together
+export { default as Chart } from './Chart';
+export { default as RichTextEditor } from './RichTextEditor';
+export { default as AsyncAutocomplete } from './AsyncAutocomplete';
+export { default as FileUploader } from './FileUploader';
+export { default as SearchField } from './SearchField';
+export { default as ConfirmDialog } from './ConfirmDialog';
+export { default as EmptyErrorState } from './EmptyErrorState';
+export { default as ToastProvider } from './ToastProvider';

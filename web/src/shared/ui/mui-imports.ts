@@ -120,6 +120,8 @@ export { default as StarIcon } from '@mui/icons-material/Star';
 export { default as StarBorderIcon } from '@mui/icons-material/StarBorder';
 export { default as ThumbUpIcon } from '@mui/icons-material/ThumbUp';
 export { default as ThumbDownIcon } from '@mui/icons-material/ThumbDown';
+export { default as ThumbUpOutlinedIcon } from '@mui/icons-material/ThumbUpOutlined';
+export { default as ThumbDownOutlinedIcon } from '@mui/icons-material/ThumbDownOutlined';
 export { default as HelpIcon } from '@mui/icons-material/Help';
 export { default as QuestionAnswerIcon } from '@mui/icons-material/QuestionAnswer';
 export { default as DescriptionIcon } from '@mui/icons-material/Description';
@@ -154,6 +156,37 @@ export { default as WidgetsIcon } from '@mui/icons-material/Widgets';
 export { default as ExtensionIcon } from '@mui/icons-material/Extension';
 export { default as ViewModuleIcon } from '@mui/icons-material/ViewModule';
 export { default as ViewListIcon } from '@mui/icons-material/ViewList';
+
+// Additional components needed for new components
+export { default as Popover } from '@mui/material/Popover';
+export { default as Menu } from '@mui/material/Menu';
+export type { SelectChangeEvent } from '@mui/material/Select';
+export { default as Slider } from '@mui/material/Slider';
+export { default as FormHelperText } from '@mui/material/FormHelperText';
+
+// Additional icons needed for new components
+export { default as FormatBoldIcon } from '@mui/icons-material/FormatBold';
+export { default as FormatItalicIcon } from '@mui/icons-material/FormatItalic';
+export { default as FormatUnderlinedIcon } from '@mui/icons-material/FormatUnderlined';
+export { default as FormatStrikethroughIcon } from '@mui/icons-material/FormatStrikethrough';
+export { default as FormatListBulletedIcon } from '@mui/icons-material/FormatListBulleted';
+export { default as FormatListNumberedIcon } from '@mui/icons-material/FormatListNumbered';
+export { default as FormatQuoteIcon } from '@mui/icons-material/FormatQuote';
+export { default as LinkIcon } from '@mui/icons-material/Link';
+export { default as ImageIcon } from '@mui/icons-material/Image';
+export { default as UndoIcon } from '@mui/icons-material/Undo';
+export { default as RedoIcon } from '@mui/icons-material/Redo';
+export { default as FormatAlignLeftIcon } from '@mui/icons-material/FormatAlignLeft';
+export { default as FormatAlignCenterIcon } from '@mui/icons-material/FormatAlignCenter';
+export { default as FormatAlignRightIcon } from '@mui/icons-material/FormatAlignRight';
+export { default as FormatAlignJustifyIcon } from '@mui/icons-material/FormatAlignJustify';
+export { default as FormatSizeIcon } from '@mui/icons-material/FormatSize';
+export { default as FormatClearIcon } from '@mui/icons-material/FormatClear';
+export { default as EmojiEmotionsIcon } from '@mui/icons-material/EmojiEmotions';
+export { default as EmojiEmotionsOutlinedIcon } from '@mui/icons-material/EmojiEmotionsOutlined';
+
+// Additional icons for new components
+export { default as CloudUploadIcon } from '@mui/icons-material/CloudUpload';
 
 // Material-UI X components (only if needed)
 export { DatePicker } from '@mui/x-date-pickers/DatePicker';

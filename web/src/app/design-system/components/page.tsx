@@ -56,14 +56,6 @@ const componentCategories = {
         tags: ["interaction", "action"]
       },
       {
-        name: "TextField",
-        description: "Input fields for text data",
-        status: "stable",
-        stories: true,
-        tests: false,
-        tags: ["input", "form"]
-      },
-      {
         name: "Avatar",
         description: "User profile images and initials",
         status: "stable",
@@ -118,7 +110,71 @@ const componentCategories = {
         stories: false,
         tests: false,
         tags: ["loading", "skeleton"]
-      }
+      },
+      {
+        name: "Drawer",
+        description: "Sliding panel for navigation and overlays",
+        status: "stable",
+        stories: true,
+        tests: true,
+        tags: ["navigation", "sidebar", "overlay"]
+      },
+      {
+        name: "Rating",
+        description: "Interactive rating component with multiple variants",
+        status: "stable",
+        stories: true,
+        tests: true,
+        tags: ["rating", "stars", "feedback", "interaction"]
+      },
+      {
+        name: "ColorPicker",
+        description: "Color picker with presets and multiple format support",
+        status: "stable",
+        stories: true,
+        tests: true,
+        tags: ["color", "picker", "palette", "input"]
+      },
+      {
+        name: "Slider",
+        description: "Range and value selection with multiple variants",
+        status: "stable",
+        stories: true,
+        tests: true,
+        tags: ["slider", "range", "input", "control"]
+      },
+      {
+        name: "Switch",
+        description: "Toggle switch for binary on/off states",
+        status: "stable",
+        stories: true,
+        tests: true,
+        tags: ["switch", "toggle", "input", "control"]
+      },
+      {
+        name: "DateTimePicker",
+        description: "Date and time picker with various customization options",
+        status: "stable",
+        stories: true,
+        tests: true,
+        tags: ["datetime", "picker", "input", "calendar", "time"]
+      },
+      {
+        name: "ImageUpload",
+        description: "Image upload component with drag & drop and preview",
+        status: "stable",
+        stories: true,
+        tests: true,
+        tags: ["upload", "image", "drag", "drop", "preview"]
+      },
+      {
+        name: "ProgressBar",
+        description: "Progress indicator with linear, circular, and step variants",
+        status: "stable",
+        stories: true,
+        tests: true,
+        tags: ["progress", "indicator", "loading", "status", "bar"]
+      },
     ]
   },
   formFields: {
@@ -127,6 +183,14 @@ const componentCategories = {
     icon: <WidgetsIcon />,
     color: "secondary" as const,
     components: [
+      {
+        name: "TextField",
+        description: "Input fields for text data",
+        status: "stable",
+        stories: true,
+        tests: false,
+        tags: ["input", "form"]
+      },
       {
         name: "AutocompleteField",
         description: "Searchable dropdown with suggestions",
@@ -152,7 +216,7 @@ const componentCategories = {
         tags: ["input", "currency", "money"]
       },
       {
-        name: "DatePickers",
+        name: "DatePickerField",
         description: "Date and time selection components",
         status: "stable",
         stories: true,
@@ -206,6 +270,54 @@ const componentCategories = {
         stories: true,
         tests: false,
         tags: ["input", "toggle", "switch"]
+      },
+      {
+        name: "AsyncAutocomplete",
+        description: "Autocomplete with asynchronous data loading",
+        status: "beta",
+        stories: true,
+        tests: false,
+        tags: ["input", "async"]
+      },
+      {
+        name: "FileUploader",
+        description: "Component for uploading files",
+        status: "beta",
+        stories: false,
+        tests: false,
+        tags: ["input", "upload"]
+      },
+      {
+        name: "MaskedField",
+        description: "Input field with predefined masks",
+        status: "stable",
+        stories: false,
+        tests: false,
+        tags: ["input", "mask"]
+      },
+      {
+        name: "CEPField",
+        description: "Brazilian postal code input with validation",
+        status: "stable",
+        stories: false,
+        tests: false,
+        tags: ["input", "brazil", "cep", "postal"]
+      },
+      {
+        name: "CNPJField",
+        description: "Brazilian company registration number (CNPJ)",
+        status: "stable",
+        stories: false,
+        tests: false,
+        tags: ["input", "brazil", "cnpj", "company"]
+      },
+      {
+        name: "CPFField",
+        description: "Brazilian individual registration number (CPF)",
+        status: "stable",
+        stories: false,
+        tests: false,
+        tags: ["input", "brazil", "cpf", "individual"]
       }
     ]
   },
@@ -215,14 +327,6 @@ const componentCategories = {
     icon: <ExtensionIcon />,
     color: "success" as const,
     components: [
-      {
-        name: "AsyncAutocomplete",
-        description: "Asynchronous search with server-side data",
-        status: "stable",
-        stories: false,
-        tests: false,
-        tags: ["search", "async", "autocomplete"]
-      },
       {
         name: "ConfirmDialog",
         description: "Modal dialog for confirmations",
@@ -240,22 +344,6 @@ const componentCategories = {
         tags: ["empty", "error", "state"]
       },
       {
-        name: "FileUploader",
-        description: "File upload with drag and drop",
-        status: "stable",
-        stories: false,
-        tests: false,
-        tags: ["upload", "file", "drag-drop"]
-      },
-      {
-        name: "MaskedField",
-        description: "Input with custom formatting masks",
-        status: "stable",
-        stories: false,
-        tests: false,
-        tags: ["input", "mask", "format"]
-      },
-      {
         name: "SearchField",
         description: "Search input with advanced features",
         status: "stable",
@@ -270,6 +358,22 @@ const componentCategories = {
         stories: false,
         tests: false,
         tags: ["notification", "toast", "global"]
+      },
+      {
+        name: "Chart",
+        description: "Data visualization with multiple chart types",
+        status: "stable",
+        stories: true,
+        tests: true,
+        tags: ["data", "visualization", "charts"]
+      },
+      {
+        name: "RichTextEditor",
+        description: "Rich text editor with toolbar and formatting options",
+        status: "stable",
+        stories: true,
+        tests: true,
+        tags: ["editor", "text", "formatting", "wysiwyg"]
       }
     ]
   },
@@ -294,38 +398,6 @@ const componentCategories = {
         stories: false,
         tests: false,
         tags: ["actions", "buttons", "bulk"]
-      }
-    ]
-  },
-  brComponents: {
-    title: "Brazilian Components",
-    description: "Specialized components for Brazilian market",
-    icon: <Box sx={{ fontSize: '1.5rem' }}>🇧🇷</Box>,
-    color: "info" as const,
-    components: [
-      {
-        name: "CEPField",
-        description: "Brazilian postal code input with validation",
-        status: "stable",
-        stories: false,
-        tests: false,
-        tags: ["brazil", "cep", "postal", "address"]
-      },
-      {
-        name: "CNPJField",
-        description: "Brazilian company tax ID input",
-        status: "stable",
-        stories: false,
-        tests: false,
-        tags: ["brazil", "cnpj", "company", "tax"]
-      },
-      {
-        name: "CPFField",
-        description: "Brazilian individual tax ID input",
-        status: "stable",
-        stories: false,
-        tests: false,
-        tags: ["brazil", "cpf", "individual", "tax"]
       }
     ]
   }

@@ -9,9 +9,11 @@ import {
   CardContent,
   Button,
   Chip,
+  IconButton,
   ArrowBackIcon,
   VisibilityIcon,
-  CodeIcon
+  CodeIcon,
+  ContentCopyIcon
 } from "../../../../shared/ui/mui-imports";
 import Link from "next/link";
 import { useResponsive } from "../../../../shared/hooks/useResponsive";
@@ -49,11 +51,29 @@ export default function ComponentPage({ params }: ComponentPageProps) {
 
   // Copy import functionality
   const handleCopyImport = async () => {
-    const importStatement = `import { ${componentData.name} } from '@/shared/ui/mui-imports';`;
+    // Convert GitHub URL to import path
+    const getImportPath = (githubUrl: string) => {
+      // Convert /web/src/shared/components/ui/... to @/shared/components/ui/...
+      return githubUrl.replace('/web/src', '@');
+    };
+
+    const importPath = getImportPath(componentData.githubUrl);
+    const importStatement = `import { ${componentData.name} } from '${importPath}';`;
+    
     try {
       await navigator.clipboard.writeText(importStatement);
-      // You could add a toast notification here
       alert('Import statement copied to clipboard!');
+    } catch (err) {
+      console.error('Failed to copy: ', err);
+      alert('Failed to copy to clipboard');
+    }
+  };
+
+  // Copy code functionality
+  const handleCopyCode = async (code: string) => {
+    try {
+      await navigator.clipboard.writeText(code);
+      alert('Code copied to clipboard!');
     } catch (err) {
       console.error('Failed to copy: ', err);
       alert('Failed to copy to clipboard');
@@ -64,6 +84,38 @@ export default function ComponentPage({ params }: ComponentPageProps) {
   const handleViewStorybook = () => {
     const storybookUrl = `http://localhost:6006/?path=/story/components-${componentName.toLowerCase()}`;
     window.open(storybookUrl, '_blank');
+  };
+
+  // Generate GitHub URL using component's githubUrl attribute
+  const getGitHubUrl = (componentData: any) => {
+    const baseUrl = 'https://github.com/salomax/neotool/blob/main';
+    return `${baseUrl}${componentData.githubUrl}`;
+  };
+
+  // Get the appropriate URL for View Source Code button
+  const getSourceCodeUrl = (componentData: any) => {
+    const type = componentData.type || 'custom';
+    switch (type) {
+      case 'mui-simple':
+      case 'mui-wrapper':
+        return componentData.muiDocsUrl || 'https://mui.com/material-ui/';
+      case 'custom':
+      default:
+        return getGitHubUrl(componentData);
+    }
+  };
+
+  // Get the appropriate button text for View Source Code button
+  const getSourceCodeButtonText = (componentData: any) => {
+    const type = componentData.type || 'custom';
+    switch (type) {
+      case 'mui-simple':
+      case 'mui-wrapper':
+        return 'View MUI Docs';
+      case 'custom':
+      default:
+        return 'View Source Code';
+    }
   };
 
   return (
@@ -167,8 +219,29 @@ export default function ComponentPage({ params }: ComponentPageProps) {
                     borderRadius: 1,
                     overflow: "hidden",
                     border: "1px solid",
-                    borderColor: "grey.300"
+                    borderColor: "grey.300",
+                    position: "relative"
                   }}>
+                    <Box sx={{
+                      position: "absolute",
+                      top: 8,
+                      right: 8,
+                      zIndex: 1
+                    }}>
+                      <IconButton
+                        size="small"
+                        onClick={() => handleCopyCode(getCodeExample(componentData.name, example.title))}
+                        sx={{
+                          backgroundColor: "rgba(0, 0, 0, 0.5)",
+                          color: "white",
+                          "&:hover": {
+                            backgroundColor: "rgba(0, 0, 0, 0.7)"
+                          }
+                        }}
+                      >
+                        <ContentCopyIcon fontSize="small" />
+                      </IconButton>
+                    </Box>
                     <SyntaxHighlighter
                       language="tsx"
                       style={vscDarkPlus}
@@ -253,9 +326,9 @@ export default function ComponentPage({ params }: ComponentPageProps) {
                   startIcon={<CodeIcon />}
                   fullWidth
                   sx={{ justifyContent: "flex-start" }}
-                  onClick={() => window.open(`https://github.com/salomax/neotool/blob/main/web/src/shared/ui/atoms/${componentName}.tsx`, '_blank')}
+                  onClick={() => window.open(getSourceCodeUrl(componentData), '_blank')}
                 >
-                  View Source Code
+                  {getSourceCodeButtonText(componentData)}
                 </Button>
                 <Button
                   variant="outlined"
