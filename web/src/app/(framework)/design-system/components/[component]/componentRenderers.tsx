@@ -1,63 +1,145 @@
 "use client";
 
 import React from "react";
-import { 
-  Box, 
-  Typography, 
-  Button,
-  TextField,
-  Avatar,
-  Badge,
-  Chip,
-  Checkbox,
-  Select,
-  MenuItem,
-  FormControl,
-  InputLabel,
-  Dialog,
-  DialogTitle,
-  DialogContent,
-  List,
-  ListItem,
-  ListItemText,
-  ListItemIcon,
-  Divider,
-  DialogActions,
-  Paper,
-  UploadIcon,
-  Autocomplete,
-  RadioGroup,
-  Radio,
-  FormControlLabel,
-  FormLabel,
-  InputAdornment,
-  IconButton,
-  VisibilityIcon as VisibilityIconMUI,
-  VisibilityOffIcon,
-  SearchIcon,
-  Tooltip,
-  Link as MuiLink,
-  CircularProgress,
-  Skeleton,
-  DatePicker,
-  LocalizationProvider,
-  AdapterDayjs,
-  FilterListIcon
-} from "../../../../shared/ui/mui-imports";
+// Import only the MUI components we actually use to reduce bundle size
+import Box from '@mui/material/Box';
+import Typography from '@mui/material/Typography';
+import Button from '@mui/material/Button';
+import TextField from '@mui/material/TextField';
+import Avatar from '@mui/material/Avatar';
+import Badge from '@mui/material/Badge';
+import Chip from '@mui/material/Chip';
+import Checkbox from '@mui/material/Checkbox';
+import Select from '@mui/material/Select';
+import MenuItem from '@mui/material/MenuItem';
+import FormControl from '@mui/material/FormControl';
+import InputLabel from '@mui/material/InputLabel';
+import Dialog from '@mui/material/Dialog';
+import DialogTitle from '@mui/material/DialogTitle';
+import DialogContent from '@mui/material/DialogContent';
+import List from '@mui/material/List';
+import ListItem from '@mui/material/ListItem';
+import ListItemText from '@mui/material/ListItemText';
+import VisibilityIconMUI from '@mui/icons-material/Visibility';
+import MuiLink from '@mui/material/Link';
+import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import dayjs from 'dayjs';
-import { maskCEP, maskCNPJ, maskCPF, maskPhoneBR } from '../../../../features/forms/components/masks/br';
-import { DatePickerField } from '../../../../shared/components/ui/atoms/form/DatePickers';
-import { Drawer } from '../../../../shared/components/ui/atoms/Drawer';
-import { Chart } from '../../../../shared/components/ui/molecules/Chart';
-import RichTextEditor from '../../../../shared/components/ui/molecules/RichTextEditor';
-import Rating from '../../../../shared/components/ui/atoms/Rating';
-import ColorPicker from '../../../../shared/components/ui/atoms/ColorPicker';
-import Slider from '../../../../shared/components/ui/atoms/Slider';
-import Switch from '../../../../shared/components/ui/atoms/Switch';
-import DateTimePicker from '../../../../shared/components/ui/atoms/DateTimePicker';
-import ImageUpload from '../../../../shared/components/ui/atoms/ImageUpload';
-import ProgressBar from '../../../../shared/components/ui/atoms/ProgressBar';
+import { maskCEP, maskCNPJ, maskCPF, maskPhoneBR } from '@/shared/components/ui/forms/components/masks/br';
+// Lazy load heavy components to reduce initial bundle size
+import dynamic from 'next/dynamic';
+
+// Lazy load heavy components with proper error handling
+const DatePickerField = dynamic(() => 
+  import('@/shared/components/ui/atoms/form/DatePickers')
+    .then(mod => ({ default: mod.DatePickerField }))
+    .catch(() => ({ default: () => <div>Component not available</div> })), 
+  { 
+    ssr: false,
+    loading: () => <div>Loading...</div>
+  }
+);
+const Drawer = dynamic(() => 
+  import('@/shared/components/ui/atoms/Drawer')
+    .then(mod => ({ default: mod.Drawer }))
+    .catch(() => ({ default: () => <div>Component not available</div> })), 
+  { 
+    ssr: false,
+    loading: () => <div>Loading...</div>
+  }
+);
+const Chart = dynamic(() => 
+  import('@/shared/components/ui/molecules/Chart')
+    .then(mod => ({ default: mod.Chart }))
+    .catch(() => ({ default: () => <div>Component not available</div> })), 
+  { 
+    ssr: false,
+    loading: () => <div>Loading...</div>
+  }
+);
+const RichTextEditor = dynamic(() => 
+  import('@/shared/components/ui/molecules/RichTextEditor')
+    .catch(() => ({ default: () => <div>Component not available</div> })), 
+  { 
+    ssr: false,
+    loading: () => <div>Loading...</div>
+  }
+);
+const Rating = dynamic(() => 
+  import('@/shared/components/ui/atoms/Rating')
+    .catch(() => ({ default: () => <div>Component not available</div> })), 
+  { 
+    ssr: false,
+    loading: () => <div>Loading...</div>
+  }
+);
+const ColorPicker = dynamic(() => 
+  import('@/shared/components/ui/atoms/ColorPicker')
+    .catch(() => ({ default: () => <div>Component not available</div> })), 
+  { 
+    ssr: false,
+    loading: () => <div>Loading...</div>
+  }
+);
+const Slider = dynamic(() => 
+  import('@/shared/components/ui/atoms/Slider')
+    .catch(() => ({ default: () => <div>Component not available</div> })), 
+  { 
+    ssr: false,
+    loading: () => <div>Loading...</div>
+  }
+);
+const Switch = dynamic(() => 
+  import('@/shared/components/ui/atoms/Switch')
+    .catch(() => ({ default: () => <div>Component not available</div> })), 
+  { 
+    ssr: false,
+    loading: () => <div>Loading...</div>
+  }
+);
+const DateTimePicker = dynamic(() => 
+  import('@/shared/components/ui/atoms/DateTimePicker')
+    .catch(() => ({ default: () => <div>Component not available</div> })), 
+  { 
+    ssr: false,
+    loading: () => <div>Loading...</div>
+  }
+);
+const ImageUpload = dynamic(() => 
+  import('@/shared/components/ui/atoms/ImageUpload')
+    .catch(() => ({ default: () => <div>Component not available</div> })), 
+  { 
+    ssr: false,
+    loading: () => <div>Loading...</div>
+  }
+);
+const ProgressBar = dynamic(() => 
+  import('@/shared/components/ui/atoms/ProgressBar')
+    .catch(() => ({ default: () => <div>Component not available</div> })), 
+  { 
+    ssr: false,
+    loading: () => <div>Loading...</div>
+  }
+);
+const Tabs = dynamic(() => 
+  import('@/shared/components/ui/molecules/Tabs')
+    .catch(() => ({ default: () => <div>Component not available</div> })), 
+  { 
+    ssr: false,
+    loading: () => <div>Loading...</div>
+  }
+);
+const DataTable = dynamic(() => 
+  import('@/shared/components/ui/organisms/DataTable')
+    .catch(() => ({ default: () => <div>Component not available</div> })), 
+  { 
+    ssr: false,
+    loading: () => <div>Loading...</div>
+  }
+);
+
 import { FormProvider, useForm } from 'react-hook-form';
+
 
 // Controlled Rating component for interactive examples
 const ControlledRating: React.FC<{
@@ -1842,7 +1924,626 @@ export const renderComponentExample = (props: ComponentRendererProps) => {
           );
       }
     
-    default:
-      return <Typography variant="body2" color="text.secondary">Component preview not available</Typography>;
+    case 'tabs':
+      switch (example) {
+        case 'Basic Tabs':
+          return (
+            <Tabs
+              tabs={[
+                {
+                  id: 'tab1',
+                  label: 'Tab 1',
+                  content: (
+                    <Box>
+                      <Typography variant="h6" gutterBottom>Tab 1 Content</Typography>
+                      <Typography variant="body1">
+                        This is the content of the first tab. You can switch between tabs by clicking on them.
+                      </Typography>
+                    </Box>
+                  )
+                },
+                {
+                  id: 'tab2',
+                  label: 'Tab 2',
+                  content: (
+                    <Box>
+                      <Typography variant="h6" gutterBottom>Tab 2 Content</Typography>
+                      <Typography variant="body1">
+                        This is the content of the second tab. Each tab can contain different content.
+                      </Typography>
+                    </Box>
+                  )
+                },
+                {
+                  id: 'tab3',
+                  label: 'Tab 3',
+                  content: (
+                    <Box>
+                      <Typography variant="h6" gutterBottom>Tab 3 Content</Typography>
+                      <Typography variant="body1">
+                        This is the content of the third tab. Tabs are great for organizing related content.
+                      </Typography>
+                    </Box>
+                  )
+                },
+                {
+                  id: 'tab4',
+                  label: 'Tab 4',
+                  content: (
+                    <Box>
+                      <Typography variant="h6" gutterBottom>Tab 3 Content</Typography>
+                      <Typography variant="body1">
+                        This is the content of the third tab. Tabs are great for organizing related content.
+                      </Typography>
+                    </Box>
+                  )
+                }
+              ]}
+            />
+          );
+        
+        case 'With Icons and Badges':
+          return (
+            <Tabs
+              tabs={[
+                {
+                  id: 'inbox',
+                  label: 'Inbox',
+                  content: (
+                    <Box>
+                      <Typography variant="h6" gutterBottom>Inbox</Typography>
+                      <Typography variant="body1">You have 5 unread messages.</Typography>
+                    </Box>
+                  ),
+                  icon: <Typography>📥</Typography>,
+                  badge: 5,
+                },
+                {
+                  id: 'sent',
+                  label: 'Sent',
+                  content: (
+                    <Box>
+                      <Typography variant="h6" gutterBottom>Sent Messages</Typography>
+                      <Typography variant="body1">Your sent messages appear here.</Typography>
+                    </Box>
+                  ),
+                  icon: <Typography>📤</Typography>,
+                  badge: 12,
+                },
+                {
+                  id: 'drafts',
+                  label: 'Drafts',
+                  content: (
+                    <Box>
+                      <Typography variant="h6" gutterBottom>Drafts</Typography>
+                      <Typography variant="body1">You have 3 draft messages.</Typography>
+                    </Box>
+                  ),
+                  icon: <Typography>📝</Typography>,
+                  badge: 3,
+                }
+              ]}
+              showBadges={true}
+              showCloseButtons={true}
+              showAddButton={true}
+            />
+          );
+        
+        case 'Vertical Tabs':
+          return (
+            <Tabs
+              tabs={[
+                {
+                  id: 'general',
+                  label: 'General',
+                  content: (
+                    <Box>
+                      <Typography variant="h6" gutterBottom>General Settings</Typography>
+                      <Typography variant="body1">Configure general application settings.</Typography>
+                    </Box>
+                  )
+                },
+                {
+                  id: 'security',
+                  label: 'Security',
+                  content: (
+                    <Box>
+                      <Typography variant="h6" gutterBottom>Security Settings</Typography>
+                      <Typography variant="body1">Manage your security preferences.</Typography>
+                    </Box>
+                  )
+                },
+                {
+                  id: 'privacy',
+                  label: 'Privacy',
+                  content: (
+                    <Box>
+                      <Typography variant="h6" gutterBottom>Privacy Settings</Typography>
+                      <Typography variant="body1">Control your privacy settings.</Typography>
+                    </Box>
+                  )
+                }
+              ]}
+              orientation="vertical"
+              variant="standard"
+            />
+          );
+        
+        case 'Dynamic Tabs':
+          return (
+            <Tabs
+              tabs={[
+                {
+                  id: 'home',
+                  label: 'Home',
+                  content: (
+                    <Box>
+                      <Typography variant="h6" gutterBottom>Welcome Home</Typography>
+                      <Typography variant="body1">
+                        This is the home tab content. You can add, remove, and switch between tabs dynamically.
+                      </Typography>
+                    </Box>
+                  ),
+                  icon: <Typography>🏠</Typography>,
+                  closable: true
+                },
+                {
+                  id: 'profile',
+                  label: 'Profile',
+                  content: (
+                    <Box>
+                      <Typography variant="h6" gutterBottom>User Profile</Typography>
+                      <TextField
+                        label="Name"
+                        defaultValue="John Doe"
+                        margin="normal"
+                        fullWidth
+                      />
+                      <TextField
+                        label="Email"
+                        defaultValue="john@example.com"
+                        margin="normal"
+                        fullWidth
+                      />
+                    </Box>
+                  ),
+                  icon: <Typography>👤</Typography>,
+                  badge: '2',
+                  closable: true
+                },
+                {
+                  id: 'settings',
+                  label: 'Settings',
+                  content: (
+                    <Box>
+                      <Typography variant="h6" gutterBottom>Settings</Typography>
+                      <Typography variant="body1">
+                        Configure your application settings here.
+                      </Typography>
+                    </Box>
+                  ),
+                  icon: <Typography>⚙️</Typography>,
+                  closable: false
+                }
+              ]}
+              showAddButton={true}
+              showCloseButtons={true}
+              showBadges={true}
+            />
+          );
+        
+        case 'Scrollable Tabs':
+          return (
+            <Tabs
+              tabs={Array.from({ length: 8 }, (_, i) => ({
+                id: `tab${i + 1}`,
+                label: `Tab ${i + 1}`,
+                content: (
+                  <Box>
+                    <Typography variant="h6" gutterBottom>Tab {i + 1} Content</Typography>
+                    <Typography variant="body1">
+                      This is content for tab {i + 1}. When there are many tabs, they become scrollable automatically.
+                    </Typography>
+                  </Box>
+                ),
+                closable: true
+              }))}
+              showAddButton={true}
+              showCloseButtons={true}
+            />
+          );
+        
+        case 'Draggable Tabs':
+          return (
+            <Tabs
+              tabs={Array.from({ length: 6 }, (_, i) => ({
+                id: `tab${i + 1}`,
+                label: `Tab ${i + 1}`,
+                content: (
+                  <Box>
+                    <Typography variant="h6" gutterBottom>Tab {i + 1} Content</Typography>
+                    <Typography variant="body1">
+                      This is the content for tab {i + 1}. There are many tabs to demonstrate scrolling.
+                    </Typography>
+                  </Box>
+                ),
+                closable: true
+              }))}
+              draggable={true}
+              showAddButton={true}
+              showCloseButtons={true}
+            />
+          );
+          
+        case 'Disabled Tabs':
+          return (
+            <Tabs
+              tabs={[
+                {
+                  id: 'active',
+                  label: 'Active Tab',
+                  content: (
+                    <Box>
+                      <Typography variant="h6" gutterBottom>Active Tab</Typography>
+                      <Typography variant="body1">This tab is active and clickable.</Typography>
+                    </Box>
+                  )
+                },
+                {
+                  id: 'disabled',
+                  label: 'Disabled Tab',
+                  content: (
+                    <Box>
+                      <Typography variant="h6" gutterBottom>Disabled Tab</Typography>
+                      <Typography variant="body1">This tab is disabled.</Typography>
+                    </Box>
+                  ),
+                  disabled: true
+                },
+                {
+                  id: 'another',
+                  label: 'Another Tab',
+                  content: (
+                    <Box>
+                      <Typography variant="h6" gutterBottom>Another Tab</Typography>
+                      <Typography variant="body1">This is another active tab.</Typography>
+                    </Box>
+                  )
+                }
+              ]}
+            />
+          );
+        
+        case 'Basic Static Tabs':
+          return (
+            <Tabs
+              tabs={[
+                {
+                  id: 'overview',
+                  label: 'Overview',
+                  content: (
+                    <Box>
+                      <Typography variant="h6" gutterBottom>Overview</Typography>
+                      <Typography variant="body1">
+                        This is a basic static tabs example. These tabs cannot be closed or added to.
+                        They demonstrate the core tab functionality without dynamic features.
+                      </Typography>
+                    </Box>
+                  )
+                },
+                {
+                  id: 'details',
+                  label: 'Details',
+                  content: (
+                    <Box>
+                      <Typography variant="h6" gutterBottom>Details</Typography>
+                      <Typography variant="body1">
+                        This tab shows detailed information. The content changes based on which tab is selected.
+                      </Typography>
+                    </Box>
+                  )
+                },
+                {
+                  id: 'settings',
+                  label: 'Settings',
+                  content: (
+                    <Box>
+                      <Typography variant="h6" gutterBottom>Settings</Typography>
+                      <Typography variant="body1">
+                        Configuration options would be displayed here. This is a static tab that cannot be removed.
+                      </Typography>
+                    </Box>
+                  )
+                }
+              ]}
+              showAddButton={false}
+              showCloseButtons={false}
+            />
+          );
+        
+        case 'Self-Managed Tabs':
+          return (
+            <Tabs
+              tabs={[
+                {
+                  id: 'welcome',
+                  label: 'Welcome',
+                  content: (
+                    <Box>
+                      <Typography variant="h6" gutterBottom>Welcome!</Typography>
+                      <Typography variant="body1">
+                        This is a self-managed tabs example. The component manages its own state internally.
+                        You can add new tabs and close existing ones without any external state management.
+                      </Typography>
+                    </Box>
+                  ),
+                  closable: true
+                },
+                {
+                  id: 'features',
+                  label: 'Features',
+                  content: (
+                    <Box>
+                      <Typography variant="h6" gutterBottom>Features</Typography>
+                      <Typography variant="body1">
+                        This tab demonstrates the self-managing capabilities. Try adding new tabs or closing this one!
+                      </Typography>
+                    </Box>
+                  ),
+                  closable: true
+                }
+              ]}
+              showAddButton={true}
+              showCloseButtons={true}
+            />
+          );
+        
+        default:
+          return (
+            <Tabs
+              tabs={[
+                {
+                  id: 'tab1',
+                  label: 'Tab 1',
+                  content: <div>Default content</div>
+                },
+                {
+                  id: 'tab2',
+                  label: 'Tab 2',
+                  content: <div>Default content</div>
+                }
+              ]}
+            />
+          );
+      }
+
+      case 'datatable':
+        switch (example) {
+          case 'Basic Table':
+            return (
+              <DataTable
+                columns={[
+                  { headerName: 'ID', field: 'id', width: 100 },
+                  { headerName: 'Name', field: 'name', flex: 1 },
+                  { headerName: 'Email', field: 'email', flex: 1 },
+                  { headerName: 'Status', field: 'status', width: 120 }
+                ]}
+                rows={[
+                  { id: 1, name: 'John Doe', email: 'john@example.com', status: 'Active' },
+                  { id: 2, name: 'Jane Smith', email: 'jane@example.com', status: 'Inactive' },
+                  { id: 3, name: 'Bob Johnson', email: 'bob@example.com', status: 'Active' },
+                  { id: 4, name: 'Alice Brown', email: 'alice@example.com', status: 'Pending' }
+                ]}
+                height={300}
+              />
+            );
+          
+           case 'With Selection':
+             return (
+               <DataTable
+                 columns={[
+                   { headerName: 'ID', field: 'id', width: 100 },
+                   { headerName: 'Name', field: 'name', flex: 1 },
+                   { headerName: 'Email', field: 'email', flex: 1 },
+                   { headerName: 'Status', field: 'status', width: 120 }
+                 ]}
+                 rows={[
+                   { id: 1, name: 'John Doe', email: 'john@example.com', status: 'Active' },
+                   { id: 2, name: 'Jane Smith', email: 'jane@example.com', status: 'Inactive' },
+                   { id: 3, name: 'Bob Johnson', email: 'bob@example.com', status: 'Active' },
+                   { id: 4, name: 'Alice Brown', email: 'alice@example.com', status: 'Pending' },
+                   { id: 5, name: 'Charlie Wilson', email: 'charlie@example.com', status: 'Active' }
+                 ]}
+                 selectable={true}
+                 selectionMode="multiple"
+                 height={300}
+               />
+             );
+          
+           case 'With Sorting':
+             return (
+               <DataTable
+                 columns={[
+                   { headerName: 'ID', field: 'id', width: 100 },
+                   { headerName: 'Name', field: 'name', flex: 1 },
+                   { headerName: 'Age', field: 'age', width: 100 },
+                   { headerName: 'Department', field: 'department', width: 150 }
+                 ]}
+                 rows={[
+                   { id: 1, name: 'Alice Johnson', age: 28, department: 'Engineering' },
+                   { id: 2, name: 'Bob Smith', age: 35, department: 'Marketing' },
+                   { id: 3, name: 'Charlie Brown', age: 42, department: 'Sales' },
+                   { id: 4, name: 'Diana Wilson', age: 31, department: 'Engineering' },
+                   { id: 5, name: 'Eve Davis', age: 29, department: 'HR' }
+                 ]}
+                 sort="name:asc"
+                 height={300}
+               />
+             );
+          
+           case 'With Filtering':
+             return (
+               <DataTable
+                 columns={[
+                   { headerName: 'ID', field: 'id', width: 100 },
+                   { headerName: 'Product', field: 'product', flex: 1 },
+                   { headerName: 'Category', field: 'category', width: 120 },
+                   { headerName: 'Price', field: 'price', width: 100 },
+                   { headerName: 'Stock', field: 'stock', width: 100 }
+                 ]}
+                 rows={[
+                   { id: 1, product: 'Laptop Pro', category: 'Electronics', price: 1299, stock: 15 },
+                   { id: 2, product: 'Office Chair', category: 'Furniture', price: 299, stock: 8 },
+                   { id: 3, product: 'Wireless Mouse', category: 'Electronics', price: 49, stock: 25 },
+                   { id: 4, product: 'Desk Lamp', category: 'Furniture', price: 89, stock: 12 },
+                   { id: 5, product: 'Keyboard', category: 'Electronics', price: 79, stock: 20 }
+                 ]}
+                 enableFilterBar={true}
+                 height={300}
+               />
+             );
+          
+           case 'With Pagination':
+             return (
+               <DataTable
+                 columns={[
+                   { headerName: 'ID', field: 'id', width: 100 },
+                   { headerName: 'Customer', field: 'customer', flex: 1 },
+                   { headerName: 'Order Date', field: 'orderDate', width: 120 },
+                   { headerName: 'Amount', field: 'amount', width: 100 }
+                 ]}
+                 rows={[
+                   { id: 1, customer: 'John Smith', orderDate: '2024-01-15', amount: 299.99 },
+                   { id: 2, customer: 'Sarah Johnson', orderDate: '2024-01-16', amount: 149.50 },
+                   { id: 3, customer: 'Mike Wilson', orderDate: '2024-01-17', amount: 89.99 },
+                   { id: 4, customer: 'Lisa Brown', orderDate: '2024-01-18', amount: 199.00 },
+                   { id: 5, customer: 'David Lee', orderDate: '2024-01-19', amount: 75.25 }
+                 ]}
+                 totalRows={50}
+                 page={0}
+                 pageSize={5}
+                 height={300}
+               />
+             );
+          
+           case 'With Toolbar':
+             return (
+               <DataTable
+                 columns={[
+                   { headerName: 'ID', field: 'id', width: 100 },
+                   { headerName: 'Employee', field: 'employee', flex: 1 },
+                   { headerName: 'Position', field: 'position', width: 150 },
+                   { headerName: 'Salary', field: 'salary', width: 120 },
+                   { headerName: 'Department', field: 'department', width: 120 }
+                 ]}
+                 rows={[
+                   { id: 1, employee: 'Alice Johnson', position: 'Senior Developer', salary: 95000, department: 'Engineering' },
+                   { id: 2, employee: 'Bob Smith', position: 'Marketing Manager', salary: 75000, department: 'Marketing' },
+                   { id: 3, employee: 'Charlie Brown', position: 'Sales Director', salary: 85000, department: 'Sales' },
+                   { id: 4, employee: 'Diana Wilson', position: 'UX Designer', salary: 70000, department: 'Design' },
+                   { id: 5, employee: 'Eve Davis', position: 'HR Specialist', salary: 60000, department: 'HR' }
+                 ]}
+                 showToolbar={true}
+                 enableDensity={true}
+                 enableExport={true}
+                 enableColumnSelector={true}
+                 height={300}
+               />
+             );
+          
+           case 'Compact Density':
+             return (
+               <DataTable
+                 columns={[
+                   { headerName: 'ID', field: 'id', width: 80 },
+                   { headerName: 'Code', field: 'code', width: 100 },
+                   { headerName: 'Name', field: 'name', flex: 1 },
+                   { headerName: 'Price', field: 'price', width: 80 },
+                   { headerName: 'Qty', field: 'quantity', width: 60 }
+                 ]}
+                 rows={[
+                   { id: 1, code: 'A001', name: 'Widget A', price: 12.99, quantity: 100 },
+                   { id: 2, code: 'B002', name: 'Widget B', price: 8.50, quantity: 250 },
+                   { id: 3, code: 'C003', name: 'Widget C', price: 15.75, quantity: 75 },
+                   { id: 4, code: 'D004', name: 'Widget D', price: 22.00, quantity: 50 },
+                   { id: 5, code: 'E005', name: 'Widget E', price: 6.25, quantity: 300 },
+                   { id: 6, code: 'F006', name: 'Widget F', price: 18.90, quantity: 120 }
+                 ]}
+                 initialDensity="compact"
+                 height={250}
+               />
+             );
+          
+          case 'Custom Columns':
+            return (
+              <DataTable
+                columns={[
+                  { 
+                    headerName: 'ID', 
+                    field: 'id', 
+                    width: 100,
+                    filter: 'agNumberColumnFilter'
+                  },
+                  { 
+                    headerName: 'Name', 
+                    field: 'name', 
+                    flex: 1,
+                    filter: 'agTextColumnFilter',
+                    sortable: true
+                  },
+                  { 
+                    headerName: 'Amount', 
+                    field: 'amount', 
+                    width: 120,
+                    valueFormatter: (params: any) => 
+                      params.value ? `$${params.value.toLocaleString()}` : ''
+                  },
+                  { 
+                    headerName: 'Status', 
+                    field: 'status', 
+                    width: 120,
+                    cellRenderer: (params: any) => {
+                      const status = params.value;
+                      const color = status === 'Active' ? 'green' : status === 'Inactive' ? 'red' : 'orange';
+                      return `<span style="color: ${color}; font-weight: bold;">${status}</span>`;
+                    }
+                  }
+                ]}
+                rows={[
+                  { id: 1, name: 'John Doe', amount: 1500, status: 'Active' },
+                  { id: 2, name: 'Jane Smith', amount: 2300, status: 'Inactive' },
+                  { id: 3, name: 'Bob Johnson', amount: 800, status: 'Active' },
+                  { id: 4, name: 'Alice Brown', amount: 3200, status: 'Pending' }
+                ]}
+                height={300}
+              />
+            );
+          
+          default:
+            return (
+              <DataTable
+                columns={[
+                  { headerName: 'ID', field: 'id', width: 100 },
+                  { headerName: 'Name', field: 'name', flex: 1 },
+                  { headerName: 'Email', field: 'email', flex: 1 }
+                ]}
+                rows={[
+                  { id: 1, name: 'John Doe', email: 'john@example.com' },
+                  { id: 2, name: 'Jane Smith', email: 'jane@example.com' }
+                ]}
+                height={300}
+              />
+            );
+        }
+    
+  default:
+    return <Typography variant="body2" color="text.secondary">Component preview not available</Typography>;
   }
 };
+
+// React component wrapper for lazy loading
+const ComponentRenderer: React.FC<ComponentRendererProps> = (props) => {
+  return renderComponentExample(props);
+};
+
+export default ComponentRenderer;

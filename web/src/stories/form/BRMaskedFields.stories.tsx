@@ -9,7 +9,7 @@ import { CPFField } from "@/shared/components/ui/molecules/br/CPFField";
 import { CNPJField } from "@/shared/components/ui/molecules/br/CNPJField";
 import { CEPField } from "@/shared/components/ui/molecules/br/CEPField";
 import { zCPF, zCNPJ, zCEP } from "@/shared/utils/br/validators";
-import { FormErrorBanner, FormRow } from "@/features/forms/components";
+import { FormErrorBanner, FormRow } from "@/shared/components/ui/forms/components";
 
 const meta: Meta = { title: "Forms/BR Masks & Validators" };
 export default meta;

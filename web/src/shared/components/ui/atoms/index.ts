@@ -13,5 +13,6 @@ export { default as Switch } from './Switch';
 export { default as DateTimePicker } from './DateTimePicker';
 export { default as ImageUpload } from './ImageUpload';
 export { default as ProgressBar } from './ProgressBar';
+export { default as Tabs } from './Tabs';
 export { default as TextField } from './form/TextField';
 export { default as Tooltip } from './Tooltip';

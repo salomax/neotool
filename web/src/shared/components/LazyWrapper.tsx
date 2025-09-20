@@ -38,7 +38,7 @@ export const LazyDataTable = React.lazy(() =>
 );
 
 export const LazyEnterpriseTable = React.lazy(() => 
-  import('@/features/data-table/components/enterprise/EnterpriseTable')
+  import('@/shared/components/ui/data-table/components/enterprise/EnterpriseTable')
 );
 
 // Higher-order component for lazy loading

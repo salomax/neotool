@@ -13,6 +13,7 @@ import {
 } from "@/shared/ui/mui-imports";
 import Link from "next/link";
 import { useResponsive } from "@/shared/hooks/useResponsive";
+import { Logo } from "@/shared/ui/brand";
 
 export default function WelcomePage() {
   const { isMobile, isTablet } = useResponsive();
@@ -26,11 +27,14 @@ export default function WelcomePage() {
   return (
     <Container maxWidth="lg" sx={{ py: 4 }}>
       <Box sx={{ textAlign: "center", mb: 6 }}>
+        <Box sx={{ mb: 3, display: 'flex', justifyContent: 'center' }}>
+          <Logo variant="blue" size="xlarge" />
+        </Box>
         <Typography variant="h2" component="h1" gutterBottom>
           Welcome to Neotool
         </Typography>
-        <Typography variant="h5" color="text.secondary" sx={{ maxWidth: 600, mx: "auto" }}>
-          A comprehensive design system and component library built with Next.js and Material-UI
+        <Typography variant="h5" color="text.secondary" sx={{ mx: "auto" }}>
+          A comprehensive framework for building modern web applications
         </Typography>
       </Box>
 

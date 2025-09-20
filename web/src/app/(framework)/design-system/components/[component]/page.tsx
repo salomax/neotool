@@ -1,27 +1,72 @@
 "use client";
 
 import React, { use } from "react";
-import { 
-  Box, 
-  Typography, 
-  Container, 
-  Card, 
-  CardContent,
-  Button,
-  Chip,
-  IconButton,
-  ArrowBackIcon,
-  VisibilityIcon,
-  CodeIcon,
-  ContentCopyIcon
-} from "../../../../shared/ui/mui-imports";
+// Import only the MUI components we actually use to reduce bundle size
+import Box from '@mui/material/Box';
+import Typography from '@mui/material/Typography';
+import Container from '@mui/material/Container';
+import Card from '@mui/material/Card';
+import CardContent from '@mui/material/CardContent';
+import Button from '@mui/material/Button';
+import Chip from '@mui/material/Chip';
+import IconButton from '@mui/material/IconButton';
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import VisibilityIcon from '@mui/icons-material/Visibility';
+import CodeIcon from '@mui/icons-material/Code';
+import ContentCopyIcon from '@mui/icons-material/ContentCopy';
 import Link from "next/link";
-import { useResponsive } from "../../../../shared/hooks/useResponsive";
-import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
-import { vscDarkPlus } from 'react-syntax-highlighter/dist/esm/styles/prism';
+import { useResponsive } from "@/shared/hooks/useResponsive";
+// Lazy load syntax highlighter to reduce initial bundle size
+import dynamic from 'next/dynamic';
+
+const SyntaxHighlighter = dynamic(() => 
+  import('react-syntax-highlighter').then(mod => ({ 
+    default: mod.Prism 
+  })), { 
+    ssr: false,
+    loading: () => <div>Loading code...</div>
+  }
+);
+
+// Create a wrapper component for syntax highlighting with dynamic style
+const CodeHighlighter = dynamic(() => 
+  import('react-syntax-highlighter').then(mod => {
+    const { Prism } = mod;
+    return {
+      default: ({ children, ...props }: any) => {
+        const [style, setStyle] = React.useState(null);
+        
+        React.useEffect(() => {
+          import('react-syntax-highlighter/dist/esm/styles/prism').then(styleMod => {
+            setStyle(styleMod.vscDarkPlus);
+          }).catch(err => {
+            console.error('Failed to load syntax highlighter style:', err);
+          });
+        }, []);
+        
+        if (!style) return <div>Loading code...</div>;
+        
+        return (
+          <Prism style={style} {...props}>
+            {children}
+          </Prism>
+        );
+      }
+    };
+  }), 
+  { 
+    ssr: false,
+    loading: () => <div>Loading code...</div>
+  }
+);
 import { getComponentData } from './componentData';
 import { getCodeExample } from './codeExamples';
-import { renderComponentExample } from './componentRenderers';
+
+// Lazy load the component renderers to reduce initial bundle size
+const ComponentRenderers = dynamic(() => import('./componentRenderers'), {
+  loading: () => <div>Loading component...</div>,
+  ssr: false
+});
 
 interface ComponentPageProps {
   params: Promise<{
@@ -186,32 +231,32 @@ export default function ComponentPage({ params }: ComponentPageProps) {
                     alignItems: 'center',
                     minHeight: 80
                   }}>
-                    {renderComponentExample({
-                      componentName: componentData.name,
-                      example: example.title,
-                      autocompleteValue,
-                      setAutocompleteValue,
-                      showPassword,
-                      setShowPassword,
-                      selectValue,
-                      setSelectValue,
-                      radioValue,
-                      setRadioValue,
-                      cepValue,
-                      setCepValue,
-                      cnpjValue,
-                      setCnpjValue,
-                      cpfValue,
-                      setCpfValue,
-                      phoneValue,
-                      setPhoneValue,
-                      dateMaskValue,
-                      setDateMaskValue,
-                      customMaskValue,
-                      setCustomMaskValue,
-                      dialogOpen,
-                      setDialogOpen
-                    })}
+                    <ComponentRenderers
+                      componentName={componentData.name}
+                      example={example.title}
+                      autocompleteValue={autocompleteValue}
+                      setAutocompleteValue={setAutocompleteValue}
+                      showPassword={showPassword}
+                      setShowPassword={setShowPassword}
+                      selectValue={selectValue}
+                      setSelectValue={setSelectValue}
+                      radioValue={radioValue}
+                      setRadioValue={setRadioValue}
+                      cepValue={cepValue}
+                      setCepValue={setCepValue}
+                      cnpjValue={cnpjValue}
+                      setCnpjValue={setCnpjValue}
+                      cpfValue={cpfValue}
+                      setCpfValue={setCpfValue}
+                      phoneValue={phoneValue}
+                      setPhoneValue={setPhoneValue}
+                      dateMaskValue={dateMaskValue}
+                      setDateMaskValue={setDateMaskValue}
+                      customMaskValue={customMaskValue}
+                      setCustomMaskValue={setCustomMaskValue}
+                      dialogOpen={dialogOpen}
+                      setDialogOpen={setDialogOpen}
+                    />
                   </Box>
                   
                   {/* Code Example */}
@@ -242,9 +287,8 @@ export default function ComponentPage({ params }: ComponentPageProps) {
                         <ContentCopyIcon fontSize="small" />
                       </IconButton>
                     </Box>
-                    <SyntaxHighlighter
+                    <CodeHighlighter
                       language="tsx"
-                      style={vscDarkPlus}
                       customStyle={{
                         margin: 0,
                         fontSize: "0.875rem",
@@ -255,7 +299,7 @@ export default function ComponentPage({ params }: ComponentPageProps) {
                       wrapLongLines={true}
                     >
                       {getCodeExample(componentData.name, example.title)}
-                    </SyntaxHighlighter>
+                    </CodeHighlighter>
                   </Box>
                 </Box>
               ))}

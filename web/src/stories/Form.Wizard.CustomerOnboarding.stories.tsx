@@ -22,7 +22,7 @@ import {
   ControllerPhoneBRField,
   useFormPersist,
   zodBR,
-} from "@/features/forms/components";
+} from "@/shared/components/ui/forms/components";
 import { Stepper, Step, StepLabel, Stack, Button } from "@mui/material";
 
 type Data = {

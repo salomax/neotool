@@ -5,7 +5,7 @@ import { FormProvider } from "react-hook-form";
 import { Box, Button, Grid, Stack, TextField, Typography } from "@mui/material";
 import { useZodForm } from "@/shared/hooks/useZodForm";
 import { useAutoSave } from "@/shared/hooks/useAutoSave";
-import { FormErrorBanner, FormRow } from "@/features/forms/components";
+import { FormErrorBanner, FormRow } from "@/shared/components/ui/forms/components";
 import { MaskedField } from "@/shared/components/ui/molecules/MaskedField";
 import { FileUploader } from "@/shared/components/ui/molecules/FileUploader";
 import { AsyncAutocomplete } from "@/shared/components/ui/molecules/AsyncAutocomplete";

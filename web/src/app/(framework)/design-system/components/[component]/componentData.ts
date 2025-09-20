@@ -24,6 +24,7 @@ export interface ComponentData {
   githubUrl: string;
   type?: 'custom' | 'mui-wrapper' | 'mui-simple';
   muiDocsUrl?: string;
+  codeSnippets?: Record<string, string>;
 }
 
 export const getComponentData = (name: string): ComponentData => {
@@ -1081,6 +1082,357 @@ export const getComponentData = (name: string): ComponentData => {
         { title: "Custom Toolbar", description: "Editor with limited formatting options" },
         { title: "Bottom Toolbar", description: "Editor with toolbar positioned at bottom" }
       ]
+    },
+        tabs: {
+          name: "Tabs",
+          description: "Dynamic tabs component with creation, closing, and reordering capabilities",
+          status: "stable",
+          category: "molecules",
+      tags: ["tabs", "navigation", "dynamic", "closable", "reorderable"],
+      stories: true,
+      tests: true,
+      githubUrl: "/web/src/shared/components/ui/molecules/Tabs.tsx",
+      props: [
+        { name: "tabs", type: "TabItem[]", required: true, description: "Array of tab items" },
+        { name: "value", type: "string", required: false, description: "Currently active tab ID" },
+        { name: "onChange", type: "(tabId: string) => void", required: false, description: "Callback fired when tab selection changes" },
+        { name: "onTabClose", type: "(tabId: string) => void", required: false, description: "Callback fired when a tab is closed" },
+        { name: "onTabAdd", type: "() => void", required: false, description: "Callback fired when a new tab is added" },
+        { name: "showAddButton", type: "boolean", required: false, description: "Whether to show the add tab button", default: "true" },
+        { name: "showCloseButtons", type: "boolean", required: false, description: "Whether to show close buttons on tabs", default: "true" },
+        { name: "draggable", type: "boolean", required: false, description: "Whether tabs can be reordered by dragging", default: "false" },
+        { name: "orientation", type: "'horizontal' | 'vertical'", required: false, description: "Tab orientation", default: "'horizontal'" },
+        { name: "variant", type: "'standard' | 'scrollable' | 'fullWidth'", required: false, description: "Tab variant", default: "'scrollable'" },
+        { name: "indicatorColor", type: "'primary' | 'secondary'", required: false, description: "Tab indicator color", default: "'primary'" },
+        { name: "textColor", type: "'primary' | 'secondary' | 'inherit'", required: false, description: "Tab text color", default: "'primary'" },
+        { name: "showBadges", type: "boolean", required: false, description: "Whether to show tab badges", default: "true" },
+        { name: "maxTabs", type: "number", required: false, description: "Maximum number of tabs allowed", default: "10" },
+        { name: "className", type: "string", required: false, description: "Custom CSS class name" },
+        { name: "data-testid", type: "string", required: false, description: "Test identifier for testing" }
+      ],
+      examples: [
+        { title: "Basic Static Tabs", description: "Simple static tabs without dynamic features" },
+        { title: "Self-Managed Tabs", description: "Tabs that manage their own state internally" },
+        { title: "Basic Tabs", description: "Simple tabs with basic functionality" },
+        { title: "With Icons and Badges", description: "Tabs with icons and notification badges" },
+        { title: "Vertical Tabs", description: "Tabs displayed vertically" },
+        { title: "Dynamic Tabs", description: "Tabs with add/close functionality" },
+        { title: "Scrollable Tabs", description: "Tabs that scroll when there are many" },
+        { title: "Draggable Tabs", description: "Resort tabs by dragging" },
+        { title: "Disabled Tabs", description: "Tabs with disabled state" }
+      ],
+      codeSnippets: {
+        "Basic Static Tabs": `<Tabs
+  tabs={[
+    {
+      id: 'overview',
+      label: 'Overview',
+      content: <div>Overview content</div>
+    },
+    {
+      id: 'details',
+      label: 'Details',
+      content: <div>Details content</div>
+    },
+    {
+      id: 'settings',
+      label: 'Settings',
+      content: <div>Settings content</div>
+    }
+  ]}
+  showAddButton={false}
+  showCloseButtons={false}
+/>`,
+        "Self-Managed Tabs": `<Tabs
+  tabs={[
+    {
+      id: 'welcome',
+      label: 'Welcome',
+      content: <div>Welcome content</div>,
+      closable: true
+    },
+    {
+      id: 'features',
+      label: 'Features',
+      content: <div>Features content</div>,
+      closable: true
+    }
+  ]}
+  showAddButton={true}
+  showCloseButtons={true}
+/>`,
+        "Basic Tabs": `<Tabs
+  tabs={[
+    {
+      id: 'tab1',
+      label: 'Tab 1',
+      content: <div>Content 1</div>
+    },
+    {
+      id: 'tab2',
+      label: 'Tab 2',
+      content: <div>Content 2</div>
+    }
+  ]}
+/>`,
+        "With Icons and Badges": `<Tabs
+  tabs={[
+    {
+      id: 'inbox',
+      label: 'Inbox',
+      content: <div>Inbox content</div>,
+      icon: <InboxIcon />,
+      badge: 5,
+      closable: true
+    },
+    {
+      id: 'sent',
+      label: 'Sent',
+      content: <div>Sent content</div>,
+      icon: <SendIcon />,
+      badge: 12,
+      closable: true
+    }
+  ]}
+  showBadges={true}
+/>`,
+        "Vertical Tabs": `<Tabs
+  tabs={tabs}
+  orientation="vertical"
+  variant="standard"
+/>`,
+        "Dynamic Tabs": `<Tabs
+  tabs={tabs}
+  onChange={handleTabChange}
+  onTabClose={handleTabClose}
+  onTabAdd={handleTabAdd}
+  showAddButton={true}
+  showCloseButtons={true}
+/>`,
+        "Scrollable Tabs": `<Tabs
+  tabs={manyTabs}
+  variant="scrollable"
+  showAddButton={true}
+  showCloseButtons={true}
+/>`,
+        "Disabled Tabs": `<Tabs
+  tabs={[
+    {
+      id: 'active',
+      label: 'Active Tab',
+      content: <div>Active content</div>
+    },
+    {
+      id: 'disabled',
+      label: 'Disabled Tab',
+      content: <div>Disabled content</div>,
+      disabled: true
+    }
+  ]}
+/>`
+      }
+    },
+    datatable: {
+      name: "DataTable",
+      description: "Advanced data table with sorting, filtering, pagination, and selection capabilities",
+      status: "stable",
+      category: "organisms",
+      tags: ["table", "data", "grid", "sorting", "filtering", "pagination", "selection"],
+      stories: true,
+      tests: true,
+      githubUrl: "/web/src/shared/components/ui/organisms/DataTable.tsx",
+      props: [
+        { name: "columns", type: "ColDef[]", required: true, description: "Column definitions for the table" },
+        { name: "rows", type: "T[]", required: true, description: "Data rows to display" },
+        { name: "height", type: "number | string", required: false, description: "Table height", default: "560" },
+        { name: "loading", type: "boolean", required: false, description: "Loading state", default: "false" },
+        { name: "error", type: "string", required: false, description: "Error message to display" },
+        { name: "totalRows", type: "number", required: false, description: "Total number of rows for server-side pagination" },
+        { name: "page", type: "number", required: false, description: "Current page number", default: "0" },
+        { name: "pageSize", type: "number", required: false, description: "Number of rows per page", default: "25" },
+        { name: "onPageChange", type: "(page: number, pageSize: number) => void", required: false, description: "Callback fired when page changes" },
+        { name: "onRowClicked", type: "(row: T) => void", required: false, description: "Callback fired when a row is clicked" },
+        { name: "sort", type: "string", required: false, description: "Current sort configuration" },
+        { name: "onSortChange", type: "(sort: string) => void", required: false, description: "Callback fired when sort changes" },
+        { name: "selectable", type: "boolean", required: false, description: "Whether rows can be selected", default: "false" },
+        { name: "selectionMode", type: "'single' | 'multiple'", required: false, description: "Selection mode", default: "'multiple'" },
+        { name: "selectedIds", type: "Array<string | number>", required: false, description: "Currently selected row IDs" },
+        { name: "onSelectionChange", type: "(ids: Array<string | number>, rows: T[]) => void", required: false, description: "Callback fired when selection changes" },
+        { name: "getRowId", type: "(row: T) => string | number", required: false, description: "Function to get unique row ID" },
+        { name: "showToolbar", type: "boolean", required: false, description: "Whether to show the toolbar", default: "true" },
+        { name: "enableDensity", type: "boolean", required: false, description: "Whether to enable density controls", default: "true" },
+        { name: "enableExport", type: "boolean", required: false, description: "Whether to enable export functionality", default: "true" },
+        { name: "enableColumnSelector", type: "boolean", required: false, description: "Whether to enable column selector", default: "false" },
+        { name: "initialDensity", type: "'compact' | 'standard' | 'comfortable'", required: false, description: "Initial density setting", default: "'standard'" },
+        { name: "tableId", type: "string", required: false, description: "Unique table ID for saving views" },
+        { name: "enableFilterBar", type: "boolean", required: false, description: "Whether to enable filter bar", default: "false" },
+        { name: "percentFilterColumns", type: "string[]", required: false, description: "Columns that should use percent filters" },
+        { name: "gridProps", type: "any", required: false, description: "Additional props for the underlying grid" }
+      ],
+      examples: [
+        { title: "Basic Table", description: "Simple data table with basic functionality. Shows employee data with `columns` and `rows` props." },
+        { title: "With Selection", description: "Table with row selection capabilities. Use `selectable={true}` and `selectionMode` to enable multi-select." },
+        { title: "With Sorting", description: "Table with sorting functionality. Click column headers to sort. Use `sort` prop for initial sort state." },
+        { title: "With Filtering", description: "Table with filtering capabilities. Enable `enableFilterBar={true}` to show filter controls." },
+        { title: "With Pagination", description: "Table with server-side pagination. Use `totalRows`, `page`, and `pageSize` for pagination controls." },
+        { title: "With Toolbar", description: "Table with full toolbar features. Enable `showToolbar`, `enableDensity`, `enableExport`, and `enableColumnSelector`." },
+        { title: "Compact Density", description: "Table with compact row density. Use `initialDensity=\"compact\"` for tighter spacing." },
+        { title: "Custom Columns", description: "Table with custom column configurations. Use `valueFormatter`, `cellRenderer`, and custom filters." }
+      ],
+      codeSnippets: {
+        "Basic Table": `<DataTable
+  columns={[
+    { headerName: 'ID', field: 'id', width: 100 },
+    { headerName: 'Name', field: 'name', flex: 1 },
+    { headerName: 'Email', field: 'email', flex: 1 },
+    { headerName: 'Status', field: 'status', width: 120 }
+  ]}
+  rows={[
+    { id: 1, name: 'John Doe', email: 'john@example.com', status: 'Active' },
+    { id: 2, name: 'Jane Smith', email: 'jane@example.com', status: 'Inactive' },
+    { id: 3, name: 'Bob Johnson', email: 'bob@example.com', status: 'Active' },
+    { id: 4, name: 'Alice Brown', email: 'alice@example.com', status: 'Pending' }
+  ]}
+  height={300}
+/>`,
+        "With Selection": `<DataTable
+  columns={[
+    { headerName: 'ID', field: 'id', width: 100 },
+    { headerName: 'Name', field: 'name', flex: 1 },
+    { headerName: 'Email', field: 'email', flex: 1 },
+    { headerName: 'Status', field: 'status', width: 120 }
+  ]}
+  rows={[
+    { id: 1, name: 'John Doe', email: 'john@example.com', status: 'Active' },
+    { id: 2, name: 'Jane Smith', email: 'jane@example.com', status: 'Inactive' },
+    { id: 3, name: 'Bob Johnson', email: 'bob@example.com', status: 'Active' },
+    { id: 4, name: 'Alice Brown', email: 'alice@example.com', status: 'Pending' },
+    { id: 5, name: 'Charlie Wilson', email: 'charlie@example.com', status: 'Active' }
+  ]}
+  selectable={true}
+  selectionMode="multiple"
+  height={300}
+/>`,
+        "With Sorting": `<DataTable
+  columns={[
+    { headerName: 'ID', field: 'id', width: 100 },
+    { headerName: 'Name', field: 'name', flex: 1 },
+    { headerName: 'Age', field: 'age', width: 100 },
+    { headerName: 'Department', field: 'department', width: 150 }
+  ]}
+  rows={[
+    { id: 1, name: 'Alice Johnson', age: 28, department: 'Engineering' },
+    { id: 2, name: 'Bob Smith', age: 35, department: 'Marketing' },
+    { id: 3, name: 'Charlie Brown', age: 42, department: 'Sales' },
+    { id: 4, name: 'Diana Wilson', age: 31, department: 'Engineering' },
+    { id: 5, name: 'Eve Davis', age: 29, department: 'HR' }
+  ]}
+  sort="name:asc"
+  height={300}
+/>`,
+        "With Filtering": `<DataTable
+  columns={[
+    { headerName: 'ID', field: 'id', width: 100 },
+    { headerName: 'Product', field: 'product', flex: 1 },
+    { headerName: 'Category', field: 'category', width: 120 },
+    { headerName: 'Price', field: 'price', width: 100 },
+    { headerName: 'Stock', field: 'stock', width: 100 }
+  ]}
+  rows={[
+    { id: 1, product: 'Laptop Pro', category: 'Electronics', price: 1299, stock: 15 },
+    { id: 2, product: 'Office Chair', category: 'Furniture', price: 299, stock: 8 },
+    { id: 3, product: 'Wireless Mouse', category: 'Electronics', price: 49, stock: 25 },
+    { id: 4, product: 'Desk Lamp', category: 'Furniture', price: 89, stock: 12 },
+    { id: 5, product: 'Keyboard', category: 'Electronics', price: 79, stock: 20 }
+  ]}
+  enableFilterBar={true}
+  height={300}
+/>`,
+        "With Pagination": `<DataTable
+  columns={[
+    { headerName: 'ID', field: 'id', width: 100 },
+    { headerName: 'Customer', field: 'customer', flex: 1 },
+    { headerName: 'Order Date', field: 'orderDate', width: 120 },
+    { headerName: 'Amount', field: 'amount', width: 100 }
+  ]}
+  rows={[
+    { id: 1, customer: 'John Smith', orderDate: '2024-01-15', amount: 299.99 },
+    { id: 2, customer: 'Sarah Johnson', orderDate: '2024-01-16', amount: 149.50 },
+    { id: 3, customer: 'Mike Wilson', orderDate: '2024-01-17', amount: 89.99 },
+    { id: 4, customer: 'Lisa Brown', orderDate: '2024-01-18', amount: 199.00 },
+    { id: 5, customer: 'David Lee', orderDate: '2024-01-19', amount: 75.25 }
+  ]}
+  totalRows={50}
+  page={0}
+  pageSize={5}
+  height={300}
+/>`,
+        "With Toolbar": `<DataTable
+  columns={[
+    { headerName: 'ID', field: 'id', width: 100 },
+    { headerName: 'Employee', field: 'employee', flex: 1 },
+    { headerName: 'Position', field: 'position', width: 150 },
+    { headerName: 'Salary', field: 'salary', width: 120 },
+    { headerName: 'Department', field: 'department', width: 120 }
+  ]}
+  rows={[
+    { id: 1, employee: 'Alice Johnson', position: 'Senior Developer', salary: 95000, department: 'Engineering' },
+    { id: 2, employee: 'Bob Smith', position: 'Marketing Manager', salary: 75000, department: 'Marketing' },
+    { id: 3, employee: 'Charlie Brown', position: 'Sales Director', salary: 85000, department: 'Sales' },
+    { id: 4, employee: 'Diana Wilson', position: 'UX Designer', salary: 70000, department: 'Design' },
+    { id: 5, employee: 'Eve Davis', position: 'HR Specialist', salary: 60000, department: 'HR' }
+  ]}
+  showToolbar={true}
+  enableDensity={true}
+  enableExport={true}
+  enableColumnSelector={true}
+  height={300}
+/>`,
+        "Compact Density": `<DataTable
+  columns={[
+    { headerName: 'ID', field: 'id', width: 80 },
+    { headerName: 'Code', field: 'code', width: 100 },
+    { headerName: 'Name', field: 'name', flex: 1 },
+    { headerName: 'Price', field: 'price', width: 80 },
+    { headerName: 'Qty', field: 'quantity', width: 60 }
+  ]}
+  rows={[
+    { id: 1, code: 'A001', name: 'Widget A', price: 12.99, quantity: 100 },
+    { id: 2, code: 'B002', name: 'Widget B', price: 8.50, quantity: 250 },
+    { id: 3, code: 'C003', name: 'Widget C', price: 15.75, quantity: 75 },
+    { id: 4, code: 'D004', name: 'Widget D', price: 22.00, quantity: 50 },
+    { id: 5, code: 'E005', name: 'Widget E', price: 6.25, quantity: 300 },
+    { id: 6, code: 'F006', name: 'Widget F', price: 18.90, quantity: 120 }
+  ]}
+  initialDensity="compact"
+  height={250}
+/>`,
+        "Custom Columns": `<DataTable
+  columns={[
+    { 
+      headerName: 'ID', 
+      field: 'id', 
+      width: 100,
+      filter: 'agNumberColumnFilter'
+    },
+    { 
+      headerName: 'Name', 
+      field: 'name', 
+      flex: 1,
+      filter: 'agTextColumnFilter',
+      sortable: true
+    },
+    { 
+      headerName: 'Amount', 
+      field: 'amount', 
+      width: 120,
+      valueFormatter: (params) => 
+        params.value ? \`$\${params.value.toLocaleString()}\` : ''
+    }
+  ]}
+  rows={rows}
+/>`
+      }
     }
   };
 

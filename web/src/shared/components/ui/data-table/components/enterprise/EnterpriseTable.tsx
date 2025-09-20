@@ -92,8 +92,6 @@ export default function EnterpriseTable() {
       {
         // ✅ coluna de seleção sem field (evita cast)
         headerName: "",
-        checkboxSelection: true,
-        headerCheckboxSelection: true,
         width: 48,
         pinned: "left",
         sortable: false,
@@ -224,7 +222,11 @@ export default function EnterpriseTable() {
           rowData={rowData}
           columnDefs={columnDefs}
           defaultColDef={defaultColDef}
-          rowSelection="multiple"
+          rowSelection={{
+            mode: "multiRow",
+            checkboxes: true,
+            headerCheckbox: true,
+          }}
           suppressRowClickSelection
           onGridReady={onGridReady}
           quickFilterText={quickFilter}

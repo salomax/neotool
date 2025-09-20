@@ -175,6 +175,14 @@ const componentCategories = {
         tests: true,
         tags: ["progress", "indicator", "loading", "status", "bar"]
       },
+      {
+        name: "Tabs",
+        description: "Dynamic tabs with creation, closing, and reordering capabilities",
+        status: "stable",
+        stories: true,
+        tests: true,
+        tags: ["tabs", "navigation", "dynamic", "closable", "reorderable"]
+      },
     ]
   },
   formFields: {

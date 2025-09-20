@@ -1,8 +1,7 @@
-import "@/styles/themes/agGrid.overrides.css";
-import "@/organisms/DataTable.ag.css";
-// web/src/components/organisms/DataTable.tsx
 "use client";
 
+import "@/styles/themes/agGrid.overrides.css";
+import "@/organisms/DataTable.ag.css";
 import * as React from "react";
 import { useTheme } from "@mui/material/styles";
 import {
@@ -243,8 +242,6 @@ export function DataTable<T extends { id?: string | number }>(
     ? {
         colId: "__select__",
         headerName: "",
-        checkboxSelection: true,
-        headerCheckboxSelection: selectionMode === "multiple",
         maxWidth: 48,
         pinned: "left",
       }
@@ -491,6 +488,8 @@ export function DataTable<T extends { id?: string | number }>(
           rowSelection={{
             mode: selectionMode === "single" ? "singleRow" : "multiRow",
             enableClickSelection: !selectable,
+            checkboxes: selectable,
+            headerCheckbox: selectable && selectionMode === "multiple",
           }}
           getRowId={getRowIdCb}
           onSelectionChanged={handleSelectionChanged}

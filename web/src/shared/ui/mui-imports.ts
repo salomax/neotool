@@ -187,6 +187,7 @@ export { default as EmojiEmotionsOutlinedIcon } from '@mui/icons-material/EmojiE
 
 // Additional icons for new components
 export { default as CloudUploadIcon } from '@mui/icons-material/CloudUpload';
+export { default as DragIndicatorIcon } from '@mui/icons-material/DragIndicator';
 
 // Material-UI X components (only if needed)
 export { DatePicker } from '@mui/x-date-pickers/DatePicker';

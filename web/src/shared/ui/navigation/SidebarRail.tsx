@@ -66,7 +66,7 @@ export function SidebarRail() {
           mt: 0.5,
         }}
       >
-        <LogoMark />
+        <LogoMark variant="white" width={32} height={30} />
       </Box>
 
       <Divider sx={{ my: 2, width: '56%', borderColor: alpha('#fff', 0.25) }} />
