@@ -1,3 +1,2 @@
-
 rootProject.name = "neotool-service"
-include("app", "security")
+include(":app", ":framework", ":security")

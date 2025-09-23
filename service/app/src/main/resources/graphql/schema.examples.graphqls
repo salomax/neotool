@@ -1,0 +1,47 @@
+# Extends the existing schema with simple Product/Customer types and mutations.
+type Product {
+  id: ID!
+  name: String!
+  sku: String!
+  priceCents: Long!
+  stock: Int!
+  createdAt: String
+  updatedAt: String
+}
+
+type Customer {
+  id: ID!
+  name: String!
+  email: String!
+  status: String!
+  createdAt: String
+  updatedAt: String
+}
+
+extend type Query {
+  products: [Product!]!
+  customers: [Customer!]!
+}
+
+input ProductInput {
+  name: String!
+  sku: String!
+  priceCents: Long!
+  stock: Int!
+}
+
+input CustomerInput {
+  name: String!
+  email: String!
+  status: String!
+}
+
+type Mutation {
+  createProduct(input: ProductInput!): Product!
+  updateProduct(id: ID!, input: ProductInput!): Product
+  deleteProduct(id: ID!): Boolean!
+
+  createCustomer(input: CustomerInput!): Customer!
+  updateCustomer(id: ID!, input: CustomerInput!): Customer
+  deleteCustomer(id: ID!): Boolean!
+}

@@ -1,18 +1,19 @@
-
-# Invistus – Full‑stack Starter
+# Neotool – Full‑stack framework
 
 Monorepo contendo **web**, **mobile**, **backend**, **database**, **observability**, **cicd** e **docs**.
 
-> **Stack**  
-> - Web: Next.js (App Router), TypeScript, Material UI, Zustand, react-hook-form + Zod, i18n (en-US/pt-BR), Vitest, Playwright, Storybook  
-> - Mobile: Expo + React Native, expo-router, OTA via `expo-updates`, Jest, Detox, i18n (en-US/pt-BR)  
-> - Backend: Kotlin + Micronaut, GraphQL, Auth Google OAuth (JWT), RBAC, JPA/Hibernate, Flyway, Redis, Kafka  
-> - Observability: Prometheus (metrics), Loki + Promtail (logs), Tempo + OTEL Collector (traces), Grafana dashboards, Sentry hooks  
-> - DevOps: Docker, Docker Compose (local), GitHub Actions (build/test/deploy), ArgoCD (GitOps), Terraform (esqueleto)  
-> - Registry: GHCR  
+> **Stack**
+>
+> - Web: Next.js (App Router), TypeScript, Material UI, Zustand, react-hook-form + Zod, i18n (en-US/pt-BR), Vitest, Playwright, Storybook
+> - Mobile: Expo + React Native, expo-router, OTA via `expo-updates`, Jest, Detox, i18n (en-US/pt-BR)
+> - Backend: Kotlin + Micronaut, GraphQL, Auth Google OAuth (JWT), RBAC, JPA/Hibernate, Flyway, Redis, Kafka
+> - Observability: Prometheus (metrics), Loki + Promtail (logs), Tempo + OTEL Collector (traces), Grafana dashboards, Sentry hooks
+> - DevOps: Docker, Docker Compose (local), GitHub Actions (build/test/deploy), ArgoCD (GitOps), Terraform (esqueleto)
+> - Registry: GHCR
 > - Docs: Docusaurus, ADR (adr-tools), Mermaid
 
 ## Rodando local (Docker Compose)
+
 1. Copie `.env.example` para `.env` e ajuste credenciais.
 2. Execute:
    ```bash

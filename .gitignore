@@ -3,9 +3,13 @@
 node_modules/
 dist/
 build/
+bin/
 coverage/
 .env
 .env.*
+
+*.code-workspace
+.idea
 
 .gradle/
 **/build/

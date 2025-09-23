@@ -9,12 +9,12 @@ micronaut {
     version("4.9.3")
     processing {
         incremental(true)
-        annotations("com.neotool.security.*")
+        annotations("io.github.salomax.neotool.security.*")
     }
 }
 
 dependencies {
-    implementation(platform("io.micronaut.platform:micronaut-platform:4.9.3"))
+    implementation(platform("io.micronaut.platform:micronaut-platform"))
     implementation("io.micronaut.kotlin:micronaut-kotlin-runtime")
     implementation("jakarta.annotation:jakarta.annotation-api")
     implementation("jakarta.persistence:jakarta.persistence-api:3.1.0")

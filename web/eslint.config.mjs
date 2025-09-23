@@ -28,7 +28,20 @@ export default [
     languageOptions: {
       parserOptions: { project: null, sourceType: 'module', ecmaVersion: 'latest' },
     },
+    rules: {
+      '@typescript-eslint/no-var-requires': 'off',
+      '@typescript-eslint/await-thenable': 'off',
+      '@typescript-eslint/no-array-delete': 'off',
+      '@typescript-eslint/no-unused-vars': 'off',
+      '@typescript-eslint/no-base-to-string': 'off',
+      '@typescript-eslint/no-duplicate-type-constituents': 'off',
+      '@typescript-eslint/no-floating-promises': 'off',
+      '@typescript-eslint/no-implied-eval': 'off',
+      '@typescript-eslint/no-misused-promises': 'off',
+      '@typescript-eslint/no-redundant-type-constituents': 'off',
+    },
   },
+
 
   {
     files: ["**/__tests__/**/*.{ts,tsx}", "**/*.test.{ts,tsx}"],
