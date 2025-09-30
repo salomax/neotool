@@ -1,8 +1,11 @@
+import java.time.Duration
+
 plugins {
-    id("org.jetbrains.kotlin.jvm") version "2.2.10"
-    id("io.micronaut.application") version "4.5.4"
-    id("io.micronaut.aot") version "4.5.4"
-    id("org.jetbrains.kotlin.plugin.jpa") version "2.2.10"
+    id("org.jetbrains.kotlin.jvm")
+    id("io.micronaut.application")
+    id("io.micronaut.aot")
+    id("org.jetbrains.kotlin.plugin.jpa")
+    id("com.google.devtools.ksp")
 }
 
 micronaut {
@@ -21,6 +24,7 @@ dependencies {
     
     implementation(project(":framework"))
     implementation(project(":security"))
+    testImplementation(project(":test"))
 
     implementation(platform("io.micronaut.platform:micronaut-platform:4.9.3"))
     implementation(platform("io.micronaut.micrometer:micronaut-micrometer-bom:5.12.0"))
@@ -30,7 +34,17 @@ dependencies {
     implementation("io.micronaut:micronaut-http-server-netty")
     implementation("io.micronaut:micronaut-jackson-databind")
 
-    implementation("com.graphql-java:graphql-java:21.0")
+    ksp("io.micronaut:micronaut-inject-kotlin")
+    kspTest("io.micronaut:micronaut-inject-kotlin")
+
+    // Fix vulnerability:
+    // https://www.mend.io/vulnerability-database/CVE-2025-48924?utm_source=JetBrains
+    implementation("org.apache.commons:commons-lang3:3.18.0")
+
+    // Min version 21.5
+    // In order to fix vulnerability
+    // https://www.mend.io/vulnerability-database/CVE-2024-40094?utm_source=JetBrains
+    implementation("com.graphql-java:graphql-java:21.5")
 
     implementation("io.micronaut.security:micronaut-security-jwt")
     implementation("io.micronaut.security:micronaut-security-oauth2")
@@ -39,6 +53,9 @@ dependencies {
     implementation("io.micronaut.data:micronaut-data-hibernate-jpa:4.5.4")
     implementation("org.hibernate.orm:hibernate-core:6.5.2.Final")
     implementation("io.micronaut.flyway:micronaut-flyway")
+    implementation("org.flywaydb:flyway-database-postgresql")
+    implementation("io.micronaut.data:micronaut-data-tx-hibernate")
+    implementation("io.micronaut.sql:micronaut-jdbc-hikari")
 
     runtimeOnly("org.postgresql:postgresql:42.7.4")
     runtimeOnly("org.yaml:snakeyaml")
@@ -55,7 +72,24 @@ dependencies {
     implementation("org.jetbrains.kotlin:kotlin-stdlib")
     implementation("org.jetbrains.kotlin:kotlin-reflect")
 
-    testImplementation("org.junit.jupiter:junit-jupiter:5.10.3")
+    testImplementation("org.junit.jupiter:junit-jupiter:5.13.4")
+    
+    // Integration testing dependencies
+    testImplementation("io.micronaut.test:micronaut-test-junit5:4.8.1")
+    testImplementation("org.testcontainers:junit-jupiter:1.21.3")
+    testImplementation("org.mockito.kotlin:mockito-kotlin:3.2.0")
+    testImplementation("org.testcontainers:postgresql:1.21.3")
+    testImplementation("org.testcontainers:testcontainers:1.21.3")
+    
+    // HTTP client for testing
+    testImplementation("io.micronaut:micronaut-http-client:4.8.1")
+    testImplementation("io.micronaut.serde:micronaut-serde-jackson")
+    ksp("io.micronaut.serde:micronaut-serde-processor")
+
+    // Test utilities
+    testImplementation("org.assertj:assertj-core:3.25.3")
+    testImplementation("com.fasterxml.jackson.module:jackson-module-kotlin")
+
 }
 
 application {
@@ -112,8 +146,83 @@ tasks.register<Jar>("shadowJar") {
 
 
 java {
-    sourceCompatibility = JavaVersion.VERSION_17
-    targetCompatibility = JavaVersion.VERSION_17
+    sourceCompatibility = JavaVersion.VERSION_21
+    targetCompatibility = JavaVersion.VERSION_21
 }
 
-tasks.test { useJUnitPlatform() }
+tasks.test { 
+    useJUnitPlatform()
+    
+    // Integration test configuration
+    testLogging {
+        events("passed", "skipped", "failed")
+        showStandardStreams = true
+        showCauses = true
+        showExceptions = true
+        showStackTraces = true
+    }
+    
+    // Ensure tests have enough time to complete
+    timeout = Duration.ofMinutes(10)
+    
+    // Run tests in parallel for better performance
+    maxParallelForks = Runtime.getRuntime().availableProcessors().div(2).coerceAtLeast(1)
+}
+
+// Task to run only integration tests
+tasks.register<Test>("integrationTest") {
+    group = "verification"
+    description = "Runs integration tests using Testcontainers"
+    
+    useJUnitPlatform {
+        includeEngines("junit-jupiter")
+        includeTags("integration")
+    }
+    
+    testLogging {
+        events("passed", "skipped", "failed")
+        showStandardStreams = true
+    }
+    
+    // Ensure Docker is available
+    doFirst {
+        try {
+            val process = ProcessBuilder("docker", "version").start()
+            val exitCode = process.waitFor()
+            if (exitCode != 0) {
+                throw GradleException("Docker is required for integration tests but not available")
+            }
+        } catch (e: Exception) {
+            throw GradleException("Docker is required for integration tests but not available: ${e.message}")
+        }
+    }
+}
+
+// Task to run integration tests
+tasks.register<Test>("testIntegration") {
+    group = "verification"
+    description = "Runs integration tests using Testcontainers"
+    
+    useJUnitPlatform {
+        includeEngines("junit-jupiter")
+        includeTags("integration")
+    }
+    
+    testLogging {
+        events("passed", "skipped", "failed")
+        showStandardStreams = true
+    }
+    
+    // Ensure Docker is available
+    doFirst {
+        try {
+            val process = ProcessBuilder("docker", "version").start()
+            val exitCode = process.waitFor()
+            if (exitCode != 0) {
+                throw GradleException("Docker is required for integration tests but not available")
+            }
+        } catch (e: Exception) {
+            throw GradleException("Docker is required for integration tests but not available: ${e.message}")
+        }
+    }
+}

@@ -1,78 +1,80 @@
 package io.github.salomax.neotool.example.service
 
-import io.github.salomax.neotool.example.domain.*
-import io.github.salomax.neotool.example.repo.*
-import io.github.salomax.neotool.framework.events.*
+import io.github.salomax.neotool.example.domain.Customer
+import io.github.salomax.neotool.example.domain.Product
+import io.github.salomax.neotool.example.repo.CustomerRepository
+import io.github.salomax.neotool.example.repo.ProductRepository
+import io.micronaut.http.server.exceptions.NotFoundException
 import jakarta.inject.Singleton
 import jakarta.transaction.Transactional
+import java.util.UUID
 
 @Singleton
-class ProductService(
-    private val repo: ProductRepository,
-    private val eventLog: EventLogService
+open class ProductService(
+    private val repo: ProductRepository
 ) {
-    fun list(): List<Product> = repo.findAll()
-    fun get(id: Long): Product? = repo.findById(id).orElse(null)
-
-    @Transactional
-    fun create(p: Product): Product {
-        val saved = repo.save(p)
-        eventLog.log(DomainEvent("Product", saved.id, "CREATED", saved))
-        return saved
+    fun list(): List<Product> {
+        val entities = repo.findAll()
+        return entities.map { it.toDomain() }
+    }
+    
+    fun get(id: UUID): Product? {
+        val entity = repo.findById(id).orElse(null) ?: return null
+        return entity.toDomain()
     }
 
     @Transactional
-    fun update(id: Long, input: Product): Product? {
-        val existing = get(id) ?: return null
-        existing.name = input.name
-        existing.sku = input.sku
-        existing.priceCents = input.priceCents
-        existing.stock = input.stock
-        val saved = repo.update(existing)
-        eventLog.log(DomainEvent("Product", saved.id, "UPDATED", saved))
-        return saved
+    open fun create(product: Product): Product {
+        val entity = product.toEntity()
+        val saved = repo.save(entity)
+        return saved.toDomain()
     }
 
     @Transactional
-    fun delete(id: Long): Boolean {
-        val found = get(id) ?: return false
+    open fun update(product: Product): Product {
+        val updatedEntity = product.toEntity()
+        val saved = repo.update(updatedEntity)
+        return saved.toDomain()
+    }
+
+    @Transactional
+    open fun delete(id: UUID) {
+        val found = repo.findById(id).orElseThrow { NotFoundException() }
         repo.delete(found)
-        eventLog.log(DomainEvent("Product", id, "DELETED", mapOf("id" to id)))
-        return true
     }
 }
 
 @Singleton
-class CustomerService(
-    private val repo: CustomerRepository,
-    private val eventLog: EventLogService
+open class CustomerService(
+    private val repo: CustomerRepository
 ) {
-    fun list(): List<Customer> = repo.findAll()
-    fun get(id: Long): Customer? = repo.findById(id).orElse(null)
-
-    @Transactional
-    fun create(c: Customer): Customer {
-        val saved = repo.save(c)
-        eventLog.log(DomainEvent("Customer", saved.id, "CREATED", saved))
-        return saved
+    fun list(): List<Customer> {
+        val entities = repo.findAll()
+        return entities.map { it.toDomain() }
+    }
+    
+    fun get(id: UUID): Customer? {
+        val entity = repo.findById(id).orElse(null) ?: return null
+        return entity.toDomain()
     }
 
     @Transactional
-    fun update(id: Long, input: Customer): Customer? {
-        val existing = get(id) ?: return null
-        existing.name = input.name
-        existing.email = input.email
-        existing.status = input.status
-        val saved = repo.update(existing)
-        eventLog.log(DomainEvent("Customer", saved.id, "UPDATED", saved))
-        return saved
+    open fun create(customer: Customer): Customer {
+        val entity = customer.toEntity()
+        val saved = repo.save(entity)
+        return saved.toDomain()
     }
 
     @Transactional
-    fun delete(id: Long): Boolean {
-        val found = get(id) ?: return false
+    open fun update(customer: Customer): Customer {
+        val updatedEntity = customer.toEntity()
+        val saved = repo.update(updatedEntity)
+        return saved.toDomain()
+    }
+
+    @Transactional
+    open fun delete(id: UUID) {
+        val found = repo.findById(id).orElseThrow { NotFoundException() }
         repo.delete(found)
-        eventLog.log(DomainEvent("Customer", id, "DELETED", mapOf("id" to id)))
-        return true
     }
 }

@@ -1,10 +1,14 @@
 package io.github.salomax.neotool.example.graphql.dto
 
+import io.micronaut.core.annotation.Introspected
+import io.micronaut.serde.annotation.Serdeable
 import jakarta.validation.constraints.*
 
 /**
  * DTOs used for GraphQL inputs. Bean Validation annotations ensure proper constraints.
  */
+@Introspected
+@Serdeable
 data class ProductInputDTO(
     @field:NotBlank(message = "name must not be blank")
     var name: String = "",
@@ -16,6 +20,8 @@ data class ProductInputDTO(
     var stock: Int = 0
 )
 
+@Introspected
+@Serdeable
 data class CustomerInputDTO(
     @field:NotBlank(message = "name must not be blank")
     var name: String = "",

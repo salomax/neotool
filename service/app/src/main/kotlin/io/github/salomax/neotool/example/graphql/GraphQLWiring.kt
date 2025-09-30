@@ -4,9 +4,11 @@ import graphql.schema.DataFetcher
 import graphql.schema.DataFetchingEnvironment
 import graphql.schema.idl.RuntimeWiring
 import io.github.salomax.neotool.example.domain.Customer
+import io.github.salomax.neotool.example.domain.CustomerStatus
 import io.github.salomax.neotool.example.domain.Product
 import io.github.salomax.neotool.example.graphql.dto.ProductInputDTO
 import io.github.salomax.neotool.example.graphql.dto.CustomerInputDTO
+import java.util.UUID
 
 /**
  * Function-bags to decouple GraphQL wiring from actual services.
@@ -14,20 +16,19 @@ import io.github.salomax.neotool.example.graphql.dto.CustomerInputDTO
  */
 data class ProductFns(
     val list: () -> List<Product>,
-    val get: (Long) -> Product?,
+    val get: (UUID) -> Product?,
     val create: (Product) -> Product,
-    val update: (Long, Product) -> Product?,
-    val delete: (Long) -> Boolean
+    val update: (Product) -> Product?,
+    val delete: (UUID) -> Unit
 )
 
 data class CustomerFns(
     val list: () -> List<Customer>,
-    val get: (Long) -> Customer?,
+    val get: (UUID) -> Customer?,
     val create: (Customer) -> Customer,
-    val update: (Long, Customer) -> Customer?,
-    val delete: (Long) -> Boolean
+    val update: (Customer) -> Customer?,
+    val delete: (UUID) -> Unit
 )
-
 
 // --- injected by patch_graphql_inputs_nullable.py ---
 private inline fun <reified T> arg(env: DataFetchingEnvironment, name: String): T =
@@ -50,13 +51,33 @@ object GraphQLWiring {
                     .dataFetcher("currentUser", DataFetcher { null })
                     .dataFetcher("products", DataFetcher { productFns.list() })
                     .dataFetcher("product", DataFetcher { env ->
-                        val id = arg<String>(env, "id").toLong()
-                        productFns.get(id)
+                        val idValue = env.getArgument<Any>("id")
+                        // Check if the argument is not a string (e.g., it's a number)
+                        if (idValue !is String) {
+                            throw IllegalArgumentException("ID must be a string, got ${idValue?.javaClass?.simpleName}")
+                        }
+                        try {
+                            val id = UUID.fromString(idValue)
+                            productFns.get(id)
+                        } catch (e: IllegalArgumentException) {
+                            // Invalid UUID format, return null instead of throwing error
+                            null
+                        }
                     })
                     .dataFetcher("customers", DataFetcher { customerFns.list() })
                     .dataFetcher("customer", DataFetcher { env ->
-                        val id = arg<String>(env, "id").toLong()
-                        customerFns.get(id)
+                        val idValue = env.getArgument<Any>("id")
+                        // Check if the argument is not a string (e.g., it's a number)
+                        if (idValue !is String) {
+                            throw IllegalArgumentException("ID must be a string, got ${idValue?.javaClass?.simpleName}")
+                        }
+                        try {
+                            val id = UUID.fromString(idValue)
+                            customerFns.get(id)
+                        } catch (e: IllegalArgumentException) {
+                            // Invalid UUID format, return null instead of throwing error
+                            null
+                        }
                     })
             }
             .type("Mutation") { type ->
@@ -79,7 +100,7 @@ object GraphQLWiring {
                         productFns.create(p)
                     })
                     .dataFetcher("updateProduct", DataFetcher { env ->
-                        val id = arg<String>(env, "id").toLong()
+                        val id = arg<String>(env, "id")
                         val input = arg<Map<String, Any?>>(env, "input")
                         val dto = ProductInputDTO(
                             name = field<String>(input, "name"),
@@ -89,16 +110,16 @@ object GraphQLWiring {
                         )
                         validateProduct(dto)
                         val p = Product(
-                            id = id,
+                            id = id.let { UUID.fromString(id) },
                             name = dto.name,
                             sku = dto.sku,
                             priceCents = dto.priceCents,
                             stock = dto.stock
                         )
-                        productFns.update(id, p)
+                        productFns.update( p)
                     })
                     .dataFetcher("deleteProduct", DataFetcher { env ->
-                        val id = arg<String>(env, "id").toLong()
+                        val id: UUID = arg<UUID>(env, "id")
                         productFns.delete(id)
                     })
                     .dataFetcher("createCustomer", DataFetcher { env ->
@@ -112,12 +133,12 @@ object GraphQLWiring {
                         val c = Customer(
                             name = dto.name,
                             email = dto.email,
-                            status = dto.status
+                            status = CustomerStatus.valueOf(dto.status)
                         )
                         customerFns.create(c)
                     })
                     .dataFetcher("updateCustomer", DataFetcher { env ->
-                        val id = arg<String>(env, "id").toLong()
+                        val id = arg<String>(env, "id")
                         val input = arg<Map<String, Any?>>(env, "input")
                         val dto = CustomerInputDTO(
                             name = field<String>(input, "name"),
@@ -126,16 +147,29 @@ object GraphQLWiring {
                         )
                         validateCustomer(dto)
                         val c = Customer(
-                            id = id,
+                            id = id.let { UUID.fromString(id) },
                             name = dto.name,
                             email = dto.email,
-                            status = dto.status
+                            status = CustomerStatus.valueOf(dto.status)
                         )
-                        customerFns.update(id, c)
+                        customerFns.update(c)
                     })
                     .dataFetcher("deleteCustomer", DataFetcher { env ->
-                        val id = arg<String>(env, "id").toLong()
+                        val id: UUID = arg<UUID>(env, "id")
                         customerFns.delete(id)
+                    })
+            }
+            .type("Subscription") { type ->
+                type
+                    .dataFetcher("productUpdated", DataFetcher { env ->
+                        // For now, return null as subscriptions require reactive streams
+                        // In a real implementation, you'd return a Publisher<Product>
+                        null
+                    })
+                    .dataFetcher("customerUpdated", DataFetcher { env ->
+                        // For now, return null as subscriptions require reactive streams
+                        // In a real implementation, you'd return a Publisher<Customer>
+                        null
                     })
             }
             .build()

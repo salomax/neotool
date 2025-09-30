@@ -1,11 +1,11 @@
 schema {
   query: Query
   mutation: Mutation
+  subscription: Subscription
 }
 
 type Query {
   hello: String!
-  currentUser: User
 
   products: [Product!]!
   product(id: ID!): Product
@@ -23,10 +23,9 @@ type Mutation {
   deleteCustomer(id: ID!): Boolean!
 }
 
-type User {
-  id: ID!
-  email: String!
-  displayName: String
+type Subscription {
+  productUpdated: Product
+  customerUpdated: Customer
 }
 
 type Product {

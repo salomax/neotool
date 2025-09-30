@@ -4,7 +4,7 @@ micronaut:
   server:
     port: 8080
   security:
-    enabled: true
+    enabled: false
     token:
       jwt:
         signatures:
@@ -21,7 +21,7 @@ micronaut:
 
 datasources:
   default:
-    url: ${DATABASE_URL:jdbc:postgresql://localhost:5432/neotool_db}
+    url: jdbc:postgresql://${POSTGRES_HOST:localhost}:${POSTGRES_PORT:5432}/${POSTGRES_DB:neotool_db}
     driverClassName: org.postgresql.Driver
     username: ${POSTGRES_USER:neotool}
     password: ${POSTGRES_PASSWORD:neotool}

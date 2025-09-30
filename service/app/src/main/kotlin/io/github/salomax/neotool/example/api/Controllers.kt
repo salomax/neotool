@@ -1,46 +1,58 @@
 package io.github.salomax.neotool.example.api
 
-import io.github.salomax.neotool.example.domain.*
+import io.github.salomax.neotool.example.dto.*
 import io.github.salomax.neotool.example.service.*
-import io.micronaut.http.HttpStatus
 import io.micronaut.http.annotation.*
+import jakarta.validation.Valid
+import java.util.Optional
+import java.util.UUID
 
 @Controller("/api/products")
-class ProductController(private val service: ProductService) {
+open class ProductController(private val service: ProductService) {
 
     @Get("/")
-    fun list(): List<Product> = service.list()
+    open fun list(): ProductListResponse = service.list().let { products ->
+      ProductListResponse(products.map { it.toResponse() }, products.size)
+    }
 
-    @Get("/<built-in function id>")
-    fun get(@PathVariable id: Long): Product? = service.get(id)
+    @Get("/{id}")
+    open fun get(@PathVariable id: UUID): Optional<ProductResponse> =
+      Optional.ofNullable(service.get(id)?.toResponse())
 
     @Post("/")
-    fun create(@Body input: Product): Product = service.create(input)
+    open fun create(@Valid @Body request: CreateProductRequest): ProductResponse =
+      service.create(request.toDomain()).toResponse()
 
-    @Put("/<built-in function id>")
-    fun update(@PathVariable id: Long, @Body input: Product): Product? = service.update(id, input)
+    @Put("/{id}")
+    open fun update(@PathVariable id: UUID, @Valid @Body request: UpdateProductRequest): Optional<ProductResponse> =
+        Optional.ofNullable(service.update(request.toDomain(id)).toResponse())
 
-    @Delete("/<built-in function id>")
-    fun delete(@PathVariable id: Long): Map<String, Any> =
-        mapOf("deleted" to service.delete(id))
+  @Delete("/{id}")
+    open fun delete(@PathVariable id: UUID) =
+        service.delete(id)
 }
 
 @Controller("/api/customers")
-class CustomerController(private val service: CustomerService) {
+open class CustomerController(private val service: CustomerService) {
 
     @Get("/")
-    fun list(): List<Customer> = service.list()
+    open fun list(): CustomerListResponse = service.list().let { customers ->
+      CustomerListResponse(customers.map { it.toResponse() }, customers.size)
+    }
 
-    @Get("/<built-in function id>")
-    fun get(@PathVariable id: Long): Customer? = service.get(id)
+    @Get("/{id}")
+    open fun get(@PathVariable id: UUID): Optional<CustomerResponse> =
+      Optional.ofNullable(service.get(id)?.toResponse())
 
     @Post("/")
-    fun create(@Body input: Customer): Customer = service.create(input)
+    open fun create(@Valid @Body request: CreateCustomerRequest): CustomerResponse =
+      service.create(request.toDomain()).toResponse()
 
-    @Put("/<built-in function id>")
-    fun update(@PathVariable id: Long, @Body input: Customer): Customer? = service.update(id, input)
+    @Put("/{id}")
+    open fun update(@PathVariable id: UUID, @Valid @Body request: UpdateCustomerRequest): Optional<CustomerResponse> =
+        Optional.ofNullable(service.update(request.toDomain(id)).toResponse())
 
-    @Delete("/<built-in function id>")
-    fun delete(@PathVariable id: Long): Map<String, Any> =
-        mapOf("deleted" to service.delete(id))
+    @Delete("/{id}")
+    open fun delete(@PathVariable id: UUID) =
+      service.delete(id)
 }
