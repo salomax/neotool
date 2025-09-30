@@ -1,4 +1,4 @@
-package io.github.salomax.neotool.example.api
+package io.github.salomax.neotool.example.test.integration.api
 
 import io.github.salomax.neotool.example.test.TestDataBuilders
 import io.github.salomax.neotool.test.assertions.shouldHaveNonEmptyBody
@@ -19,20 +19,20 @@ import java.util.concurrent.CompletableFuture
 import java.util.concurrent.TimeUnit
 
 @MicronautTest(startApplication = true)
-@DisplayName("GraphQL Customer Integration Tests")
+@DisplayName("GraphQL Product Integration Tests")
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 @Tag("integration")
 @Tag("graphql")
-@Tag("customer")
+@Tag("product")
 @TestMethodOrder(MethodOrderer.Random::class)
-class GraphQLCustomerIntegrationTest : BaseIntegrationTest(), PostgresIntegrationTest {
+class GraphQLProductIntegrationTest : BaseIntegrationTest(), PostgresIntegrationTest {
 
-    private fun uniqueEmail() = "graphql-customer-${System.currentTimeMillis()}@example.com"
-    private fun uniqueName() = "GraphQL Customer Test ${System.currentTimeMillis()}"
+    private fun uniqueSku() = "GRAPHQL-PRODUCT-${System.currentTimeMillis()}-${Thread.currentThread().id}"
+    private fun uniqueName() = "GraphQL Product Test ${System.currentTimeMillis()}"
 
     @Test
-    fun `should query customers via GraphQL`() {
-        val query = TestDataBuilders.customersQuery()
+    fun `should query products via GraphQL`() {
+        val query = TestDataBuilders.productsQuery()
         val request = HttpRequest.POST("/graphql", query)
             .contentType(MediaType.APPLICATION_JSON)
 
@@ -53,68 +53,75 @@ class GraphQLCustomerIntegrationTest : BaseIntegrationTest(), PostgresIntegratio
           .describedAs("GraphQL response must contain 'data'")
           .isNotNull()
 
-        val customers = data["customers"]
-        assertThat(customers)
-          .describedAs("Customers array must be present")
+        val products = data["products"]
+        assertThat(products)
+          .describedAs("Products array must be present")
           .isNotNull()
-        assertThat(customers.isArray)
-          .describedAs("Customers must be an array")
+        assertThat(products.isArray)
+          .describedAs("Products must be an array")
           .isTrue()
     }
 
     @Test
-    fun `should create customer via GraphQL mutation`() {
-        // Arrange (unique inputs so the test is self-contained)
-        val expectedName = uniqueName()
-        val expectedEmail = uniqueEmail()
-        val expectedStatus = "ACTIVE"
+    fun `should create product via GraphQL mutation`() {
+      // Arrange (unique inputs so the test is self-contained)
+      val expectedName = uniqueName()
+      val expectedSku = uniqueSku()
+      val expectedPrice = 25_000L
+      val expectedStock = 20
 
-        val mutation = TestDataBuilders.createCustomerMutation(
-            name = expectedName,
-            email = expectedEmail,
-            status = expectedStatus
-        )
+      val mutation = TestDataBuilders.createProductMutation(
+        name = expectedName,
+        sku = expectedSku,
+        priceCents = expectedPrice,
+        stock = expectedStock
+      )
 
-        val request = HttpRequest.POST("/graphql", mutation)
-            .contentType(MediaType.APPLICATION_JSON)
+      val request = HttpRequest.POST("/graphql", mutation)
+        .contentType(MediaType.APPLICATION_JSON)
 
-        val response = httpClient.exchangeAsString(request)
-        response
-          .shouldBeSuccessful()
-          .shouldBeJson()
-          .shouldHaveNonEmptyBody()
+      val response = httpClient.exchangeAsString(request)
+      response
+        .shouldBeSuccessful()
+        .shouldBeJson()
+        .shouldHaveNonEmptyBody()
 
-        // Assert (parse and validate the mutation payload)
-        val payload: JsonNode = json.read(response)
+      // Assert (parse and validate the mutation payload)
+      val payload: JsonNode = json.read(response)
 
-        // Errors must be absent in a successful mutation
-        assertThat(payload["errors"])
-          .describedAs("GraphQL errors must be absent")
-          .isNull()
+      // Errors must be absent in a successful mutation
+      // (GraphQL usually returns 200 with "errors" array when it fails)
+      assertThat(payload["errors"])
+        .describedAs("GraphQL errors must be absent")
+        .isNull()
 
-        // Navigate to data.createCustomer
-        val data = payload["data"]
-        assertThat(data)
-          .describedAs("GraphQL response must contain 'data.createCustomer'")
-          .isNotNull()
-        assertThat(data["createCustomer"]).isNotNull
+      // Navigate to data.createProduct
+      val data = payload["data"]
+      assertThat(data)
+        .describedAs("GraphQL response must contain 'data.createProduct'")
+      assertThat(data["createProduct"]).isNotNull
 
-        val created: JsonNode = data["createCustomer"]
+      val created: JsonNode = data["createProduct"]
 
-        // Validate returned fields (id is server-generated, just assert non-null)
-        assertThat(created["id"]).isNotNull
-        assertThat(created["name"].stringValue).isEqualTo(expectedName)
-        assertThat(created["email"].stringValue).isEqualTo(expectedEmail)
-        assertThat(created["status"].stringValue).isEqualTo(expectedStatus)
+      // Validate returned fields (id is server-generated, just assert non-null)
+      assertThat(created["id"]).isNotNull
+      assertThat(created["name"].stringValue).isEqualTo(expectedName)
+      assertThat(created["name"].stringValue).isEqualTo(expectedName)
+      assertThat(created["sku"].stringValue).isEqualTo(expectedSku)
+      assertThat((created["priceCents"].numberValue).toLong())
+        .isEqualTo(expectedPrice)
+      assertThat((created["stock"].numberValue).toInt())
+        .isEqualTo(expectedStock)
     }
 
     @Test
-    fun `should handle GraphQL customer query with variables`() {
-        // First, create a customer to have data to query
-        val createMutation = TestDataBuilders.createCustomerMutation(
+    fun `should handle GraphQL query with variables`() {
+        // First, create a product to have data to query
+        val createMutation = TestDataBuilders.createProductMutation(
             name = uniqueName(),
-            email = uniqueEmail(),
-            status = "ACTIVE"
+            sku = uniqueSku(),
+            priceCents = 15000L,
+            stock = 25
         )
 
         val createRequest = HttpRequest.POST("/graphql", createMutation)
@@ -125,15 +132,15 @@ class GraphQLCustomerIntegrationTest : BaseIntegrationTest(), PostgresIntegratio
           .shouldBeSuccessful()
           .shouldBeJson()
 
-        // Get the created customer ID
+        // Get the created product ID
         val createPayload: JsonNode = json.read(createResponse)
-        val createdCustomer = createPayload["data"]["createCustomer"]
-        val customerId = createdCustomer["id"].stringValue
+        val createdProduct = createPayload["data"]["createProduct"]
+        val productId = createdProduct["id"].stringValue
 
         // Now test querying with variables
         val query = TestDataBuilders.graphQLQuery(
-            "query GetCustomer(\$id: ID!) { customer(id: \$id) { id name email status } }",
-            mapOf("id" to customerId)
+            "query GetProduct(\$id: ID!) { product(id: \$id) { id name sku priceCents stock } }",
+            mapOf("id" to productId)
         )
 
         val request = HttpRequest.POST("/graphql", query)
@@ -155,22 +162,23 @@ class GraphQLCustomerIntegrationTest : BaseIntegrationTest(), PostgresIntegratio
           .describedAs("GraphQL response must contain 'data'")
           .isNotNull()
 
-        val customer = data["customer"]
-        assertThat(customer)
-          .describedAs("Customer should be found when using correct ID")
+        val product = data["product"]
+        assertThat(product)
+          .describedAs("Product should be found when using correct ID")
           .isNotNull()
 
-        // Verify the customer data matches what we created
-        assertThat(customer["id"].stringValue).isEqualTo(customerId)
-        assertThat(customer["name"]).isNotNull
-        assertThat(customer["email"]).isNotNull
-        assertThat(customer["status"]).isNotNull
+        // Verify the product data matches what we created
+        assertThat(product["id"].stringValue).isEqualTo(productId)
+        assertThat(product["name"]).isNotNull
+        assertThat(product["sku"]).isNotNull
+        assertThat(product["priceCents"]).isNotNull
+        assertThat(product["stock"]).isNotNull
     }
 
     @Test
-    fun `should handle GraphQL query with non-existent customer`() {
+    fun `should handle GraphQL query with non-existent product`() {
         val query = TestDataBuilders.graphQLQuery(
-            "query GetCustomer(\$id: ID!) { customer(id: \$id) { id name email } }",
+            "query GetProduct(\$id: ID!) { product(id: \$id) { id name sku } }",
             mapOf("id" to "non-existent-id")
         )
 
@@ -193,19 +201,20 @@ class GraphQLCustomerIntegrationTest : BaseIntegrationTest(), PostgresIntegratio
           .describedAs("GraphQL response must contain 'data'")
           .isNotNull()
 
-        val customer = data["customer"]
+        val product = data["product"]
         // Note: json.read converts null to JsonNull, so we check for NullNode
-        assertThat(customer.isNull)
-          .describedAs("Customer should be null when not found")
+        assertThat(product.isNull)
+          .describedAs("Product should be null when not found")
           .isTrue() // JsonNull is not null
     }
 
     @Test
-    fun `should handle GraphQL customer mutation with validation errors`() {
-        val mutation = TestDataBuilders.createCustomerMutation(
+    fun `should handle GraphQL mutation with validation errors`() {
+        val mutation = TestDataBuilders.createProductMutation(
             name = "", // Empty name should be invalid
-            email = "invalid-email", // Invalid email format
-            status = "INVALID_STATUS" // Invalid status
+            sku = "INVALID-SKU",
+            priceCents = -100L, // Negative price should be invalid
+            stock = -5 // Negative stock should be invalid
         )
 
         val request = HttpRequest.POST("/graphql", mutation)
@@ -240,44 +249,43 @@ class GraphQLCustomerIntegrationTest : BaseIntegrationTest(), PostgresIntegratio
     }
 
     @Test
-    fun `should handle GraphQL customer query with invalid variable types`() {
-        val query = TestDataBuilders.graphQLQuery(
-            "query GetCustomer(\$id: ID!) { customer(id: \$id) { id name email } }",
-            mapOf("id" to 123) // Wrong type - should be string
-        )
+    fun `should handle GraphQL query with invalid variable types`() {
+      val query = TestDataBuilders.graphQLQuery(
+        "query GetProduct(\$id: ID!) { product(id: \$id) { id name sku } }",
+        mapOf("id" to 123) // Wrong type - should be string
+      )
 
-        val request = HttpRequest.POST("/graphql", query)
-            .contentType(MediaType.APPLICATION_JSON)
+      val request = HttpRequest.POST("/graphql", query)
+        .contentType(MediaType.APPLICATION_JSON)
 
-        val response = httpClient.exchangeAsString(request)
-        response
-          .shouldBeSuccessful()
-          .shouldBeJson()
+      val response = httpClient.exchangeAsString(request)
+      response
+        .shouldBeSuccessful()
+        .shouldBeJson()
 
-        // Assert error response structure
-        val payload: JsonNode = json.read(response)
+      // Assert error response structure
+      val payload: JsonNode = json.read(response)
 
-        // Data should be null for invalid variable types
-        val data = payload["data"]
-        // Note: json.read converts null to JsonNull, so we check for NullNode
-        assertThat(data)
-          .describedAs("Data should be null for invalid variable types")
-          .isNotNull()
+      val data = payload["data"]
+      assertThat(data)
+        .describedAs("Data should be null for invalid variable types")
+        .isNotNull()
+      val product = data["product"]
+      assertThat(product)
+        .describedAs("Data should be null for invalid variable types")
+        .isNotNull()
 
-        val customer = data["customer"]
-        assertThat(customer.isNull)
-          .describedAs("Data should be null for invalid variable types")
-          .isTrue()
     }
 
     @Test
     @Timeout(value = 5, unit = TimeUnit.SECONDS)
-    fun `should handle concurrent GraphQL customer mutations`() {
-        val email = uniqueEmail()
-        val mutation = TestDataBuilders.createCustomerMutation(
+    fun `should handle concurrent GraphQL product mutations`() {
+        val sku = uniqueSku()
+        val mutation = TestDataBuilders.createProductMutation(
             name = uniqueName(),
-            email = email,
-            status = "ACTIVE"
+            sku = sku,
+            priceCents = 1000L,
+            stock = 5
         )
 
         // Test race conditions with concurrent mutations
@@ -309,11 +317,12 @@ class GraphQLCustomerIntegrationTest : BaseIntegrationTest(), PostgresIntegratio
     }
 
     @Test
-    fun `should handle large GraphQL customer payloads`() {
-        val largeMutation = TestDataBuilders.createCustomerMutation(
+    fun `should handle large GraphQL product payloads`() {
+        val largeMutation = TestDataBuilders.createProductMutation(
             name = "A".repeat(1000), // Test field length limits
-            email = uniqueEmail(),
-            status = "ACTIVE"
+            sku = uniqueSku(),
+            priceCents = 1000L,
+            stock = 5
         )
 
         val request = HttpRequest.POST("/graphql", largeMutation)
@@ -326,35 +335,12 @@ class GraphQLCustomerIntegrationTest : BaseIntegrationTest(), PostgresIntegratio
     }
 
     @Test
-    fun `should handle GraphQL customer query with enums`() {
-        val queryWithEnums = """
-            query {
-                customers {
-                    id
-                    name
-                    email
-                    status
-                }
-            }
-        """.trimIndent()
-
-        val request = HttpRequest.POST("/graphql", mapOf("query" to queryWithEnums))
-            .contentType(MediaType.APPLICATION_JSON)
-        
-        val response = httpClient.exchangeAsString(request)
-        response
-          .shouldBeSuccessful()
-          .shouldBeJson()
-    }
-
-    @Test
-    fun `should handle GraphQL customer query with custom scalars`() {
+    fun `should handle GraphQL product query with custom scalars`() {
         val queryWithCustomScalars = """
             query {
-                customers {
+                products {
                     id
                     name
-                    email
                     createdAt
                     updatedAt
                 }

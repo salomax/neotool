@@ -1,4 +1,4 @@
-package io.github.salomax.neotool.example.api
+package io.github.salomax.neotool.example.test.unit.api
 
 import io.micronaut.json.JsonMapper
 import io.micronaut.json.tree.JsonNode

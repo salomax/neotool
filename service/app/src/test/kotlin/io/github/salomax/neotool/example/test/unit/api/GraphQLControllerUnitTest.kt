@@ -1,4 +1,4 @@
-package io.github.salomax.neotool.example.api
+package io.github.salomax.neotool.example.test.unit.api
 
 import io.github.salomax.neotool.framework.graphql.GraphQLControllerBase
 import io.github.salomax.neotool.framework.graphql.GraphQLRequest
@@ -9,6 +9,7 @@ import io.micronaut.test.extensions.junit5.annotation.MicronautTest
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 import org.mockito.ArgumentCaptor
+import org.mockito.Mockito
 import org.mockito.kotlin.any
 import org.mockito.kotlin.mock
 import org.mockito.kotlin.whenever
@@ -42,7 +43,7 @@ class GraphQLControllerUnitTest {
     val result = controller.post(req)
 
     assertThat(result["errors"]).isNotNull
-    verify(mockGraphQL, org.mockito.Mockito.never()).execute(any<ExecutionInput>())
+    verify(mockGraphQL, Mockito.never()).execute(any<ExecutionInput>())
   }
 
   @Test

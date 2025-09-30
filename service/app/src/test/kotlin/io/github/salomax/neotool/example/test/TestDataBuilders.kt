@@ -4,7 +4,6 @@ import io.github.salomax.neotool.example.domain.Customer
 import io.github.salomax.neotool.example.domain.CustomerStatus
 import io.github.salomax.neotool.example.domain.Product
 import java.time.Instant
-import java.time.LocalDateTime
 import java.util.UUID
 
 /**
@@ -13,13 +12,13 @@ import java.util.UUID
 object TestDataBuilders {
 
     fun product(
-      id: UUID? = null,
-      name: String = "Test Product",
-      sku: String = "TEST-001",
-      priceCents: Long = 9999L,
-      stock: Int = 10,
-      createdAt: Instant = Instant.now(),
-      updatedAt: Instant = Instant.now()
+        id: UUID? = null,
+        name: String = "Test Product",
+        sku: String = "TEST-001",
+        priceCents: Long = 9999L,
+        stock: Int = 10,
+        createdAt: Instant = Instant.now(),
+        updatedAt: Instant = Instant.now()
     ): Product = Product(
         id = id,
         name = name,
@@ -68,7 +67,7 @@ object TestDataBuilders {
         "status" to status
     )
 
-    fun graphQLQuery(query: String, variables: Map<String, Any>? = null): Map<String, Any> = 
+    fun graphQLQuery(query: String, variables: Map<String, Any>? = null): Map<String, Any> =
         mapOf("query" to query) + if (variables != null) mapOf("variables" to variables) else emptyMap()
 
     fun createProductMutation(

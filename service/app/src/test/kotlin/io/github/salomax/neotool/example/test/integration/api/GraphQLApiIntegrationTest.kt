@@ -1,16 +1,14 @@
-package io.github.salomax.neotool.example.api
+package io.github.salomax.neotool.example.test.integration.api
 
 import io.github.salomax.neotool.example.test.TestDataBuilders
 import io.github.salomax.neotool.test.assertions.shouldHaveNonEmptyBody
 import io.github.salomax.neotool.test.assertions.shouldBeJson
 import io.github.salomax.neotool.test.assertions.shouldBeSuccessful
-import io.github.salomax.neotool.test.assertions.shouldHaveErrors
 import io.github.salomax.neotool.test.http.exchangeAsString
 import io.github.salomax.neotool.test.integration.BaseIntegrationTest
 import io.github.salomax.neotool.test.integration.PostgresIntegrationTest
 import io.github.salomax.neotool.test.json.read
 import io.micronaut.http.HttpRequest
-import io.micronaut.http.HttpResponse
 import io.micronaut.http.HttpStatus
 import io.micronaut.http.MediaType
 import io.micronaut.http.client.exceptions.HttpClientResponseException
@@ -22,8 +20,6 @@ import org.junit.jupiter.api.*
 import org.junit.jupiter.api.assertThrows
 import java.net.URLEncoder
 import java.nio.charset.StandardCharsets
-import java.util.concurrent.CompletableFuture
-import java.util.concurrent.TimeUnit
 
 @MicronautTest(startApplication = true)
 @DisplayName("GraphQL API Integration Tests")

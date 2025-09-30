@@ -1,4 +1,4 @@
-package io.github.salomax.neotool.example.api
+package io.github.salomax.neotool.example.test.integration.api
 
 import io.github.salomax.neotool.example.dto.CustomerResponse
 import io.github.salomax.neotool.example.test.TestDataBuilders
