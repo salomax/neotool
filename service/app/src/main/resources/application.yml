@@ -5,19 +5,19 @@ micronaut:
     port: 8080
   security:
     enabled: false
-    token:
-      jwt:
-        signatures:
-          secret:
-            generator:
-              secret: ${JWT_SECRET:`change-me`}
-    oauth2:
-      clients:
-        google:
-          client-id: ${OAUTH_GOOGLE_CLIENT_ID:}
-          client-secret: ${OAUTH_GOOGLE_CLIENT_SECRET:}
-          openid:
-            issuer: https://accounts.google.com
+    # token:
+    #   jwt:
+    #     signatures:
+    #       secret:
+    #         generator:
+    #           secret: ${JWT_SECRET:`change-me`}
+    # oauth2:
+    #   clients:
+    #     google:
+    #       client-id: ${OAUTH_GOOGLE_CLIENT_ID:}
+    #       client-secret: ${OAUTH_GOOGLE_CLIENT_SECRET:}
+    #       openid:
+    #         issuer: https://accounts.google.com
 
 datasources:
   default:
@@ -32,7 +32,7 @@ jpa:
     properties:
       hibernate:
         hbm2ddl:
-          auto: validate
+          auto: none
 
 flyway:
   datasources:

@@ -1,12 +1,6 @@
-schema {
-  query: Query
-  mutation: Mutation
-  subscription: Subscription
-}
+directive @key(fields: String!) repeatable on OBJECT | INTERFACE
 
 type Query {
-  hello: String!
-
   products: [Product!]!
   product(id: ID!): Product
   customers: [Customer!]!
@@ -15,20 +9,14 @@ type Query {
 
 type Mutation {
   createProduct(input: ProductInput!): Product!
-  updateProduct(id: ID!, input: ProductInput!): Product
+  updateProduct(id: ID!, input: ProductInput!): Product!
   deleteProduct(id: ID!): Boolean!
-
   createCustomer(input: CustomerInput!): Customer!
-  updateCustomer(id: ID!, input: CustomerInput!): Customer
+  updateCustomer(id: ID!, input: CustomerInput!): Customer!
   deleteCustomer(id: ID!): Boolean!
 }
 
-type Subscription {
-  productUpdated: Product
-  customerUpdated: Customer
-}
-
-type Product {
+type Product @key(fields: "id") {
   id: ID!
   name: String!
   sku: String!
@@ -38,7 +26,7 @@ type Product {
   updatedAt: String
 }
 
-type Customer {
+type Customer @key(fields: "id") {
   id: ID!
   name: String!
   email: String!

@@ -6,6 +6,7 @@ plugins {
     id("io.micronaut.aot")
     id("org.jetbrains.kotlin.plugin.jpa")
     id("com.google.devtools.ksp")
+    id("com.gradleup.shadow")
 }
 
 micronaut {
@@ -45,9 +46,13 @@ dependencies {
     // In order to fix vulnerability
     // https://www.mend.io/vulnerability-database/CVE-2024-40094?utm_source=JetBrains
     implementation("com.graphql-java:graphql-java:21.5")
+    implementation("com.apollographql.federation:federation-graphql-java-support:5.4.0")
 
-    implementation("io.micronaut.security:micronaut-security-jwt")
-    implementation("io.micronaut.security:micronaut-security-oauth2")
+    implementation("io.micronaut.serde:micronaut-serde-jackson")
+    ksp("io.micronaut.serde:micronaut-serde-processor")
+
+//    implementation("io.micronaut.security:micronaut-security-jwt")
+//    implementation("io.micronaut.security:micronaut-security-oauth2")
 
     implementation("io.micronaut.sql:micronaut-hibernate-jpa:5.5.0")
     implementation("io.micronaut.data:micronaut-data-hibernate-jpa:4.5.4")
@@ -83,8 +88,6 @@ dependencies {
     
     // HTTP client for testing
     testImplementation("io.micronaut:micronaut-http-client:4.8.1")
-    testImplementation("io.micronaut.serde:micronaut-serde-jackson")
-    ksp("io.micronaut.serde:micronaut-serde-processor")
 
     // Test utilities
     testImplementation("org.assertj:assertj-core:3.25.3")
@@ -94,108 +97,6 @@ dependencies {
 
 application {
     mainClass.set("io.github.salomax.neotool.example.Application")
-}
-
-// Configure JAR task for executable JAR creation
-tasks.jar {
-    dependsOn(":security:jar")
-    manifest {
-        attributes(
-            "Main-Class" to "io.github.salomax.neotool.example.Application"
-        )
-    }
-}
-
-// Registers a new Gradle task named "shadowJar" that produces a single JAR containing
-// your compiled classes PLUS all runtime dependencies ("uber"/"fat" JAR).
-tasks.register<Jar>("shadowJar") {
-
-    // Ensures these tasks run before this one:
-    // - Runs the default "jar" task for the current project (so classes/resources exist)
-    dependsOn(":framework:jar", ":security:jar", "jar")
-
-    // Groups this task under the "build" category in Gradle task listings
-    group = "build"
-
-    // Short description shown in "gradle tasks"
-    description = "Creates a fat JAR with all dependencies"
-
-    // Suffix appended to the artifact file name
-    archiveClassifier.set("all")
-
-    // Adds all runtime dependencies to the JAR content.
-    // For directories, include them directly; for .jar files, "explode" them with zipTree
-    // so their classes/resources are merged into this fat JAR.
-    from(configurations.runtimeClasspath.get().map { if (it.isDirectory) it else zipTree(it) })
-
-    // Adds the compiled classes and resources from the main source set into the JAR.
-    from(sourceSets.main.get().output)
-
-    // Writes the JAR manifest. "Main-Class" tells the JVM which class contains
-    // the entry point (i.e., a Kotlin `fun main()` or Java `public static void main`).
-    manifest {
-        attributes(
-            "Main-Class" to "io.github.salomax.neotool.example.Application"
-        )
-    }
-
-    // When two files with the same path are found while merging dependencies,
-    // exclude duplicates to avoid build failures (e.g., META-INF files).
-    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
-}
-
-
-java {
-    sourceCompatibility = JavaVersion.VERSION_21
-    targetCompatibility = JavaVersion.VERSION_21
-}
-
-tasks.test { 
-    useJUnitPlatform()
-    
-    // Integration test configuration
-    testLogging {
-        events("passed", "skipped", "failed")
-        showStandardStreams = true
-        showCauses = true
-        showExceptions = true
-        showStackTraces = true
-    }
-    
-    // Ensure tests have enough time to complete
-    timeout = Duration.ofMinutes(10)
-    
-    // Run tests in parallel for better performance
-    maxParallelForks = Runtime.getRuntime().availableProcessors().div(2).coerceAtLeast(1)
-}
-
-// Task to run only integration tests
-tasks.register<Test>("integrationTest") {
-    group = "verification"
-    description = "Runs integration tests using Testcontainers"
-    
-    useJUnitPlatform {
-        includeEngines("junit-jupiter")
-        includeTags("integration")
-    }
-    
-    testLogging {
-        events("passed", "skipped", "failed")
-        showStandardStreams = true
-    }
-    
-    // Ensure Docker is available
-    doFirst {
-        try {
-            val process = ProcessBuilder("docker", "version").start()
-            val exitCode = process.waitFor()
-            if (exitCode != 0) {
-                throw GradleException("Docker is required for integration tests but not available")
-            }
-        } catch (e: Exception) {
-            throw GradleException("Docker is required for integration tests but not available: ${e.message}")
-        }
-    }
 }
 
 // Task to run integration tests

@@ -5,10 +5,8 @@ import io.github.salomax.neotool.example.domain.CustomerStatus
 import io.micronaut.serde.annotation.Serdeable
 import jakarta.validation.constraints.Email
 import jakarta.validation.constraints.NotBlank
-import jakarta.validation.constraints.NotNull
 import jakarta.validation.constraints.Pattern
 import java.time.Instant
-import java.time.LocalDateTime
 import java.util.UUID
 
 @Serdeable

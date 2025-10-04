@@ -24,24 +24,38 @@ services:
     restart: unless-stopped
     ports:
       - "6379:6379"
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 30s
 
   kafka:
-    image: bitnami/kafka:3.9.0
+    image: apache/kafka:4.1.0
     container_name: neotool-kafka
     restart: unless-stopped
     environment:
-      - KAFKA_ENABLE_KRAFT=yes
-      - KAFKA_CFG_NODE_ID=1
-      - KAFKA_CFG_PROCESS_ROLES=broker,controller
-      - KAFKA_CFG_CONTROLLER_QUORUM_VOTERS=1@kafka:9093
-      - KAFKA_CFG_LISTENERS=PLAINTEXT://:9092,CONTROLLER://:9093
-      - KAFKA_CFG_ADVERTISED_LISTENERS=PLAINTEXT://kafka:9092
-      - KAFKA_CFG_LISTENER_SECURITY_PROTOCOL_MAP=CONTROLLER:PLAINTEXT,PLAINTEXT:PLAINTEXT
-      - KAFKA_CFG_CONTROLLER_LISTENER_NAMES=CONTROLLER
-      - KAFKA_CFG_INTER_BROKER_LISTENER_NAME=PLAINTEXT
-      - KAFKA_CFG_AUTO_CREATE_TOPICS_ENABLE=true
+      # Essential KRaft configuration
+      - CLUSTER_ID=5L6g3nShT-eMCtK--X86sw
+      - NODE_ID=1
+      - PROCESS_ROLES=broker,controller
+      - CONTROLLER_QUORUM_VOTERS=1@kafka:9093
+      - LISTENERS=PLAINTEXT://:9092,CONTROLLER://:9093
+      - ADVERTISED_LISTENERS=PLAINTEXT://kafka:9092
+      - LISTENER_SECURITY_PROTOCOL_MAP=CONTROLLER:PLAINTEXT,PLAINTEXT:PLAINTEXT
+      - CONTROLLER_LISTENER_NAMES=CONTROLLER
+      - INTER_BROKER_LISTENER_NAME=PLAINTEXT
+      # Useful for development
+      - AUTO_CREATE_TOPICS_ENABLE=true
     ports:
       - "9092:9092"
+    healthcheck:
+      test: ["CMD-SHELL", "netstat -an | grep :9092 | grep LISTEN || exit 1"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 30s
 
   loki:
     image: grafana/loki:2.9.8
@@ -105,22 +119,39 @@ services:
     volumes:
       - ./grafana/provisioning:/etc/grafana/provisioning
 
-  backend:
+  api:
     build:
       context: ../../service
       dockerfile: app/Dockerfile
-    container_name: neotool-backend
+    container_name: neotool-api
     env_file: ../../.env
     environment:
       MICRONAUT_ENVIRONMENTS: docker
       OTEL_EXPORTER_OTLP_ENDPOINT: http://otel-collector:4317
+      KAFKA_BROKER: kafka:9092
+      POSTGRES_HOST: postgres
+      REDIS_HOST: redis
     depends_on:
-      - postgres
-      - redis
-      - kafka
-      - otel-collector
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+      kafka:
+        condition: service_healthy
+      otel-collector:
+        condition: service_started
     ports:
       - "8080:8080"
+
+  router:
+    image: ghcr.io/apollographql/router:v2.7.0
+    depends_on:
+      - api
+    ports:
+      - "4000:4000"
+    volumes:
+      - ../supergraph/supergraph.graphql:/dist/supergraph.graphql:ro
+    command: ["--supergraph", "/dist/supergraph.graphql", "--dev"]
 
   web:
     build:
@@ -131,7 +162,7 @@ services:
     environment:
       NEXT_PUBLIC_API_URL: ${NEXT_PUBLIC_API_URL:-http://localhost:8080}
     depends_on:
-      - backend
+      - api
     ports:
       - "3000:3000"
 

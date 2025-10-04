@@ -30,5 +30,5 @@ dependencies {
 
     runtimeOnly("org.postgresql:postgresql:42.7.4")
 
-    api("io.micronaut.security:micronaut-security-jwt")
+    // api("io.micronaut.security:micronaut-security-jwt")
 }
