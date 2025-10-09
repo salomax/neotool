@@ -121,7 +121,7 @@ services:
 
   api:
     build:
-      context: ../../service
+      context: ../../service/kotlin
       dockerfile: app/Dockerfile
     container_name: neotool-api
     env_file: ../../.env
