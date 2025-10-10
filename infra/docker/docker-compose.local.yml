@@ -145,13 +145,12 @@ services:
 
   router:
     image: ghcr.io/apollographql/router:v2.7.0
-    depends_on:
-      - api
-    ports:
-      - "4000:4000"
+    depends_on: [api]
+    ports: ["4000:4000", "9464:9464"]
     volumes:
-      - ../supergraph/supergraph.graphql:/dist/supergraph.graphql:ro
-    command: ["--supergraph", "/dist/supergraph.graphql", "--dev"]
+      - ../../contracts/graphql/supergraph/supergraph.graphql:/dist/supergraph.graphql:ro
+      - ../../service/gateway/router/router.dev.yaml:/dist/router.yaml:ro
+    command: ["-s", "/dist/supergraph.graphql", "-c", "/dist/router.yaml", "--dev"]
 
   web:
     build:

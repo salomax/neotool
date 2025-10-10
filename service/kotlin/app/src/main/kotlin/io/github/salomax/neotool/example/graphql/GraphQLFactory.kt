@@ -8,15 +8,15 @@ import io.github.salomax.neotool.example.domain.Customer
 import io.github.salomax.neotool.example.domain.Product
 import io.github.salomax.neotool.example.service.CustomerService
 import io.github.salomax.neotool.example.service.ProductService
-import io.github.salomax.neotool.framework.graphql.GraphQLWiringFactory
 import io.micronaut.context.annotation.Factory
 import jakarta.inject.Singleton
 import io.github.salomax.neotool.framework.util.toUUID
+import io.github.salomax.neotool.example.graphql.AppWiringFactory
 
 @Factory
 class GraphQLFactory(
   private val registry: TypeDefinitionRegistry,
-  private val wiringFactory: GraphQLWiringFactory,
+  private val wiringFactory: AppWiringFactory,
   private val productService: ProductService,
   private val customerService: CustomerService
 ) {

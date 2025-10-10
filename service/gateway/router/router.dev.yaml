@@ -1,0 +1,16 @@
+supergraph:
+  listen: 0.0.0.0:4000   # bind inside the container
+  path: /graphql         # HTTP endpoint path
+
+homepage:
+  enabled: true
+
+cors:
+  allow_any_origin: true # dev only (no cookies)
+
+headers:
+  all:
+    request:
+      - propagate: { named: authorization }
+      - propagate: { named: x-request-id }
+      - propagate: { named: traceparent }

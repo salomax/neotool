@@ -3,7 +3,7 @@ subgraphs:
   app:
     routing_url: http://api:8080/graphql
     schema:
-      file: ../../service/app/src/main/resources/graphql/schema.graphqls
+      file: ../subgraphs/app/queries.graphqls
 # new modules...
 #  customers:
 #    routing_url: http://customers:8080/graphql

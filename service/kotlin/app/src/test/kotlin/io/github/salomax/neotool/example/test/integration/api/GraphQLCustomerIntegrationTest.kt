@@ -15,6 +15,7 @@ import io.micronaut.json.tree.JsonNode
 import io.micronaut.test.extensions.junit5.annotation.MicronautTest
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.*
+import java.util.UUID
 import java.util.concurrent.CompletableFuture
 import java.util.concurrent.TimeUnit
 
@@ -171,7 +172,7 @@ class GraphQLCustomerIntegrationTest : BaseIntegrationTest(), PostgresIntegratio
     fun `should handle GraphQL query with non-existent customer`() {
         val query = TestDataBuilders.graphQLQuery(
             "query GetCustomer(\$id: ID!) { customer(id: \$id) { id name email } }",
-            mapOf("id" to "non-existent-id")
+            mapOf("id" to UUID.randomUUID().toString())
         )
 
         val request = HttpRequest.POST("/graphql", query)
@@ -187,17 +188,48 @@ class GraphQLCustomerIntegrationTest : BaseIntegrationTest(), PostgresIntegratio
         assertThat(payload["errors"])
           .describedAs("GraphQL errors must be absent")
           .isNull()
-        
+
         val data = payload["data"]
         assertThat(data)
           .describedAs("GraphQL response must contain 'data'")
           .isNotNull()
 
         val customer = data["customer"]
-        // Note: json.read converts null to JsonNull, so we check for NullNode
         assertThat(customer.isNull)
           .describedAs("Customer should be null when not found")
-          .isTrue() // JsonNull is not null
+          .isTrue()
+    }
+
+    @Test
+    fun `should handle GraphQL query with invalid customer`() {
+      val query = TestDataBuilders.graphQLQuery(
+        "query GetCustomer(\$id: ID!) { customer(id: \$id) { id name email } }",
+        mapOf("id" to "invalid-id")
+      )
+
+      val request = HttpRequest.POST("/graphql", query)
+        .contentType(MediaType.APPLICATION_JSON)
+
+      val response = httpClient.exchangeAsString(request)
+      response
+        .shouldBeSuccessful()
+        .shouldBeJson()
+
+      // Assert response structure
+      val payload: JsonNode = json.read(response)
+      assertThat(payload["errors"])
+        .describedAs("GraphQL errors must be absent")
+        .isNull()
+
+      val data = payload["data"]
+      assertThat(data)
+        .describedAs("GraphQL response must contain 'data'")
+        .isNotNull()
+
+      val customer = data["customer"]
+      assertThat(customer.isNull)
+        .describedAs("Customer should be null when not found")
+        .isTrue()
     }
 
     @Test
