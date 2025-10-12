@@ -1,21 +1,6 @@
 directive @key(fields: String!) repeatable on OBJECT | INTERFACE
 
-type Query {
-  products: [Product!]!
-  product(id: ID!): Product
-  customers: [Customer!]!
-  customer(id: ID!): Customer
-}
-
-type Mutation {
-  createProduct(input: ProductInput!): Product!
-  updateProduct(id: ID!, input: ProductInput!): Product!
-  deleteProduct(id: ID!): Boolean!
-  createCustomer(input: CustomerInput!): Customer!
-  updateCustomer(id: ID!, input: CustomerInput!): Customer!
-  deleteCustomer(id: ID!): Boolean!
-}
-
+# Specific entity types implementing interfaces
 type Product @key(fields: "id") {
   id: ID!
   name: String!
@@ -35,6 +20,33 @@ type Customer @key(fields: "id") {
   updatedAt: String
 }
 
+# Query type with clean, focused operations
+type Query {
+  # Entity queries
+  products: [Product!]!
+  product(id: ID!): Product
+  customers: [Customer!]!
+  customer(id: ID!): Customer
+}
+
+# Mutation type with consistent patterns
+type Mutation {
+  # Product mutations
+  createProduct(input: ProductInput!): Product!
+  updateProduct(id: ID!, input: ProductInput!): Product!
+  deleteProduct(id: ID!): Boolean!
+  
+  # Customer mutations
+  createCustomer(input: CustomerInput!): Customer!
+  updateCustomer(id: ID!, input: CustomerInput!): Customer!
+  deleteCustomer(id: ID!): Boolean!
+}
+
+# Input types with inheritance patterns
+input BaseEntityInput {
+  name: String!
+}
+
 input ProductInput {
   name: String!
   sku: String!
@@ -46,4 +58,11 @@ input CustomerInput {
   name: String!
   email: String!
   status: String!
+}
+
+# Enums for better type safety
+enum CustomerStatus {
+  ACTIVE
+  INACTIVE
+  SUSPENDED
 }
