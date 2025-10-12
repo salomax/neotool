@@ -82,7 +82,7 @@ check_container "neotool-postgres"
 check_container "neotool-redis"
 check_container "neotool-kafka"
 check_container "neotool-api"
-check_container "docker-router-1"
+check_container "neotool-graphql-router"
 
 echo ""
 echo "🌐 Service Health:"

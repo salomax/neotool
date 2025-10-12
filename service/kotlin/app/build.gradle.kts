@@ -39,6 +39,8 @@ dependencies {
     implementation("io.micronaut.micrometer:micronaut-micrometer-observation")
     implementation("io.micronaut.micrometer:micronaut-micrometer-core")
     implementation("io.micronaut.micrometer:micronaut-micrometer-annotation")
+    implementation("io.micronaut.micrometer:micronaut-micrometer-registry-prometheus")
+    implementation("io.micronaut:micronaut-management")
 
     // Security (commented out for now)
     // implementation("io.micronaut.security:micronaut-security-jwt")

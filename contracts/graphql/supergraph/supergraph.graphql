@@ -21,7 +21,7 @@ directive @join__unionMember(graph: join__Graph!, member: String!) repeatable on
 directive @link(url: String, as: String, for: link__Purpose, import: [link__Import]) repeatable on SCHEMA
 
 type Customer
-  @join__type(graph: API, key: "id")
+  @join__type(graph: APP, key: "id")
 {
   id: ID!
   name: String!
@@ -32,7 +32,7 @@ type Customer
 }
 
 input CustomerInput
-  @join__type(graph: API)
+  @join__type(graph: APP)
 {
   name: String!
   email: String!
@@ -42,7 +42,7 @@ input CustomerInput
 scalar join__FieldSet
 
 enum join__Graph {
-  API @join__graph(name: "api", url: "http://api:8080/graphql")
+  APP @join__graph(name: "app", url: "http://neotool-api:8080/graphql")
 }
 
 scalar link__Import
@@ -60,7 +60,7 @@ enum link__Purpose {
 }
 
 type Mutation
-  @join__type(graph: API)
+  @join__type(graph: APP)
 {
   createProduct(input: ProductInput!): Product!
   updateProduct(id: ID!, input: ProductInput!): Product!
@@ -71,7 +71,7 @@ type Mutation
 }
 
 type Product
-  @join__type(graph: API, key: "id")
+  @join__type(graph: APP, key: "id")
 {
   id: ID!
   name: String!
@@ -83,7 +83,7 @@ type Product
 }
 
 input ProductInput
-  @join__type(graph: API)
+  @join__type(graph: APP)
 {
   name: String!
   sku: String!
@@ -92,7 +92,7 @@ input ProductInput
 }
 
 type Query
-  @join__type(graph: API)
+  @join__type(graph: APP)
 {
   products: [Product!]!
   product(id: ID!): Product
