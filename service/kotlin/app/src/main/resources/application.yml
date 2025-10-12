@@ -46,6 +46,31 @@ kafka:
   bootstrap:
     servers: ${KAFKA_BROKER:localhost:9092}
 
+# Micrometer Configuration for Metrics Collection
 micrometer:
   metrics:
     enabled: true
+    export:
+      prometheus:
+        enabled: true
+        step: PT15S
+  # Enable automatic HTTP request metrics
+  observation:
+    enabled: true
+
+# Management Endpoints Configuration
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,prometheus,metrics
+  endpoint:
+    health:
+      show-details: always
+    prometheus:
+      enabled: true
+  # Enable metrics collection
+  metrics:
+    export:
+      prometheus:
+        enabled: true

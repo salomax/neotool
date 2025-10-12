@@ -78,6 +78,12 @@ dependencies {
     api("org.apache.commons:commons-lang3:3.18.0")
     api("org.yaml:snakeyaml")
     
+    // Logging - api for other modules
+    api("io.github.microutils:kotlin-logging:3.0.5")
+    api("net.logstash.logback:logstash-logback-encoder:7.4")
+    api("ch.qos.logback:logback-classic:1.4.14")
+    api("com.github.loki4j:loki-logback-appender:1.4.0")
+    
     // KSP processors
     ksp("io.micronaut:micronaut-inject-kotlin")
     ksp("io.micronaut.serde:micronaut-serde-processor")
