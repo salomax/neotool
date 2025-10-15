@@ -2,7 +2,17 @@
 
 import * as React from "react";
 import { AppThemeProvider } from "@/styles/themes/AppThemeProvider";
+import { AppQueryProvider } from "@/lib/api/AppQueryProvider";
+import { GraphQLProvider } from "@/lib/graphql/GraphQLProvider";
 
 export default function Providers({ children }: { children: React.ReactNode }) {
-  return <AppThemeProvider>{children}</AppThemeProvider>;
+  return (
+    <AppThemeProvider>
+      <AppQueryProvider>
+        <GraphQLProvider>
+          {children}
+        </GraphQLProvider>
+      </AppQueryProvider>
+    </AppThemeProvider>
+  );
 }

@@ -1,12 +1,12 @@
 supergraph:
-  listen: 0.0.0.0:4000   # bind inside the container
-  path: /graphql         # HTTP endpoint path
+  listen: 0.0.0.0:4000
+  path: /graphql
 
 homepage:
   enabled: true
 
 cors:
-  allow_any_origin: true # dev only (no cookies)
+  allow_any_origin: true
 
 headers:
   all:
