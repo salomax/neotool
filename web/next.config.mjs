@@ -27,8 +27,7 @@ const nextConfig = {
         aggregateTimeout: 300,
       }
       
-      // Configure source maps for development
-      config.devtool = 'eval-source-map'
+      // Let Next.js handle devtool configuration for optimal performance
     }
     
     // Suppress webpack cache warnings

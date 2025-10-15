@@ -30,6 +30,15 @@ class CustomerResolver(
     }
     
     override fun mapToEntity(dto: CustomerInputDTO, id: UUID?): Customer {
+        // For updates, we need to fetch the existing entity to get the current version
+        val existingEntity = if (id != null) {
+            service.getById(id)
+        } else {
+            null
+        }
+        
+        println("DEBUG: mapToEntity - id: $id, existingEntity: $existingEntity, version: ${existingEntity?.version}")
+        
         return Customer(
             id = id,
             name = dto.name,
@@ -38,7 +47,8 @@ class CustomerResolver(
                 CustomerStatus.valueOf(dto.status)
             } catch (e: IllegalArgumentException) {
                 throw IllegalArgumentException("Invalid status: ${dto.status}. Must be one of: ${CustomerStatus.values().joinToString(", ")}")
-            }
+            },
+            version = existingEntity?.version ?: 0
         )
     }
     

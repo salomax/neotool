@@ -74,7 +74,7 @@ data class CustomerResponse(
     val status: String,
     val createdAt: Instant,
     val updatedAt: Instant,
-    val version: Long?
+    val version: Long
 )
 
 @Serdeable

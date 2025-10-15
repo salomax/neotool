@@ -7,7 +7,7 @@ import Paper from "@mui/material/Paper";
 import Box from "@mui/material/Box";
 import { ResponsiveContainer, LineChart, Line, XAxis, YAxis, Tooltip, CartesianGrid } from "recharts";
 
-const API = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8080";
+const GRAPHQL_URL = process.env.NEXT_PUBLIC_GRAPHQL_URL || "http://localhost:4000";
 
 export default function DashboardPage() {
   const [summary, setSummary] = useState<any>(null);
@@ -15,10 +15,19 @@ export default function DashboardPage() {
 
   useEffect(() => {
     (async()=>{
-      const s = await (await fetch(`${API}/api/dashboard/summary`)).json();
-      setSummary(s);
-      const t = await (await fetch(`${API}/api/dashboard/timeseries?days=30`)).json();
-      setSeries(t);
+      try {
+        // For now, we'll use mock data since dashboard queries aren't in the supergraph yet
+        setSummary({
+          totalProducts: 0,
+          totalCustomers: 0,
+          activeCustomers: 0,
+          lowStockProducts: 0,
+          totalRevenue: 0
+        });
+        setSeries([]);
+      } catch (error) {
+        console.error('Error loading dashboard data:', error);
+      }
     })();
   }, []);
 

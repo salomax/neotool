@@ -1,5 +1,6 @@
 package io.github.salomax.neotool.example.entity
 
+import io.github.salomax.neotool.entity.BaseEntity
 import io.github.salomax.neotool.example.domain.Product
 import jakarta.persistence.*
 import java.time.Instant
@@ -7,11 +8,11 @@ import java.util.UUID
 
 @Entity
 @Table(name = "products")
-data class ProductEntity(
+open class ProductEntity(
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(columnDefinition = "uuid")
-    val id: UUID?,
+    override val id: UUID?,
 
   @Column(nullable = false)
     var name: String,
@@ -32,8 +33,8 @@ data class ProductEntity(
     var updatedAt: Instant = Instant.now(),
 
   @Version
-  var version: Long?
-) {
+  var version: Long = 0
+) : BaseEntity<UUID?>(id) {
     fun toDomain(): Product {
         return Product(
             id = this.id,

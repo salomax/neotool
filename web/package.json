@@ -31,6 +31,7 @@
     "postbuild": "next-sitemap"
   },
   "dependencies": {
+    "@apollo/client": "^4.0.7",
     "@emotion/cache": "^11.14.0",
     "@emotion/react": "^11.14.0",
     "@emotion/styled": "^11.14.1",
@@ -45,6 +46,7 @@
     "ag-grid-react": "^34.2.0",
     "babel-plugin-import": "^1.13.8",
     "dayjs": "^1.11.18",
+    "graphql": "^16.11.0",
     "i18next": "23.11.5",
     "i18next-browser-languagedetector": "7.2.1",
     "i18next-http-backend": "2.5.2",

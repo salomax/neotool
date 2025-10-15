@@ -33,6 +33,7 @@ type Customer @key(fields: "id") {
   status: String!
   createdAt: String
   updatedAt: String
+  version: Int
 }
 
 input ProductInput {
