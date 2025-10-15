@@ -35,7 +35,7 @@ import {
   CREATE_CUSTOMER, 
   UPDATE_CUSTOMER, 
   DELETE_CUSTOMER 
-} from '@/lib/graphql/queries';
+} from '@/lib/graphql/operations';
 import { Customer, CustomerInput } from '@/lib/graphql/types';
 
 // Customer schema validation

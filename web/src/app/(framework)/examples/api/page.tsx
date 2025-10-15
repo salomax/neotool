@@ -18,7 +18,7 @@ import CodeBlock from "@mui/material/Box";
 //   CREATE_PRODUCT,
 //   GET_DASHBOARD_SUMMARY,
 //   GET_DASHBOARD_TIMESERIES 
-// } from '@/lib/graphql/queries';
+// } from '@/lib/graphql/operations';
 // import { Customer, Product } from '@/lib/graphql/types';
 
 interface TabPanelProps {
