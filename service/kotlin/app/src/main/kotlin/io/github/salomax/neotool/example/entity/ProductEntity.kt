@@ -15,25 +15,25 @@ open class ProductEntity(
     override val id: UUID?,
 
   @Column(nullable = false)
-    var name: String,
+  open var name: String,
 
   @Column(nullable = false, unique = true)
-    var sku: String,
+  open var sku: String,
 
   @Column(name = "price_cents", nullable = false)
-    var priceCents: Long = 0,
+  open var priceCents: Long = 0,
 
   @Column(nullable = false)
-    var stock: Int = 0,
+  open var stock: Int = 0,
 
   @Column(name = "created_at", nullable = false)
-    var createdAt: Instant = Instant.now(),
+  open var createdAt: Instant = Instant.now(),
 
   @Column(name = "updated_at", nullable = false)
-    var updatedAt: Instant = Instant.now(),
+  open var updatedAt: Instant = Instant.now(),
 
   @Version
-  var version: Long = 0
+  open var version: Long = 0
 ) : BaseEntity<UUID?>(id) {
     fun toDomain(): Product {
         return Product(

@@ -16,23 +16,23 @@ open class CustomerEntity(
   override val id: UUID?,
 
   @Column(nullable = false)
-  var name: String,
+  open var name: String,
 
   @Column(nullable = false, unique = true)
-  var email: String,
+  open var email: String,
 
   @Enumerated(EnumType.STRING)
-    @Column(nullable = false)
-  var status: CustomerStatus = CustomerStatus.ACTIVE,
+  @Column(nullable = false)
+  open var status: CustomerStatus = CustomerStatus.ACTIVE,
 
   @Column(name = "created_at", nullable = false)
-  var createdAt: Instant = Instant.now(),
+  open var createdAt: Instant = Instant.now(),
 
   @Column(name = "updated_at", nullable = false)
-  var updatedAt: Instant = Instant.now(),
+  open var updatedAt: Instant = Instant.now(),
 
   @Version
-  var version: Long = 0
+  open var version: Long = 0
 ) : BaseEntity<UUID?>(id) {
     fun toDomain(): Customer {
         return Customer(

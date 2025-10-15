@@ -4,20 +4,20 @@ import io.github.salomax.neotool.example.domain.Customer
 import io.github.salomax.neotool.example.domain.CustomerStatus
 import io.github.salomax.neotool.example.graphql.dto.CustomerInputDTO
 import io.github.salomax.neotool.example.service.CustomerService
-import io.github.salomax.neotool.graphql.CrudResolver
+import io.github.salomax.neotool.graphql.GenericCrudResolver
 import io.github.salomax.neotool.graphql.CrudService
 import jakarta.inject.Singleton
 import jakarta.validation.Validator
 import java.util.*
 
 /**
- * Customer resolver implementing the standard CRUD pattern
+ * Customer resolver using the generic enhanced CRUD pattern with automatic payload handling
  */
 @Singleton
 class CustomerResolver(
   customerService: CustomerService,
   override val validator: Validator
-) : CrudResolver<Customer, CustomerInputDTO, UUID>() {
+) : GenericCrudResolver<Customer, CustomerInputDTO, UUID>() {
 
   override val service: CrudService<Customer, UUID> = CustomerCrudService(customerService)
     

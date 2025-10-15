@@ -2,6 +2,7 @@
   <img src="./design/assets/logos/neotool-logo-blue.svg" alt="NeoTool Logo" width="220" />
 </p>
 
+
 # NeoTool — build smarter, not harder
 
 ![Kotlin](https://img.shields.io/badge/Kotlin-Micronaut-7F52FF?logo=kotlin)
@@ -9,7 +10,7 @@
 ![React](https://img.shields.io/badge/Web-Next.js-000000?logo=nextdotjs)
 ![ReactNative](https://img.shields.io/badge/Mobile-React%20Native-61DAFB?logo=react)
 ![Docker](https://img.shields.io/badge/Infra-Docker%20Compose-2496ED?logo=docker)
-![License](https://img.shields.io/badge/License-Custom%20Non--Commercial-orange)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
 ---
 
@@ -282,13 +283,3 @@ neotool/
 
 Pull requests, issues, and ideas are super welcome!  
 Just keep the structure clean and consistent with existing modules.
-
----
-
-## 📜 License
-
-**Custom Non‑Commercial License (based on MIT + Commons Clause)**  
-You’re free to use, modify, and extend NeoTool for your own or your company’s applications.  
-You **can’t resell or redistribute** NeoTool or custom forks as a paid product.
-
-See `LICENSE.md` for full details.

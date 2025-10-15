@@ -4,10 +4,11 @@ import graphql.schema.DataFetchingEnvironment
 import graphql.schema.idl.TypeRuntimeWiring
 import io.github.salomax.neotool.example.graphql.resolvers.CustomerResolver
 import io.github.salomax.neotool.example.graphql.resolvers.ProductResolver
-import io.github.salomax.neotool.graphql.GraphQLArgumentUtils.createCrudDataFetcher
-import io.github.salomax.neotool.graphql.GraphQLArgumentUtils.createMutationDataFetcher
-import io.github.salomax.neotool.graphql.GraphQLArgumentUtils.createUpdateMutationDataFetcher
 import io.github.salomax.neotool.graphql.GraphQLArgumentUtils.createValidatedDataFetcher
+import io.github.salomax.neotool.graphql.GraphQLArgumentUtils.createCrudDataFetcher
+import io.github.salomax.neotool.graphql.GraphQLPayloadDataFetcher.createMutationDataFetcher
+import io.github.salomax.neotool.graphql.GraphQLPayloadDataFetcher.createUpdateMutationDataFetcher
+import io.github.salomax.neotool.graphql.GraphQLPayloadDataFetcher.createCrudDataFetcher as createPayloadCrudDataFetcher
 import io.github.salomax.neotool.graphql.GraphQLWiringFactory
 import io.github.salomax.neotool.graphql.GraphQLResolverRegistry
 import jakarta.inject.Singleton
